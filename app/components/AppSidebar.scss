@@ -1,0 +1,41 @@
+$blue500: rgb(33, 150, 243);
+
+.container {
+  padding-right: 60px;
+  margin-right: 10px;
+
+  .list {
+    position: absolute;
+    height: 100%;
+    max-width: 60px;
+    overflow: hidden;
+    padding: 0 !important;
+    background-color: black;
+    transition: max-width 0.5s ease-in-out;
+    z-index: 2;
+
+    .label {
+      color: white;
+      display: inline-block;
+    }
+
+    svg path {
+      fill: white;
+    }
+
+    &:hover {
+      max-width: 200px;
+      transition-delay: 0.5s; // delay for transition start
+    }
+  }
+}
+
+.link:hover, .link:global(.active) {
+  .label {
+    color: $blue500;
+  }
+
+  svg path {
+    fill: $blue500;
+  }
+}

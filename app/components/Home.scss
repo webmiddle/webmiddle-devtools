@@ -1,0 +1,39 @@
+.container {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+}
+
+.container h2 {
+  font-size: 5rem;
+}
+
+.container a {
+  font-size: 1.4rem;
+}
+
+.connection {
+  display: flex;
+  align-items: center;
+
+  .hostname {
+    flex-grow: 1;
+  }
+}
+
+.logs {
+  flex-grow: 1;
+  overflow: auto;
+  background-color: white;
+  padding: 5px;
+}
+
+.command {
+  display: flex;
+  align-items: center;
+
+  .value {
+    flex-grow: 1;
+    margin: 0 10px;
+  }
+}
