@@ -4,7 +4,7 @@ import { List, ListItem } from "material-ui/List";
 import IconActionHome from "material-ui/svg-icons/action/home";
 import IconFileFolder from "material-ui/svg-icons/file/folder";
 import IconActionTimeline from "material-ui/svg-icons/action/timeline";
-import Link from "./Link";
+import Link from "../Link";
 import styles from './AppSidebar.scss';
 
 const LinkListItem = ({ to, label, Icon }) => (

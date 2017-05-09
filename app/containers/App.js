@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import type { Children } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import AppSidebar from '../components/AppSidebar';
+import AppSidebar from '../components/AppSidebar/AppSidebar';
 
 export default class App extends Component {
   props: {
