@@ -1,37 +1,42 @@
 // @flow
 import type { counterStateType } from '../reducers/counter';
+import { createActionTypes } from '../utils/redux';
 
-export const INCREMENT_COUNTER = 'INCREMENT_COUNTER';
-export const DECREMENT_COUNTER = 'DECREMENT_COUNTER';
+export const actionTypes = createActionTypes('counter',
+  'INCREMENT',
+  'DECREMENT'
+);
 
-export function increment() {
-  return {
-    type: INCREMENT_COUNTER
-  };
-}
+export const actionCreators = {
+  increment: () => {
+    return {
+      type: actionTypes.INCREMENT
+    };
+  },
 
-export function decrement() {
-  return {
-    type: DECREMENT_COUNTER
-  };
-}
+  decrement: () => {
+    return {
+      type: actionTypes.DECREMENT
+    };
+  },
 
-export function incrementIfOdd() {
-  return (dispatch: () => void, getState: () => counterStateType) => {
-    const { counter } = getState();
+  incrementIfOdd: () => {
+    return (dispatch: () => void, getState: () => counterStateType) => {
+      const { counter } = getState();
 
-    if (counter % 2 === 0) {
-      return;
-    }
+      if (counter % 2 === 0) {
+        return;
+      }
 
-    dispatch(increment());
-  };
-}
+      dispatch(actionCreators.increment());
+    };
+  },
 
-export function incrementAsync(delay: number = 1000) {
-  return (dispatch: () => void) => {
-    setTimeout(() => {
-      dispatch(increment());
-    }, delay);
-  };
-}
+  incrementAsync: (delay: number = 1000) => {
+    return (dispatch: () => void) => {
+      setTimeout(() => {
+        dispatch(actionCreators.increment());
+      }, delay);
+    };
+  }
+};

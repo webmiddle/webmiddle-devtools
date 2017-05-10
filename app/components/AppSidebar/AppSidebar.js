@@ -33,7 +33,7 @@ export default class AppSidebar extends Component {
         <List className={styles.list}>
           <LinkListItem to="/" label="Home" Icon={IconActionHome} />
           <LinkListItem to="/state" label="State" Icon={IconActionTimeline} />
-          <LinkListItem to="/resources" label="Resources" Icon={IconFileFolder} />
+          <LinkListItem to="/counter" label="Resources" Icon={IconFileFolder} />
         </List>
       </div>
     );

@@ -1,22 +1,27 @@
 // @flow
 import React, { Component } from "react";
-import { reduxForm, Field, propTypes as reduxFormPropTypes } from "redux-form";
-import RaisedButton from 'material-ui/RaisedButton';
-import { TextField } from 'redux-form-material-ui';
-import ConnectForm from './ConnectForm';
-import EvaluateForm from './EvaluateForm';
+import PropTypes from "prop-types";
+import ConnectForm from "./ConnectForm";
+import EvaluateForm from "./EvaluateForm";
 import styles from "./Home.scss";
 
-class Home extends Component {
+export default class Home extends Component {
   static propTypes = {
-    ...reduxFormPropTypes
+    server: PropTypes.object.isRequired,
+    logger: PropTypes.array.isRequired,
+
+    serverActions: PropTypes.object.isRequired
   };
 
-  handleConnect({ hostname, port }) {
-    console.log(hostname + ' ' + port);
+  handleConnectFormSubmit({ hostname, port }) {
+    if (!this.props.server.connected) {
+      this.props.serverActions.connect({ hostname, port });
+    } else {
+      this.props.serverActions.disconnect();
+    }
   }
 
-  handleEvaluate({ servicePath }) {
+  handleEvaluateFormSubmit({ servicePath }) {
     console.log(servicePath);
   }
 
@@ -24,25 +29,23 @@ class Home extends Component {
     return (
       <div className={styles.container} data-tid="container">
         <div className={styles.connection}>
-          <ConnectForm onSubmit={this.handleConnect.bind(this)} />
+          <ConnectForm
+            onSubmit={this.handleConnectFormSubmit.bind(this)}
+            server={this.props.server}
+          />
         </div>
 
         <div className={styles.logs}>
-          Waiting for connection...
+          {this.props.logger.map((log, key) => <div key={key}>{log}</div>)}
         </div>
 
         <div className={styles.command}>
-          <EvaluateForm onSubmit={this.handleEvaluate.bind(this)} />
+          <EvaluateForm
+            onSubmit={this.handleEvaluateFormSubmit.bind(this)}
+            server={this.props.server}
+          />
         </div>
       </div>
     );
   }
 }
-
-export default reduxForm({
-  form: "evaluate",
-  fields: ["servicePath"],
-  initialValues: {
-    servicePath: 'math.sum'
-  },
-})(Home);
