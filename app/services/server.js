@@ -1,14 +1,42 @@
+import uuid from 'uuid';
+
 let ws;
+
+// Note: assumes connection is already established
+function requestWebsocket(path, body = {}) {
+  return new Promise((resolve, reject) => {
+    try {
+      const requestId = uuid.v4();
+
+      ws.addEventListener('message', (event) => {
+        const rawMessage = event.data;
+        console.log('received from server: %s', rawMessage);
+        const message = JSON.parse(rawMessage);
+        if (message.type !== 'response' || message.requestId !== requestId) return;
+
+        if (message.status === 'success') {
+          resolve(message.body);
+        } else if (message.status === 'error') {
+          reject(message.body);
+        }
+      });
+
+      ws.send(JSON.stringify({ type: 'request', requestId, path, body }));
+    } catch (err) {
+      console.error(err instanceof Error ? err.stack : err);
+      reject(err instanceof Error ? err.stack : err);
+    }
+  });
+}
 
 export function connect(hostname, port) {
   return new Promise((resolve, reject) => {
     try {
-      const socket = new WebSocket(`ws://${hostname}:${port}/`);
-      socket.onopen = () => {
-        ws = socket;
-        resolve(socket);
-      };
-      socket.onerror = reject;
+      ws = new WebSocket(`ws://${hostname}:${port}/`);
+      ws.addEventListener('open', () => {
+        resolve(ws);
+      });
+      ws.addEventListener('error', reject);
     } catch (err) {
       reject(err);
     }
@@ -21,4 +49,13 @@ export function disconnect() {
     ws = undefined;
     resolve();
   });
+}
+
+export function evaluateService(servicePath, bodyProps, bodyOptions) {
+  const httpPath = '/services/' + servicePath.replace(/\./g, '/');
+  const body = {
+    props: bodyProps,
+    options: bodyOptions,
+  };
+  return requestWebsocket(httpPath, body);
 }

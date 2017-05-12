@@ -21,8 +21,8 @@ export default class Home extends Component {
     }
   }
 
-  handleEvaluateFormSubmit({ servicePath }) {
-    console.log(servicePath);
+  handleEvaluateFormSubmit({ servicePath, bodyProps, bodyOptions }) {
+    this.props.serverActions.evaluateService({ servicePath, bodyProps, bodyOptions });
   }
 
   render() {

@@ -4,14 +4,6 @@
   flex-direction: column;
 }
 
-.container h2 {
-  font-size: 5rem;
-}
-
-.container a {
-  font-size: 1.4rem;
-}
-
 .connection form {
   display: flex;
   align-items: center;
@@ -28,12 +20,44 @@
   padding: 5px;
 }
 
-.command form {
-  display: flex;
-  align-items: center;
+.command {
+  .row {
+    display: flex;
+    align-items: center;
+  }
 
   .value {
     flex-grow: 1;
     margin: 0 10px;
+  }
+
+  .body {
+    .col {
+      &.props {
+        flex-grow: 2;
+        margin-right: 20px;
+      }
+
+      &.options {
+        flex-grow: 1;
+      }
+
+      span {
+        display: inline-block;
+        margin-bottom: 10px;
+      }
+    }
+
+    .editor {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+// TODO: make this global
+.editor {
+  // fix cursor position by disabling roboto font used by material-ui
+  * {
+    font-family: inherit;
   }
 }

@@ -186,6 +186,8 @@
     "webpack-merge": "^4.1.0"
   },
   "dependencies": {
+    "brace": "^0.10.0",
+    "classnames": "^2.2.5",
     "electron-debug": "^1.1.0",
     "extract-text-webpack-plugin": "^2.1.0",
     "font-awesome": "^4.7.0",
@@ -194,6 +196,7 @@
     "material-ui": "^0.18.0",
     "prop-types": "^15.5.8",
     "react": "^15.5.4",
+    "react-ace": "^4.2.1",
     "react-dom": "^15.5.4",
     "react-hot-loader": "3.0.0-beta.6",
     "react-redux": "^5.0.4",
@@ -205,7 +208,8 @@
     "redux-form": "^6.6.3",
     "redux-form-material-ui": "^4.2.0",
     "redux-thunk": "^2.2.0",
-    "source-map-support": "^0.4.15"
+    "source-map-support": "^0.4.15",
+    "uuid": "^3.0.1"
   },
   "devEngines": {
     "node": ">=6.x",

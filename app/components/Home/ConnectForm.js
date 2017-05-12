@@ -34,7 +34,6 @@ class ConnectForm extends Component {
 
 export default reduxForm({
   form: "home.connect",
-  fields: ["hostname", "port"],
   initialValues: {
     hostname: "localhost",
     port: 3000

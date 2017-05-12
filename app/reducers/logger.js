@@ -19,7 +19,28 @@ export default function logger(state = initialState, action) {
     case serverActionTypes.CONNECT_FAIL:
       return [
         ...state,
-        `Connection failed.`
+        'Connection failed'
+      ];
+    case serverActionTypes.DISCONNECT_SUCCESS:
+      return [
+        ...state,
+        'Disconnected'
+      ];
+
+    case serverActionTypes.EVALUATE:
+      return [
+        ...state,
+        'Evaluating...'
+      ];
+    case serverActionTypes.EVALUATE_SUCCESS:
+      return [
+        ...state,
+        `Evaluated: ${JSON.stringify(action.result)}`
+      ];
+    case serverActionTypes.EVALUATE_FAIL:
+      return [
+        ...state,
+        `Evaluation error: ${action instanceof Error ? action.stack : JSON.stringify(action)}`
       ];
     default:
       return state;
