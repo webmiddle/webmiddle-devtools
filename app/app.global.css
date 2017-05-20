@@ -52,3 +52,7 @@ a:hover {
   margin-right: 10px;
 }
 
+.code-editor * {
+  /* fix cursor position by disabling roboto font used by material-ui */
+  font-family: inherit;
+}

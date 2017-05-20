@@ -4,16 +4,8 @@ import classNames from 'classnames';
 import { reduxForm, Field, propTypes as reduxFormPropTypes } from "redux-form";
 import RaisedButton from "material-ui/RaisedButton";
 import { TextField } from "redux-form-material-ui";
-import AceEditor from "react-ace";
+import CodeEditor from "../CodeEditor";
 import styles from "./Home.scss";
-
-import "brace";
-import "brace/mode/json";
-
-import "brace/theme/github";
-import "brace/theme/monokai";
-import "brace/theme/solarized_light";
-import "brace/ext/language_tools";
 
 function parseJson(value) {
   let parsedValue;
@@ -29,14 +21,9 @@ class EditorField extends Component {
   render() {
     const { input: { name, value, onChange } } = this.props;
     return (
-      <AceEditor
+      <CodeEditor
         className={styles.editor}
-        mode="json"
-        theme="monokai"
-        name={`home.evaluate.${name}`}
-        fontSize={14}
-        height="10em"
-        width="100%"
+        id={`home.evaluate.${name}`}
         value={value}
         onChange={onChange}
       />

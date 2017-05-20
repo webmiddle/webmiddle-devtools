@@ -4,14 +4,6 @@ $itemHeight: 25px;
   height: 100%;
   position: relative;
 
-  :global(.rdTabTitle) {
-    font-size: 12px;
-  }
-
-  :global(.rdTabAddButton) {
-    display: none;
-  }
-
   :global(.tree-view) {
     user-select: none;
 
@@ -63,5 +55,27 @@ $itemHeight: 25px;
         }
       }
     }
+  }
+
+  :global(.rdTabTitle) {
+    font-size: 12px;
+  }
+
+  :global(.rdTabAddButton) {
+    display: none;
+  }
+
+  :global(.rdTabBar) {
+    padding-top: 5px;
+    padding-left: 0;
+    background-color: rgb(23, 24, 20);
+  }
+
+  :global(.rdTabBarAfter) {
+    top: 30px !important;
+  }
+
+  .tabContent {
+    margin-top: 5px;
   }
 }

@@ -54,11 +54,3 @@
     }
   }
 }
-
-// TODO: make this global
-.editor {
-  // fix cursor position by disabling roboto font used by material-ui
-  * {
-    font-family: inherit;
-  }
-}
