@@ -93,6 +93,10 @@ class ResourcesTabs extends Component {
     const openFileIndex = parseInt(key, 10);
     const { folderPath, index } = this.props.openFilePaths.list[openFileIndex];
     this.props.resourcesActions.closeFile(folderPath, index);
+
+    // stop library own close handler
+    // (otherwise it will automatically select the next tab)
+    return false;
   }
 
   onTabSelect = (e, key) => {
@@ -102,7 +106,6 @@ class ResourcesTabs extends Component {
 
   onTabPositionChange = (e, key, currentTabs) => {
     const openFileIndex = parseInt(key, 10);
-    const movedOpenFile = this.props.openFilePaths.list[openFileIndex];
     const newOpenFileIndex = currentTabs.findIndex(tabElement => tabElement.key === key);
     this.props.resourcesActions.swapOpenFiles(openFileIndex, newOpenFileIndex);
   }
@@ -113,7 +116,7 @@ class ResourcesTabs extends Component {
     return (
       <Tabs
         selectedTab={String(this.props.selectedFileIndex)}
-        onTabClose={this.onTabClose}
+        shouldTabClose={this.onTabClose}
         onTabSelect={this.onTabSelect}
         onTabPositionChange={this.onTabPositionChange}
         tabs={this.props.openFiles.map((file, i) =>
