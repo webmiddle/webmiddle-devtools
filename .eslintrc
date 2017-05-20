@@ -36,7 +36,8 @@
     "react/no-children-prop": 0,
     "import/prefer-default-export": 1,
     "no-param-reassign": 1,
-    "arrow-body-style": 0
+    "arrow-body-style": 0,
+    "no-plusplus": 0
   },
   "plugins": [
     "flowtype",

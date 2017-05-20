@@ -1,0 +1,16 @@
+.container {
+  height: 100%;
+  position: relative;
+
+  :global(.rdTabTitle) {
+    font-size: 12px;
+  }
+
+  :global(.rdTabAddButton) {
+    display: none;
+  }
+}
+
+.file {
+  margin-left: 16px;
+}

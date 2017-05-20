@@ -1,5 +1,7 @@
 @import "~font-awesome/css/font-awesome.css";
 @import "./theme/fonts/index.scss";
+@import "./theme/react-split-pane.scss";
+@import "./theme/react-treeview.scss";
 
 body {
   position: relative;
@@ -49,3 +51,4 @@ a:hover {
   flex-grow: 1;
   margin-right: 10px;
 }
+
