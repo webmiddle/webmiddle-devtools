@@ -1,3 +1,5 @@
+$itemHeight: 25px;
+
 .container {
   height: 100%;
   position: relative;
@@ -9,8 +11,57 @@
   :global(.rdTabAddButton) {
     display: none;
   }
-}
 
-.file {
-  margin-left: 16px;
+  :global(.tree-view) {
+    user-select: none;
+
+    :global(.tree-view_item) {
+      display: flex;
+      align-items: center;
+      height: $itemHeight;
+    }
+    
+    .label {
+      display: flex;
+      align-items: center;
+      height: $itemHeight;
+      font-size: 14px;
+
+      .icon {
+        display: flex;
+        vertical-align: center;
+        margin-right: 3px;
+
+        svg {
+          width: 20px !important;
+          height: 20px !important;
+        }
+      }
+
+      .name {
+        cursor: default;
+      }
+    }
+
+    .file {
+      margin-left: 16px;
+      height: $itemHeight; // needed because of position:absolute
+
+      &.selected {
+        color: white;
+
+        .background {
+          position: absolute;
+          left: 0;
+          width: 100%;
+          height: $itemHeight;
+          background-color: grey;
+        }
+
+        .label {
+          position: absolute;
+        }
+      }
+    }
+  }
 }
