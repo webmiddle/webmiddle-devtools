@@ -4,7 +4,9 @@ import * as server from '../services/server';
 export const actionTypes = createActionTypes('server',
   asyncActionKeys('CONNECT'),
   asyncActionKeys('DISCONNECT'),
+
   asyncActionKeys('EVALUATE'),
+  'EVALUATE_PROGRESS',
 );
 
 export const actionCreators = {
@@ -22,7 +24,15 @@ export const actionCreators = {
 
   evaluateService: ({ servicePath, bodyProps, bodyOptions }) => ({
     types: asyncActionValues(actionTypes, 'EVALUATE'),
-    promise: () => server.evaluateService(servicePath, bodyProps, bodyOptions),
+    promise: ({ dispatch }) =>
+      server.evaluateService(servicePath, bodyProps, bodyOptions, (message) => {
+        dispatch({
+          type: actionTypes.EVALUATE_PROGRESS,
+          status: message.status,
+          path: message.body && message.body.path,
+          info: message.body && message.body.info,
+        });
+      }),
     servicePath,
     bodyProps,
     bodyOptions,

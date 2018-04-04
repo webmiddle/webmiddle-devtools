@@ -24,6 +24,7 @@ class EditorField extends Component {
       <CodeEditor
         className={styles.editor}
         id={`home.evaluate.${name}`}
+        mode="json"
         value={value}
         onChange={onChange}
       />

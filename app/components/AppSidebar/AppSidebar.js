@@ -32,7 +32,7 @@ export default class AppSidebar extends Component {
       <div className={styles.container}>
         <List className={styles.list}>
           <LinkListItem to="/" label="Home" Icon={IconActionHome} />
-          <LinkListItem to="/counter" label="State" Icon={IconActionTimeline} />
+          <LinkListItem to="/timeline" label="Timeline" Icon={IconActionTimeline} />
           <LinkListItem to="/resources" label="Resources" Icon={IconFileFolder} />
         </List>
       </div>

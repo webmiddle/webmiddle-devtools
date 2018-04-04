@@ -1,0 +1,85 @@
+.container {
+  height: 100%;
+  position: relative;
+}
+  :global(.Pane1 > div > div > .tree-view) {
+    margin-left: 10px;
+  }
+
+
+.inline {
+  display: inline-block;
+}
+
+.timelineTreeView {
+  .background {
+    position: absolute;
+    left: 0;
+    width: 100%; 
+    height: 20px;
+    z-index: -1;
+  }
+  .selected {
+    .background {
+      background-color: lightyellow;
+    }
+  }
+
+  .nodeLabel {
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  .virtualLabel {
+    color: rgb(178, 102, 173);
+    font-weight: bold;
+
+    .attributeName {
+      color: rgb(176, 111, 58);
+      margin-left: 5px;
+    }
+
+    .attributeValue {
+      color: rgb(92, 92, 192);
+    }
+
+    .lt, .gt {
+      color: rgb(110, 110, 110);
+    }
+  }
+}
+
+.timelineNodeDetails {
+  ul {
+    padding-left: 10px;
+  }
+
+  .detailsLabel {
+    color: rgb(200, 0, 0);
+    font-size: 14px;
+  }
+
+  // top level
+  li > li[role='treeitem'] {
+    &[aria-expanded="false"] {
+      display: inline-block !important;
+    }
+
+    &[aria-expanded="true"] {
+      margin-left: 5px !important;
+      margin-top: 5px !important;
+      margin-bottom: 5px !important;
+    }
+  }
+
+  // any level
+  li[role='treeitem'] {
+    font-size: 14px !important;
+    background-color: transparent !important;
+  }
+
+  // expanded content
+  ol[role="group"] {
+    margin-top: 5px !important;
+  }
+}
