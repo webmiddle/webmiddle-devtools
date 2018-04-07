@@ -96,7 +96,7 @@ export default reduxForm({
       2
     ),
     bodyOptions: JSON.stringify({
-      retries: 2,
+      networkRetries: 2,
     }, null, 2),
   }
 })(EvaluateForm);
