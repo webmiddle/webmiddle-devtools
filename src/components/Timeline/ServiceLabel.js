@@ -3,17 +3,16 @@ import PropTypes from 'prop-types';
 
 import styles from './Timeline.module.scss';
 
-const ServiceLabel = ({ service, tries }) => {
+const ServiceLabel = ({ service }) => {
   return (
     <span className={styles.serviceLabel}>
-      Try {tries} - Service: {service.name}
+      Service: {service.name}
     </span>
   );
 };
 
 ServiceLabel.propTypes = {
   service: PropTypes.object.isRequired,
-  tries: PropTypes.number.isRequired,
 };
 
 export default ServiceLabel;

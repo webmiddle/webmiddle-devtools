@@ -32,7 +32,6 @@ class TimelineNodeLabel extends Component {
         : node.type === 'service' ?
           <ServiceLabel
             service={node.value}
-            tries={node.options.tries}
           />
         : ''}
       </div>
