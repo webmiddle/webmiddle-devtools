@@ -1,0 +1,56 @@
+.container {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  margin-left: 10px;
+}
+
+.connection form {
+  display: flex;
+  align-items: center;
+
+  .hostname {
+    flex-grow: 1;
+  }
+}
+
+.logs {
+  flex-grow: 1;
+  overflow: auto;
+  background-color: white;
+  padding: 5px;
+}
+
+.command {
+  .row {
+    display: flex;
+    align-items: center;
+  }
+
+  .value {
+    flex-grow: 1;
+    margin: 0 10px;
+  }
+
+  .body {
+    .col {
+      &.props {
+        flex-grow: 2;
+        margin-right: 20px;
+      }
+
+      &.options {
+        flex-grow: 1;
+      }
+
+      span {
+        display: inline-block;
+        margin-bottom: 10px;
+      }
+    }
+
+    .editor {
+      margin-bottom: 10px;
+    }
+  }
+}
