@@ -39,9 +39,10 @@ const VirtualLabel = ({ virtual }) => {
     );
   });
 
+  // type can be a function or a string
   const typeElement = (
     <span className={styles.virtualType}>
-      {type.type === 'function' ? type.name : type}
+      {type.type === 'function' ? type.name : type.value}
     </span>
   );
 
