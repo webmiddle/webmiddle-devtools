@@ -3,7 +3,7 @@ export function makePath(parentPath, i) {
 }
 
 export function transformData(data) {
-  if (!data) return;
+  if (!data) return data;
 
   if (data.type === 'function') {
     // eval-less solution
@@ -13,6 +13,21 @@ export function transformData(data) {
       [data.name]: () => {},
     };
     return obj[data.name];
+  }
+
+  if (data.type === 'object') {
+    return transformDataObj(data.value);
+  }
+
+  if (data.type === 'array') {
+    return transformDataArray(data.value);
+  }
+
+  if (data.type === 'resource') {
+    return {
+      ...data.value,
+      content: transformData(data.value.content),
+    }
   }
 
   return data.value;
@@ -25,4 +40,9 @@ export function transformDataObj(dataObj) {
     result[key] = transformData(dataObj[key]);
   });
   return result;
+}
+
+export function transformDataArray(dataArray) {
+  if (!dataArray) return;
+  return dataArray.map(transformData);
 }
