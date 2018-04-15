@@ -43,6 +43,10 @@ const initialState = {
 // folderPath example: 'output.other'
 // Note: it creates all the non existing folders
 function addFile(state, folderPath, fileName, fileContentType, fileContent) {
+  if (typeof fileContent !== 'string') {
+    fileContent = JSON.stringify(fileContent, null, 2);
+  }
+
   const folderPathParts = folderPath.split('.');
 
   function process(nodeList, folderPathIndex) {
