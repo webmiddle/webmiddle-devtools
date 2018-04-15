@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Inspector from '../Inspector';
 
 import VirtualDetails from './VirtualDetails';
-import ServiceDetails from './ServiceDetails';
 
 import styles from './Timeline.module.scss';
 
@@ -23,8 +22,6 @@ class TimelineNodeDetails extends Component {
           'Click on a node on the left panel to inspect it.'
         : this.props.node.type === 'virtual' ?
           <VirtualDetails node={this.props.node} />
-        : this.props.node.type === 'service' ?
-          <ServiceDetails node={this.props.node} />
         :
           <Inspector data={this.props.node} />
         }

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import { makePath } from '../../utils/timeline';
 import VirtualLabel from './VirtualLabel';
-import ServiceLabel from './ServiceLabel';
 
 import styles from './Timeline.module.scss';
 
@@ -29,10 +28,6 @@ class TimelineNodeLabel extends Component {
       <div className={styles.nodeLabel} onClick={this.handleClick}>
         {node.type === 'virtual' ?
           <VirtualLabel virtual={node.value} />
-        : node.type === 'service' ?
-          <ServiceLabel
-            service={node.value}
-          />
         : ''}
       </div>
     );
