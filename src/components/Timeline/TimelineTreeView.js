@@ -27,8 +27,14 @@ export default class TimelineTreeView extends Component {
       <div className={styles.timelineTreeView}>
         {this.props.callState.map((node, i) => {
           const nodePath = makePath(this.props.parentPath, i);
+          const hasChildren = node.children && node.children.length !== 0;
           return (
-            <div key={i}>
+            <div
+              key={i}
+              className={classNames({
+                [styles.noChildren]: !hasChildren
+              })}
+            >
               <TreeView
                 nodeLabel={
                   <div
@@ -47,7 +53,7 @@ export default class TimelineTreeView extends Component {
                 }
                 collapsed={node.collapsed}
               >
-                {node.children &&
+                {hasChildren &&
                   <TimelineTreeView
                     callState={node.children}
                     parentPath={nodePath}

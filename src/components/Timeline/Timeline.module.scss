@@ -25,6 +25,12 @@
     }
   }
 
+  .noChildren {
+    :global(.tree-view_arrow) {
+      visibility: hidden;
+    }
+  }
+
   .nodeLabel {
     display: inline-block;
     cursor: pointer;
