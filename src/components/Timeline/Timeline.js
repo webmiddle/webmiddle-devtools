@@ -22,7 +22,7 @@ export default class Timeline extends Component {
   };
 
   render() {
-    console.log(this.props.callState);
+    //console.log(this.props.callState);
     return (
       <div className={styles.container} data-tid="container">
         <SplitPane split="vertical" defaultSize={700}>

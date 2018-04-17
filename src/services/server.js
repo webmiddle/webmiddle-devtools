@@ -10,7 +10,7 @@ function requestWebsocket(path, body = {}, onProgress) {
 
       ws.addEventListener("message", event => {
         const rawMessage = event.data;
-        console.log("received from server: %s", rawMessage);
+        //console.log("received from server: %s", rawMessage);
         const message = JSON.parse(rawMessage);
         if (message.requestId !== requestId) return;
 
