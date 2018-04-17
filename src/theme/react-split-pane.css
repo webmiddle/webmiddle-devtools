@@ -50,7 +50,7 @@
   border-color: transparent;
 }
 
-.Pane.vertical.Pane2 {
-  overflow-y: auto;
-  word-wrap: break-word;
+.Pane.vertical {
+  overflow: auto;
+  word-break: break-word;
 }
