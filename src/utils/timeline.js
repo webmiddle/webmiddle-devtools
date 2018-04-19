@@ -2,6 +2,10 @@ export function makePath(parentPath, i) {
   return parentPath ? `${parentPath}.${i}` : String(i);
 }
 
+// classes only used to customize output of react-inspector
+class Resource {};
+class Virtual {};
+
 export function transformData(data) {
   if (!data) return data;
 
@@ -24,10 +28,18 @@ export function transformData(data) {
   }
 
   if (data.type === 'resource') {
-    return {
+    return Object.assign(new Resource(), {
       ...data.value,
       content: transformData(data.value.content),
-    }
+    });
+  }
+
+  if (data.type === 'virtual') {
+    return Object.assign(new Virtual(), {
+      type: transformData(data.value.type),
+      attributes: transformDataObj(data.value.attributes),
+      children: transformData(data.value.children),
+    });
   }
 
   return data.value;
