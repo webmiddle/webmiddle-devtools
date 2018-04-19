@@ -5923,9 +5923,9 @@ react-dom@^16.2.0, react-dom@^16.3.1:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
-"react-draggable-tab@https://github.com/Maluen/react-draggable-tab":
-  version "0.9.0"
-  resolved "https://github.com/Maluen/react-draggable-tab#2a6f473ec914b4e3e85fc6c0673a6fd6c10856ab"
+react-draggable-tab@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/react-draggable-tab/-/react-draggable-tab-0.10.0.tgz#22a395f6aa2e5f139bd8b54107c2f477d3a4ad91"
   dependencies:
     classnames "^2.2.5"
     immutable "^3.8.2"
