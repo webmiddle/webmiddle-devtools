@@ -31,6 +31,10 @@ export default class CodeEditor extends Component {
     onChange: () => {},
   };
 
+  onEditorLoad = (editor) => {
+    editor.renderer.setOption("scrollPastEnd", true);
+  };
+
   render() {
     const { className, id, mode, value, onChange, ...rest } = this.props;
     return (
@@ -43,6 +47,7 @@ export default class CodeEditor extends Component {
         height="10em"
         width="100%"
         value={value}
+        onLoad={this.onEditorLoad}
         onChange={onChange}
         {...rest}
       />
