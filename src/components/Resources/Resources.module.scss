@@ -3,6 +3,8 @@ $itemHeight: 25px;
 .container {
   height: 100%;
   position: relative;
+  display: flex;
+  flex-direction: column;
 
   :global(.tree-view) {
     user-select: none;
@@ -77,5 +79,18 @@ $itemHeight: 25px;
 
   .tabContent {
     margin-top: 5px;
+  }
+
+  :global(.SplitPane.vertical) {
+    position: static !important;
+  }
+
+  .bottomBar {
+    text-align: right;
+    padding: 7px;
+    padding-right: 10px;
+    background: black;
+    color: lightgrey;
+    font-size: 12px;
   }
 }

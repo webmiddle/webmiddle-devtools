@@ -18,6 +18,7 @@ export default class Resources extends Component {
   };
 
   render() {
+    const selectedFile = this.props.openFiles[this.props.selectedFileIndex];
     return (
       <div className={styles.container} data-tid="container">
         <SplitPane split="vertical" defaultSize={200}>
@@ -37,6 +38,7 @@ export default class Resources extends Component {
             />
           </div>
         </SplitPane>
+        <div className={styles.bottomBar}>{selectedFile && selectedFile.contentType}</div>
       </div>
     );
   }
