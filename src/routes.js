@@ -1,17 +1,33 @@
 /* eslint flowtype-errors/show-errors: 0 */
 import React from 'react';
 import { Switch, Route } from 'react-router';
+import classNames from 'classnames';
 import App from './containers/App';
-import TimelinePage from './containers/TimelinePage';
 import HomePage from './containers/HomePage';
+import TimelinePage from './containers/TimelinePage';
 import ResourcesPage from './containers/ResourcesPage';
+
+const routes = [
+  { path: "/", component: HomePage },
+  { path: "/timeline", component: TimelinePage },
+  { path: "/resources", component: ResourcesPage },
+];
 
 export default () => (
   <App>
-    <Switch>
-      <Route path="/timeline" component={TimelinePage} />
-      <Route path="/resources" component={ResourcesPage} />
-      <Route path="/" component={HomePage} />
-    </Switch>
+    <Route>
+      <div>
+        {routes.map((route, i) => {
+          const currentPath = window.location.hash.slice(1);
+          const Component = route.component;
+          const active = currentPath === route.path;
+          return (
+            <div className={classNames("route", { active })}>
+              <Component />
+            </div>
+          );
+        })}
+      </div>
+    </Route>
   </App>
 );

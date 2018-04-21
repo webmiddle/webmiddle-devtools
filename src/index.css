@@ -52,6 +52,14 @@ a:hover {
   margin-right: 10px;
 }
 
+.route {
+  height: 100vh;
+  display: none;
+}
+.route.active {
+  display: block;
+}
+
 .code-editor * {
   /* fix cursor position by disabling roboto font used by material-ui */
   font-family: inherit;
