@@ -6,6 +6,17 @@ $itemHeight: 25px;
   display: flex;
   flex-direction: column;
 
+  :global(.SplitPane.vertical) {
+    position: static !important;
+  }
+
+  :global(.Pane.vertical.Pane2) > div {
+    height: 100%;
+  }
+  :global(.rdTabWrapper) > div {
+    height: calc(100% - 36px);
+  }
+
   :global(.tree-view) {
     user-select: none;
 
@@ -79,10 +90,7 @@ $itemHeight: 25px;
 
   .tabContent {
     margin-top: 5px;
-  }
-
-  :global(.SplitPane.vertical) {
-    position: static !important;
+    height: 100%;
   }
 
   .bottomBar {

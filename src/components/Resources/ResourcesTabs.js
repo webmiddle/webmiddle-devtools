@@ -59,7 +59,7 @@ export default class ResourcesTabs extends Component {
                 id={`resources.tabs.${i}`}
                 mode={modeByContentType[file.contentType]}
                 value={file.content}
-                height="91.6vh"
+                height="100%"
                 readOnly
               />
             </div>
