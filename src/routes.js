@@ -22,7 +22,7 @@ export default () => (
           const Component = route.component;
           const active = currentPath === route.path;
           return (
-            <div className={classNames("route", { active })}>
+            <div key={i} className={classNames("route", { active })}>
               <Component />
             </div>
           );
