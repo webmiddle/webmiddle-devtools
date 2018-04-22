@@ -57,7 +57,7 @@ export default class ResourcesTabs extends Component {
             <div className={styles.tabContent}>
               <CodeEditor
                 id={`resources.tabs.${i}`}
-                mode={modeByContentType[file.contentType]}
+                mode={modeByContentType[file.contentType] || 'text'}
                 value={file.content}
                 height="100%"
                 readOnly
