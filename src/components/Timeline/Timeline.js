@@ -25,7 +25,7 @@ export default class Timeline extends Component {
     //console.log(this.props.callState);
     return (
       <div className={styles.container} data-tid="container">
-        <SplitPane split="vertical" defaultSize={700}>
+        <SplitPane split="vertical" primary="second" defaultSize={300}>
           <TimelineTreeView
             callState={this.props.callState}
             timelineActions={this.props.timelineActions}
