@@ -6,22 +6,24 @@ import { transformData, transformDataObj } from '../../utils/timeline';
 
 import styles from './Timeline.module.scss';
 
-const VirtualDetails = ({ node }) => (
-  <ul>
-    <li>
-      <span className={styles.detailsLabel}>Type: </span>
-      <Inspector data={transformData(node.value.type)} />
-    </li>
-    <li>
-      <span className={styles.detailsLabel}>Attributes: </span>
-      <Inspector data={transformDataObj(node.value.attributes)} />
-    </li>
-    <li>
-      <span className={styles.detailsLabel}>Result: </span>
-      <Inspector data={transformData(node.result)} />
-    </li>
-  </ul>
-);
+const VirtualDetails = ({ node }) => {
+  return (
+    <ul>
+      <li>
+        <span className={styles.detailsLabel}>Type: </span>
+        <Inspector data={transformData(node.value.type)} />
+      </li>
+      <li>
+        <span className={styles.detailsLabel}>Attributes: </span>
+        <Inspector data={transformDataObj(node.value.attributes)} />
+      </li>
+      <li>
+        <span className={styles.detailsLabel}>Result: </span>
+        <Inspector data={transformData(node.result)} />
+      </li>
+    </ul>
+  );
+};
 
 VirtualDetails.propTypes = {
   node: PropTypes.object.isRequired,

@@ -1,4 +1,5 @@
 import { actionTypes as serverActionTypes } from '../actions/server';
+import { parseResource } from '../utils/resources';
 
 const initialState = [
   'Waiting for connection...'
@@ -33,9 +34,10 @@ export default function logger(state = initialState, action) {
         'Evaluating...'
       ];
     case serverActionTypes.EVALUATE_SUCCESS:
+      const resource = parseResource(action.result);
       return [
         ...state,
-        `Evaluated: ${JSON.stringify(action.result)}`
+        `Evaluated: ${JSON.stringify(resource)}`
       ];
     case serverActionTypes.EVALUATE_FAIL:
       return [

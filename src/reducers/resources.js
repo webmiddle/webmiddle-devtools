@@ -1,5 +1,6 @@
 import { actionTypes as serverActionTypes } from '../actions/server';
 import { actionTypes as resourcesActionTypes } from '../actions/resources';
+import { parseResource } from '../utils/resources';
 
 const initialState = {
   nodeList: [
@@ -238,10 +239,40 @@ function swapOpenFiles(state, firstIndex, secondIndex) {
   };
 }
 
+function addResource(state, resource) {
+  const parentFolderName = 'resources';
+  const fileName = `${resource.name}_${resource.id}`;
+
+  const parentFolder = state.nodeList.find(node => node.type === 'folder' && node.name === parentFolderName);
+  if (parentFolder) {
+    const fileExists = !!parentFolder.children.find(node => node.type === 'file' && node.name === fileName);
+    if (fileExists) return state;
+  }
+
+  return addFile(
+    state,
+    parentFolderName,
+    fileName,
+    resource.contentType,
+    resource.content,
+  );
+}
+
 export default function resources(state = initialState, action) {
   switch (action.type) {
     case serverActionTypes.EVALUATE_SUCCESS:
-      return addFile(state, 'output.brandnew', action.result.name, action.result.contentType, action.result.content);
+      const resource = parseResource(action.result);
+      return addFile(state, 'output.brandnew', resource.name, resource.contentType, resource.content);
+    case serverActionTypes.EVALUATE_PROGRESS:
+      if (
+        action.status === 'callStateInfo:update' &&
+        action.info.result &&
+        action.info.result.type === 'resource'
+      ) {
+        const resource = parseResource(action.info.result.value);
+        return addResource(state, resource);
+      }
+      return state;
     case resourcesActionTypes.TOGGLE_COLLAPSE:
       return toggleCollapse(state, action.folderPath, action.value);
     case resourcesActionTypes.OPEN_FILE:

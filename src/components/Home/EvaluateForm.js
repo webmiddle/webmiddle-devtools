@@ -54,7 +54,7 @@ class EvaluateForm extends Component {
           <Field
             name="servicePath"
             component={TextField}
-            hintText="multiply"
+            hintText="math/multiply"
             className={styles.value}
             id="servicePath"
           />
@@ -86,7 +86,7 @@ class EvaluateForm extends Component {
 export default reduxForm({
   form: "evaluate",
   initialValues: {
-    servicePath: "multiply",
+    servicePath: "math/multiply",
     bodyProps: JSON.stringify(
       {
         a: 10,

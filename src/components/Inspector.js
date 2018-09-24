@@ -17,7 +17,8 @@ const ObjectValue = (props) => {
     object !== null &&
     (object.constructor && (
       object.constructor.name === 'Resource' ||
-      object.constructor.name === 'Virtual'
+      object.constructor.name === 'Virtual' ||
+      object.constructor.name === 'More'
     ))
   ) {
     if (object.constructor.name === 'Resource') {
@@ -35,6 +36,12 @@ const ObjectValue = (props) => {
         </span>
       );
     }
+
+    if (object.constructor.name === 'More') {
+      return (
+        <button>Load more</button>
+      );
+    }
   }
 
   return <OriginalObjectValue {...props} />
@@ -49,7 +56,8 @@ const ObjectPreview = (props) => {
     object !== null &&
     (object.constructor && (
       object.constructor.name === 'Resource' ||
-      object.constructor.name === 'Virtual'
+      object.constructor.name === 'Virtual' ||
+      object.constructor.name === 'More'
     ))
   ) {
     return <ObjectValue object={object} />;

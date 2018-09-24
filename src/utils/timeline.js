@@ -1,3 +1,5 @@
+import { parseResource } from './resources';
+
 export function makePath(parentPath, i) {
   return parentPath ? `${parentPath}.${i}` : String(i);
 }
@@ -5,6 +7,7 @@ export function makePath(parentPath, i) {
 // classes only used to customize output of react-inspector
 class Resource {};
 class Virtual {};
+class More {};
 
 export function transformData(data) {
   if (!data) return data;
@@ -13,6 +16,7 @@ export function transformData(data) {
     // eval-less solution
     // uses the javascript engine ability
     // to infer anonymous function names
+    // TODO: not working anymore
     const obj = {
       [data.name]: () => {},
     };
@@ -28,9 +32,10 @@ export function transformData(data) {
   }
 
   if (data.type === 'resource') {
+    const resource = parseResource(data.value);
     return Object.assign(new Resource(), {
-      ...data.value,
-      content: transformData(data.value.content),
+      ...resource,
+      content: transformData(resource.content),
     });
   }
 
@@ -40,6 +45,10 @@ export function transformData(data) {
       attributes: transformDataObj(data.value.attributes),
       children: transformData(data.value.children),
     });
+  }
+
+  if (data.type === 'more') {
+    return new More();
   }
 
   return data.value;
@@ -54,7 +63,7 @@ export function transformDataObj(dataObj) {
   return result;
 }
 
-export function transformDataArray(dataArray) {
+function transformDataArray(dataArray) {
   if (!dataArray) return;
   return dataArray.map(transformData);
 }
