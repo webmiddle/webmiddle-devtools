@@ -293,7 +293,7 @@ function findAndAddResources(state, data) {
     return addResource(state, data);
   }
 
-  for (let prop in data) {
+  for (const prop in data) {
     if (data.hasOwnProperty(prop)) {
       state = findAndAddResources(state, data[prop]);
     }

@@ -1,6 +1,5 @@
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import sortBy from "lodash/sortBy";
 import Resources from "../components/Resources/Resources";
 import { actionCreators as resourcesActions } from "../actions/resources";
 import { actionCreators as serverActions } from "../actions/server";

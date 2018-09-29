@@ -63,7 +63,7 @@ export function parseData(data) {
 }
 
 export function parseDataObj(dataObj) {
-  if (!dataObj) return;
+  if (!dataObj) return dataObj;
   const result = {};
   Object.keys(dataObj).forEach(key => {
     result[key] = parseData(dataObj[key]);
@@ -72,6 +72,6 @@ export function parseDataObj(dataObj) {
 }
 
 function parseDataArray(dataArray) {
-  if (!dataArray) return;
+  if (!dataArray) return dataArray;
   return dataArray.map(parseData);
 }

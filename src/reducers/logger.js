@@ -16,9 +16,10 @@ export default function logger(state = initialState, action) {
 
     case serverActionTypes.EVALUATE:
       return [...state, "Evaluating..."];
-    case serverActionTypes.EVALUATE_SUCCESS:
+    case serverActionTypes.EVALUATE_SUCCESS: {
       const resource = parseResource(action.result);
       return [...state, `Evaluated: ${JSON.stringify(resource)}`];
+    }
     case serverActionTypes.EVALUATE_FAIL:
       return [
         ...state,
