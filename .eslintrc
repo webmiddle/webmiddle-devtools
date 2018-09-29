@@ -5,6 +5,8 @@
     "prettier"
   ],
   "rules": {
+    "prettier/prettier": 0,
+
     "flowtype/boolean-style": [2, "boolean"],
     "flowtype/define-flow-type": 1,
     "flowtype/delimiter-dangle": [2, "never"],
