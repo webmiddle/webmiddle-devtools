@@ -5,6 +5,7 @@ import { List, ListItem } from "material-ui/List";
 import IconActionHome from "material-ui/svg-icons/action/home";
 import IconFileFolder from "material-ui/svg-icons/file/folder";
 import IconActionTimeline from "material-ui/svg-icons/action/timeline";
+import { withRouter } from "react-router-dom";
 
 import Link from "../../components/Link";
 import styles from "./AppSidebar.module.scss";
@@ -74,7 +75,13 @@ function mapDispatchToProps(dispatch) {
   return {};
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AppSidebar);
+// NOTE: keep withRouter as first one,
+// otherwise updates will be blocked
+// see https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/guides/blocked-updates.md
+// TODO: refactor so this doesn't happen
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(AppSidebar)
+);
