@@ -27,7 +27,7 @@ class TimelineNodeLabel extends Component {
     return (
       <div className={styles.nodeLabel} onClick={this.handleClick}>
         {node.type === 'virtual' ?
-          <VirtualLabel virtual={node.value} />
+          <VirtualLabel virtual={node.value.value} />
         : ''}
       </div>
     );

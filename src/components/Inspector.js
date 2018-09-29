@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactInspector, {
   chromeLight, ObjectName,
@@ -6,45 +6,80 @@ import ReactInspector, {
 } from 'react-inspector';
 import OriginalObjectPreview from 'react-inspector/lib/object-inspector/ObjectPreview';
 
+import { actionCreators as serverActions } from '../actions/server';
+import { store } from '../store/store';
+
+// HACK: connect doesn't work, neither we can
+// pass actions down to ObjectValue, thus
+// we just use dispatch directly
+const { dispatch } = store;
+
 // A short description of the object values.
 // Can be used to render tree node in ObjectInspector
 // or render objects in TableInspector.
-const ObjectValue = (props) => {
-  const { object } = props;
+class ObjectValue extends Component {
+  componentWillMount() {
+    this.loadMoreIfNeeded(this.props.object);
+  }
 
-  if (
-    typeof object === 'object' &&
-    object !== null &&
-    (object.constructor && (
-      object.constructor.name === 'Resource' ||
-      object.constructor.name === 'Virtual' ||
-      object.constructor.name === 'More'
-    ))
-  ) {
-    if (object.constructor.name === 'Resource') {
-      return (
-        <span>
-          {object.constructor.name}&nbsp;{object.name}
-        </span>
-      );
-    }
-
-    if (object.constructor.name === 'Virtual') {
-      return (
-        <span>
-          {'<'}{object.type}{' />'}
-        </span>
-      );
-    }
-
-    if (object.constructor.name === 'More') {
-      return (
-        <button>Load more</button>
-      );
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.object !== this.props.object) {
+      this.loadMoreIfNeeded(nextProps.object);
     }
   }
 
-  return <OriginalObjectValue {...props} />
+  loadMoreIfNeeded = (object) => {
+    if (
+      typeof object === 'object' &&
+      object !== null &&
+      object.constructor &&
+      object.constructor.name === 'More'
+    ) {
+      dispatch(serverActions.loadMore(object));
+    }
+  }
+
+  handleResourceClick = () => {
+    const { object } = this.props;
+  }
+
+  render() {
+    const { object } = this.props;
+
+    if (
+      typeof object === 'object' &&
+      object !== null &&
+      (object.constructor && (
+        object.constructor.name === 'Resource' ||
+        object.constructor.name === 'Virtual' ||
+        object.constructor.name === 'More'
+      ))
+    ) {
+      if (object.constructor.name === 'Resource') {
+        return (
+          <span onClick={this.handleResourceClick}>
+            {object.constructor.name}&nbsp;{object.name}
+          </span>
+        );
+      }
+
+      if (object.constructor.name === 'Virtual') {
+        return (
+          <span>
+            {'<'}{object.type}{' />'}
+          </span>
+        );
+      }
+
+      if (object.constructor.name === 'More') {
+        return (
+          <span>Loading....</span>
+        );
+      }
+    }
+
+    return <OriginalObjectValue {...this.props} />;
+  };
 };
 
 const ObjectPreview = (props) => {

@@ -1,14 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Tabs, Tab } from 'react-draggable-tab';
-import CodeEditor from '../CodeEditor';
 
-import styles from './Resources.module.scss';
-
-const modeByContentType = {
-  'text/plain': 'text',
-  'application/json': 'json',
-};
+import ResourcesTabContent from './ResourcesTabContent';
 
 export default class ResourcesTabs extends Component {
   static propTypes = {
@@ -17,6 +11,7 @@ export default class ResourcesTabs extends Component {
     openFilePaths: PropTypes.object.isRequired,
 
     resourcesActions: PropTypes.object.isRequired,
+    serverActions: PropTypes.object.isRequired,
   };
 
   onTabClose = (e, key) => {
@@ -43,6 +38,9 @@ export default class ResourcesTabs extends Component {
   render() {
     if (this.props.openFiles.length === 0) return null;
 
+    // TODO: use file id as key?
+    // otherwise there could be issues when tab position changes
+
     return (
       <Tabs
         selectedTab={String(this.props.selectedFileIndex)}
@@ -54,15 +52,11 @@ export default class ResourcesTabs extends Component {
             key={i}
             title={file.name}
           >
-            <div className={styles.tabContent}>
-              <CodeEditor
-                id={`resources.tabs.${i}`}
-                mode={modeByContentType[file.contentType] || 'text'}
-                value={file.content}
-                height="100%"
-                readOnly
-              />
-            </div>
+            <ResourcesTabContent
+              key={i}
+              file={file}
+              serverActions={this.props.serverActions}
+            />
           </Tab>
         )}
       />

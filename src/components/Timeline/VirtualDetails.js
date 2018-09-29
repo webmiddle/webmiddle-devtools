@@ -7,15 +7,16 @@ import { transformData, transformDataObj } from '../../utils/timeline';
 import styles from './Timeline.module.scss';
 
 const VirtualDetails = ({ node }) => {
+  const virtual = node.value.value; // { type: 'virtual', value: { type: 'virtual', value: VIRTUAL } }
   return (
     <ul>
       <li>
         <span className={styles.detailsLabel}>Type: </span>
-        <Inspector data={transformData(node.value.type)} />
+        <Inspector data={transformData(virtual.type)} />
       </li>
       <li>
         <span className={styles.detailsLabel}>Attributes: </span>
-        <Inspector data={transformDataObj(node.value.attributes)} />
+        <Inspector data={transformDataObj(virtual.attributes)} />
       </li>
       <li>
         <span className={styles.detailsLabel}>Result: </span>

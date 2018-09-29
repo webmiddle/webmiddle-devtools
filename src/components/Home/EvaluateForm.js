@@ -54,7 +54,7 @@ class EvaluateForm extends Component {
           <Field
             name="servicePath"
             component={TextField}
-            hintText="math/multiply"
+            hintText="FetchPageLinks"
             className={styles.value}
             id="servicePath"
           />
@@ -86,11 +86,11 @@ class EvaluateForm extends Component {
 export default reduxForm({
   form: "evaluate",
   initialValues: {
-    servicePath: "math/multiply",
+    servicePath: "FetchPageLinks",
     bodyProps: JSON.stringify(
       {
-        a: 10,
-        b: 20
+        url: "https://news.ycombinator.com/",
+        query: "show hn"
       },
       null,
       2

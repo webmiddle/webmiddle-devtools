@@ -1,6 +1,7 @@
 import { actionTypes as serverActionTypes } from '../actions/server';
 import { actionTypes as resourcesActionTypes } from '../actions/resources';
 import { parseResource } from '../utils/resources';
+import { transformData } from '../utils/timeline';
 
 const initialState = {
   nodeList: [
@@ -245,8 +246,16 @@ function addResource(state, resource) {
 
   const parentFolder = state.nodeList.find(node => node.type === 'folder' && node.name === parentFolderName);
   if (parentFolder) {
-    const fileExists = !!parentFolder.children.find(node => node.type === 'file' && node.name === fileName);
-    if (fileExists) return state;
+    const fileIndex = parentFolder.children.findIndex(node => node.type === 'file' && node.name === fileName);
+    if (fileIndex !== -1) {
+      // file already exists, update it
+      return updateFile(state, parentFolderName, fileIndex, file => ({
+        ...file,
+        name: fileName,
+        contentType: resource.contentType,
+        content: resource.content,
+      }));
+    }
   }
 
   return addFile(
@@ -258,21 +267,30 @@ function addResource(state, resource) {
   );
 }
 
+function findAndAddResources(state, data) {
+  if (typeof data !== 'object' || data === null) {
+    return state;
+  }
+
+  if (data.constructor && data.constructor.name === 'Resource') {
+    return addResource(state, data);
+  }
+
+  for (let prop in data) {
+    if (data.hasOwnProperty(prop)) {
+      state = findAndAddResources(state, data[prop]);
+    }
+  }
+
+  return state;
+}
+
 export default function resources(state = initialState, action) {
   switch (action.type) {
-    case serverActionTypes.EVALUATE_SUCCESS:
-      const resource = parseResource(action.result);
-      return addFile(state, 'output.brandnew', resource.name, resource.contentType, resource.content);
-    case serverActionTypes.EVALUATE_PROGRESS:
-      if (
-        action.status === 'callStateInfo:update' &&
-        action.info.result &&
-        action.info.result.type === 'resource'
-      ) {
-        const resource = parseResource(action.info.result.value);
-        return addResource(state, resource);
-      }
-      return state;
+    case resourcesActionTypes.ADD_FILE:
+      return addFile(state, action.folderPath, action.fileName, action.fileContentType, action.fileContent);
+    case resourcesActionTypes.FIND_AND_ADD_RESOURCES:
+      return findAndAddResources(state, action.data);
     case resourcesActionTypes.TOGGLE_COLLAPSE:
       return toggleCollapse(state, action.folderPath, action.value);
     case resourcesActionTypes.OPEN_FILE:

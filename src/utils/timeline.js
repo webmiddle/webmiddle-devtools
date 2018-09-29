@@ -9,18 +9,16 @@ class Resource {};
 class Virtual {};
 class More {};
 
+// NOTE: data shouldn't be the whole callStateInfo object
+// since this function isn't able to transform it
 export function transformData(data) {
   if (!data) return data;
 
   if (data.type === 'function') {
-    // eval-less solution
-    // uses the javascript engine ability
-    // to infer anonymous function names
-    // TODO: not working anymore
-    const obj = {
-      [data.name]: () => {},
-    };
-    return obj[data.name];
+    // eval-less solution to create a function with a dynamic name
+    const fn = function() {};
+    Object.defineProperty(fn, "name", { value: data.name });
+    return fn;
   }
 
   if (data.type === 'object') {
@@ -48,7 +46,17 @@ export function transformData(data) {
   }
 
   if (data.type === 'more') {
-    return new More();
+    const more = new More();
+    // path: non enumerable to hide it in the Inspector
+    Object.defineProperty(more, 'path', {
+      value: data.path,
+      enumerable: false,
+    });
+    Object.defineProperty(more, 'transformedPath', {
+      value: data.transformedPath,
+      enumerable: false,
+    });
+    return more;
   }
 
   return data.value;

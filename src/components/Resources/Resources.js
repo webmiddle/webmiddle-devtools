@@ -15,6 +15,7 @@ export default class Resources extends Component {
     openFilePaths: PropTypes.object.isRequired,
 
     resourcesActions: PropTypes.object.isRequired,
+    serverActions: PropTypes.object.isRequired,
   };
 
   render() {
@@ -35,6 +36,7 @@ export default class Resources extends Component {
               selectedFileIndex={this.props.selectedFileIndex}
               openFilePaths={this.props.openFilePaths}
               resourcesActions={this.props.resourcesActions}
+              serverActions={this.props.serverActions}
             />
           </div>
         </SplitPane>

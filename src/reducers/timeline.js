@@ -1,13 +1,17 @@
 import { actionTypes as timelineActionTypes } from '../actions/timeline';
 import { actionTypes as serverActionTypes } from '../actions/server';
 
+import get from 'lodash/get';
+import cloneDeep from 'lodash/cloneDeep';
+
 const initialState = {
   callState: [],
   selectedNodePath: null,
 };
 
 // path example: '0.1.0.2'
-function addInfo(state, path, info) {
+function addInfo(state, info) {
+  const path = info.path;
   const pathParts = path.split('.');
 
   function process(callState, partIndex) {
@@ -39,7 +43,8 @@ function addInfo(state, path, info) {
   };
 }
 
-function updateInfo(state, path, info) {
+function updateInfo(state, info) {
+  const path = info.path;
   const pathParts = path.split('.');
 
   function process(callState, partIndex) {
@@ -74,14 +79,10 @@ function updateInfo(state, path, info) {
 
 export default function server(state = initialState, action) {
   switch (action.type) {
-    case serverActionTypes.EVALUATE_PROGRESS:
-      if (action.status === 'callStateInfo:add') {
-        return addInfo(state, action.path, action.info);
-      }
-      if (action.status === 'callStateInfo:update') {
-        return updateInfo(state, action.path, action.info);
-      }
-      return state;
+    case timelineActionTypes.ADD_INFO:
+      return addInfo(state, action.info);
+    case timelineActionTypes.UPDATE_INFO:
+      return updateInfo(state, action.info);
     case timelineActionTypes.SELECT_NODE:
       return {
         ...state,

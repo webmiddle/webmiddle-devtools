@@ -1,6 +1,9 @@
 import { createActionTypes } from '../utils/redux';
 
 export const actionTypes = createActionTypes('resources',
+  'ADD_FILE',
+  'FIND_AND_ADD_RESOURCES',
+
   'TOGGLE_COLLAPSE',
 
   'OPEN_FILE',
@@ -10,6 +13,19 @@ export const actionTypes = createActionTypes('resources',
 );
 
 export const actionCreators = {
+  addFile: (folderPath, fileName, fileContentType, fileContent) => ({
+    type: actionTypes.ADD_FILE,
+    folderPath,
+    fileName,
+    fileContentType,
+    fileContent,
+  }),
+
+  findAndAddResources: (data) => ({
+    type: actionTypes.FIND_AND_ADD_RESOURCES,
+    data,
+  }),
+
   toggleCollapse: (folderPath, value) => ({
     type: actionTypes.TOGGLE_COLLAPSE,
     folderPath,

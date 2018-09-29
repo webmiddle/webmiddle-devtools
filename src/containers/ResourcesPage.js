@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import sortBy from 'lodash/sortBy';
 import Resources from '../components/Resources/Resources';
 import { actionCreators as resourcesActions } from '../actions/resources';
+import { actionCreators as serverActions } from '../actions/server';
 
 // TODO: this might be slow with loads of files and folders,
 // consider precomputing it.
@@ -42,7 +43,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    resourcesActions: bindActionCreators(resourcesActions, dispatch)
+    resourcesActions: bindActionCreators(resourcesActions, dispatch),
+    serverActions: bindActionCreators(serverActions, dispatch),
   };
 }
 

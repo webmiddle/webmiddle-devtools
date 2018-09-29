@@ -73,3 +73,14 @@ export function evaluateService(
   };
   return requestWebsocket(httpPath, body, onProgress);
 }
+
+export function loadMore(path, transformedPath) {
+  const httpPath = "/more/";
+  const body = {
+    props: {
+      path,
+      transformedPath,
+    },
+  };
+  return requestWebsocket(httpPath, body);
+}
