@@ -1,8 +1,10 @@
 // @flow
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+
 import ConnectForm from "./ConnectForm";
 import EvaluateForm from "./EvaluateForm";
+import Logs from "./Logs";
 import styles from "./Home.module.scss";
 
 export default class Home extends Component {
@@ -39,11 +41,7 @@ export default class Home extends Component {
           />
         </div>
 
-        <div className={styles.logs}>
-          {this.props.logger.map((log, key) => (
-            <div key={key}>{log}</div>
-          ))}
-        </div>
+        <Logs logger={this.props.logger} />
 
         <div className={styles.command}>
           <EvaluateForm

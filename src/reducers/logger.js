@@ -1,31 +1,39 @@
 import { actionTypes as serverActionTypes } from "../actions/server";
 import { parseResource } from "../utils/resources";
 
-const initialState = ["Waiting for connection..."];
+function createLog(message) {
+  return {
+    timestamp: Date.now(),
+    message
+  };
+}
+
+const initialState = [createLog("Waiting for connection...")];
 
 export default function logger(state = initialState, action) {
   switch (action.type) {
     case serverActionTypes.CONNECT:
-      return [...state, "Connecting..."];
+      return [...state, createLog("Connecting...")];
     case serverActionTypes.CONNECT_SUCCESS:
-      return [...state, "Connected"];
+      return [...state, createLog("Connected!")];
     case serverActionTypes.CONNECT_FAIL:
-      return [...state, "Connection failed"];
+      return [...state, createLog("Connection failed")];
     case serverActionTypes.DISCONNECT_SUCCESS:
-      return [...state, "Disconnected"];
+      return [...state, createLog("Disconnected")];
 
     case serverActionTypes.EVALUATE:
-      return [...state, "Evaluating..."];
+      return [...state, createLog("Evaluating...")];
     case serverActionTypes.EVALUATE_SUCCESS: {
-      const resource = parseResource(action.result);
-      return [...state, `Evaluated: ${JSON.stringify(resource)}`];
+      return [...state, createLog(`Evaluated!`)];
     }
     case serverActionTypes.EVALUATE_FAIL:
       return [
         ...state,
-        `Evaluation error: ${
-          action instanceof Error ? action.stack : JSON.stringify(action)
-        }`
+        createLog(
+          `Evaluation error: ${
+            action instanceof Error ? action.stack : JSON.stringify(action)
+          }`
+        )
       ];
     default:
       return state;

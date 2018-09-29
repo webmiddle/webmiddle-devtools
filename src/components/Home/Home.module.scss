@@ -20,6 +20,11 @@
   overflow: auto;
   background-color: white;
   padding: 5px;
+  font-size: 14px;
+
+  .logs_time {
+    color: #858585;
+  }
 }
 
 .command {

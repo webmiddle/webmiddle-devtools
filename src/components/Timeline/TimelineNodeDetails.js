@@ -25,7 +25,7 @@ class TimelineNodeDetails extends Component {
         })}
       >
         {empty ? (
-          "Click on a node on the left panel to inspect it."
+          "Click a node on the left panel to inspect it."
         ) : this.props.node.type === "virtual" ? (
           <VirtualDetails node={this.props.node} />
         ) : (
