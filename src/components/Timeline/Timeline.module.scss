@@ -1,11 +1,15 @@
 .container {
   height: 100%;
   position: relative;
-}
-:global(.Pane1 > div > div > .tree-view) {
-  margin-left: 10px;
-}
 
+  :global(.Pane1) {
+    margin-top: 16px;
+  }
+
+  :global(.Pane1 > div > div > .tree-view) {
+    margin-left: 10px;
+  }
+}
 
 .inline {
   display: inline-block;
@@ -56,6 +60,10 @@
 }
 
 .timelineNodeDetails {
+  &.empty {
+    padding: 16px;
+  }
+
   ul {
     padding-left: 10px;
   }
