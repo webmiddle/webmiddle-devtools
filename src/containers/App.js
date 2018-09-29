@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from "react";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import AppSidebar from "../components/AppSidebar/AppSidebar";
+import AppSidebar from "./AppSidebar/AppSidebar";
 
 export default class App extends Component {
   render() {
