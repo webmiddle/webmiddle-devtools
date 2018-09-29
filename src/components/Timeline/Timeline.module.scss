@@ -62,17 +62,8 @@
 }
 
 .timelineNodeDetails {
-  &.empty {
-    padding: 16px;
-  }
-
   ul {
     padding-left: 10px;
-  }
-
-  .detailsLabel {
-    color: rgb(200, 0, 0);
-    font-size: 14px;
   }
 
   // top level
@@ -97,5 +88,27 @@
   // expanded content
   ol[role="group"] {
     margin-top: 5px !important;
+  }
+
+  .detailsHead {
+    color: #b266ad;
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  .detailsLabel {
+    color: black;
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  .virtualDetails {
+    > li {
+      margin-bottom: 10px;
+    }
+  }
+
+  &.empty {
+    padding: 16px;
   }
 }
