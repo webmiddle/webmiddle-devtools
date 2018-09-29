@@ -1,4 +1,9 @@
 {
+  "parser": "babel-eslint",
+  "extends": ["airbnb", "prettier"],
+  "plugins": [
+    "prettier"
+  ],
   "rules": {
     "flowtype/boolean-style": [2, "boolean"],
     "flowtype/define-flow-type": 1,
