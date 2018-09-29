@@ -24,10 +24,9 @@ function isMoreObject(value) {
 
 class ResourcesTabContent extends Component {
   static propTypes = {
-    key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     file: PropTypes.object.isRequired,
 
-    serverActions: PropTypes.func.isRequired
+    serverActions: PropTypes.object.isRequired
   };
 
   componentWillMount() {
@@ -47,7 +46,7 @@ class ResourcesTabContent extends Component {
   }
 
   render() {
-    const { key, file } = this.props;
+    const { file } = this.props;
 
     const fileContent = isMoreObject(file.content)
       ? "" // wait for load more
@@ -56,7 +55,7 @@ class ResourcesTabContent extends Component {
     return (
       <div className={styles.tabContent}>
         <CodeEditor
-          id={`resources.tabs.${key}`}
+          id={`resources.tabs.${file.id}`}
           mode={modeByContentType[file.contentType] || "text"}
           value={fileContent}
           height="100%"

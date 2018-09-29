@@ -40,9 +40,6 @@ export default class ResourcesTabs extends Component {
   render() {
     if (this.props.openFiles.length === 0) return null;
 
-    // TODO: use file id as key?
-    // otherwise there could be issues when tab position changes
-
     return (
       <Tabs
         selectedTab={String(this.props.selectedFileIndex)}
@@ -52,7 +49,6 @@ export default class ResourcesTabs extends Component {
         tabs={this.props.openFiles.map((file, i) => (
           <Tab key={i} title={file.name}>
             <ResourcesTabContent
-              key={i}
               file={file}
               serverActions={this.props.serverActions}
             />

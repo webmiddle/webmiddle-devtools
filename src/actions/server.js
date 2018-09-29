@@ -30,6 +30,7 @@ const handleEvaluateSuccess = result => dispatch => {
   dispatch(
     resourcesActions.addFile(
       "output.result",
+      resource.id,
       resource.name,
       resource.contentType,
       resource.content

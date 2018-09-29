@@ -1,49 +1,68 @@
 import { actionTypes as resourcesActionTypes } from "../actions/resources";
 
+// EXAMPLE
+// const initialState = {
+//   nodeList: [
+//     {
+//       type: "folder",
+//       name: "output",
+//       collapsed: false,
+//       children: [
+//         {
+//           type: "folder",
+//           name: "some",
+//           collapsed: false,
+//           children: [
+//             {
+//               type: "file",
+//               id: "randomness_01",
+//               name: "randomness",
+//               contentType: "text/plain",
+//               content: "aa aaa aaaa"
+//             },
+//             {
+//               type: "file",
+//               id: "crazyness_01",
+//               name: "crazyness",
+//               contentType: "text/plain",
+//               content: "bbb bbb bb"
+//             }
+//           ]
+//         }
+//       ]
+//     }
+//   ],
+
+//   openFilePaths: {
+//     list: [
+//       {
+//         folderPath: "output.some",
+//         index: 1
+//       }
+//     ],
+//     selectedIndex: 0
+//   }
+// };
+
 const initialState = {
-  nodeList: [
-    {
-      type: "folder",
-      name: "output",
-      collapsed: false,
-      children: [
-        {
-          type: "folder",
-          name: "some",
-          collapsed: false,
-          children: [
-            {
-              type: "file",
-              name: "randomness",
-              contentType: "text/plain",
-              content: "aa aaa aaaa"
-            },
-            {
-              type: "file",
-              name: "crazyness",
-              contentType: "text/plain",
-              content: "bbb bbb bb"
-            }
-          ]
-        }
-      ]
-    }
-  ],
+  nodeList: [],
 
   openFilePaths: {
-    list: [
-      {
-        folderPath: "output.some",
-        index: 1
-      }
-    ],
-    selectedIndex: 0
+    list: [],
+    selectedIndex: -1
   }
 };
 
 // folderPath example: 'output.other'
 // Note: it creates all the non existing folders
-function addFile(state, folderPath, fileName, fileContentType, fileContent) {
+function addFile(
+  state,
+  folderPath,
+  fileId,
+  fileName,
+  fileContentType,
+  fileContent
+) {
   if (typeof fileContent !== "string") {
     fileContent = JSON.stringify(fileContent, null, 2);
   }
@@ -82,6 +101,7 @@ function addFile(state, folderPath, fileName, fileContentType, fileContent) {
           ...folder.children,
           {
             type: "file",
+            id: fileId,
             name: fileName,
             contentType: fileContentType,
             content: fileContent
@@ -268,6 +288,7 @@ function addResource(state, resource) {
       // file already exists, update it
       return updateFile(state, parentFolderName, fileIndex, file => ({
         ...file,
+        id: resource.id,
         name: fileName,
         contentType: resource.contentType,
         content: resource.content
@@ -278,6 +299,7 @@ function addResource(state, resource) {
   return addFile(
     state,
     parentFolderName,
+    resource.id,
     fileName,
     resource.contentType,
     resource.content
@@ -308,6 +330,7 @@ export default function resources(state = initialState, action) {
       return addFile(
         state,
         action.folderPath,
+        action.fileId,
         action.fileName,
         action.fileContentType,
         action.fileContent

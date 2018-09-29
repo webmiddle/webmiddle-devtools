@@ -14,9 +14,10 @@ export const actionTypes = createActionTypes(
 );
 
 export const actionCreators = {
-  addFile: (folderPath, fileName, fileContentType, fileContent) => ({
+  addFile: (folderPath, fileId, fileName, fileContentType, fileContent) => ({
     type: actionTypes.ADD_FILE,
     folderPath,
+    fileId,
     fileName,
     fileContentType,
     fileContent
