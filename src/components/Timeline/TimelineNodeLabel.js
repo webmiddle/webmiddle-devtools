@@ -22,7 +22,6 @@ class TimelineNodeLabel extends Component {
 
   render() {
     const { node } = this.props;
-    //console.log('node', node);
 
     return (
       <div className={styles.nodeLabel} onClick={this.handleClick}>

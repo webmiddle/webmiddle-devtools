@@ -13,28 +13,28 @@ export default class Home extends Component {
     serverActions: PropTypes.object.isRequired
   };
 
-  handleConnectFormSubmit({ hostname, port }) {
+  handleConnectFormSubmit = ({ hostname, port }) => {
     if (!this.props.server.connected) {
       this.props.serverActions.connect({ hostname, port });
     } else {
       this.props.serverActions.disconnect();
     }
-  }
+  };
 
-  handleEvaluateFormSubmit({ servicePath, bodyProps, bodyOptions }) {
+  handleEvaluateFormSubmit = ({ servicePath, bodyProps, bodyOptions }) => {
     this.props.serverActions.evaluateService({
       servicePath,
       bodyProps,
       bodyOptions
     });
-  }
+  };
 
   render() {
     return (
       <div className={styles.container} data-tid="container">
         <div className={styles.connection}>
           <ConnectForm
-            onSubmit={this.handleConnectFormSubmit.bind(this)}
+            onSubmit={this.handleConnectFormSubmit}
             server={this.props.server}
           />
         </div>
@@ -47,7 +47,7 @@ export default class Home extends Component {
 
         <div className={styles.command}>
           <EvaluateForm
-            onSubmit={this.handleEvaluateFormSubmit.bind(this)}
+            onSubmit={this.handleEvaluateFormSubmit}
             server={this.props.server}
           />
         </div>

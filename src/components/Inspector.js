@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import ReactInspector, {
   chromeLight,
   ObjectName,
@@ -42,6 +41,7 @@ class ObjectValue extends Component {
 
   handleResourceClick = () => {
     const { object } = this.props;
+    // TODO: open in resources tab
   };
 
   render() {
@@ -123,9 +123,8 @@ const ObjectRootLabel = ({ name, data }) => {
         <ObjectPreview data={data} />
       </span>
     );
-  } else {
-    return <ObjectPreview data={data} />;
   }
+  return <ObjectPreview data={data} />;
 };
 
 const nodeRenderer = ({ depth, name, data, isNonenumerable, expanded }) => {

@@ -35,7 +35,8 @@ export default class ResourcesTreeView extends Component {
   };
 
   static defaultProps = {
-    parentPath: ""
+    parentPath: "",
+    selectedFilePath: null
   };
 
   handleArrowClick = i => {

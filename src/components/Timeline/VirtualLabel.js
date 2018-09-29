@@ -4,8 +4,7 @@ import PropTypes from "prop-types";
 import styles from "./Timeline.module.scss";
 
 const VirtualLabel = ({ virtual }) => {
-  const type = virtual.type;
-  const attributes = virtual.attributes;
+  const { type, attributes } = virtual;
 
   // a={1} b="2"
   const attributesList = [];

@@ -7,8 +7,8 @@ import {
   asyncActionValues
 } from "../utils/redux";
 import * as server from "../services/server";
-import { actionCreators as resourcesActions } from "../actions/resources";
-import { actionCreators as timelineActions } from "../actions/timeline";
+import { actionCreators as resourcesActions } from "./resources";
+import { actionCreators as timelineActions } from "./timeline";
 import { parseResource } from "../utils/resources";
 import { transformData } from "../utils/timeline";
 
@@ -23,7 +23,7 @@ export const actionTypes = createActionTypes(
   asyncActionKeys("LOAD_MORE")
 );
 
-const handleEvaluateSuccess = result => (dispatch, getState) => {
+const handleEvaluateSuccess = result => dispatch => {
   // action.result is always a resource
   // (since it's wrapped into one if it isn't already)
   const resource = parseResource(result);
@@ -39,7 +39,7 @@ const handleEvaluateSuccess = result => (dispatch, getState) => {
   return Promise.resolve(result);
 };
 
-const handleEvaluateProgress = (status, info) => (dispatch, getState) => {
+const handleEvaluateProgress = (status, info) => dispatch => {
   if (status === "callStateInfo:add") {
     dispatch(timelineActions.addInfo(info));
     dispatch(resourcesActions.findAndAddResources(transformData(info.value)));
