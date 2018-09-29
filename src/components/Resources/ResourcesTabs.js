@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Tabs, Tab } from 'react-draggable-tab';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { Tabs, Tab } from "react-draggable-tab";
 
-import ResourcesTabContent from './ResourcesTabContent';
+import ResourcesTabContent from "./ResourcesTabContent";
 
 export default class ResourcesTabs extends Component {
   static propTypes = {
@@ -11,7 +11,7 @@ export default class ResourcesTabs extends Component {
     openFilePaths: PropTypes.object.isRequired,
 
     resourcesActions: PropTypes.object.isRequired,
-    serverActions: PropTypes.object.isRequired,
+    serverActions: PropTypes.object.isRequired
   };
 
   onTabClose = (e, key) => {
@@ -22,18 +22,20 @@ export default class ResourcesTabs extends Component {
     // stop library own close handler
     // (otherwise it will automatically select the next tab)
     return false;
-  }
+  };
 
   onTabSelect = (e, key) => {
     const openFileIndex = parseInt(key, 10);
     this.props.resourcesActions.updateSelectedFileIndex(openFileIndex);
-  }
+  };
 
   onTabPositionChange = (e, key, currentTabs) => {
     const openFileIndex = parseInt(key, 10);
-    const newOpenFileIndex = currentTabs.findIndex(tabElement => tabElement.key === key);
+    const newOpenFileIndex = currentTabs.findIndex(
+      tabElement => tabElement.key === key
+    );
     this.props.resourcesActions.swapOpenFiles(openFileIndex, newOpenFileIndex);
-  }
+  };
 
   render() {
     if (this.props.openFiles.length === 0) return null;
@@ -47,18 +49,15 @@ export default class ResourcesTabs extends Component {
         shouldTabClose={this.onTabClose}
         onTabSelect={this.onTabSelect}
         onTabPositionChange={this.onTabPositionChange}
-        tabs={this.props.openFiles.map((file, i) =>
-          <Tab
-            key={i}
-            title={file.name}
-          >
+        tabs={this.props.openFiles.map((file, i) => (
+          <Tab key={i} title={file.name}>
             <ResourcesTabContent
               key={i}
               file={file}
               serverActions={this.props.serverActions}
             />
           </Tab>
-        )}
+        ))}
       />
     );
   }

@@ -1,13 +1,14 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import ReactInspector, {
-  chromeLight, ObjectName,
+  chromeLight,
+  ObjectName,
   ObjectValue as OriginalObjectValue
-} from 'react-inspector';
-import OriginalObjectPreview from 'react-inspector/lib/object-inspector/ObjectPreview';
+} from "react-inspector";
+import OriginalObjectPreview from "react-inspector/lib/object-inspector/ObjectPreview";
 
-import { actionCreators as serverActions } from '../actions/server';
-import { store } from '../store/store';
+import { actionCreators as serverActions } from "../actions/server";
+import { store } from "../store/store";
 
 // HACK: connect doesn't work, neither we can
 // pass actions down to ObjectValue, thus
@@ -28,72 +29,72 @@ class ObjectValue extends Component {
     }
   }
 
-  loadMoreIfNeeded = (object) => {
+  loadMoreIfNeeded = object => {
     if (
-      typeof object === 'object' &&
+      typeof object === "object" &&
       object !== null &&
       object.constructor &&
-      object.constructor.name === 'More'
+      object.constructor.name === "More"
     ) {
       dispatch(serverActions.loadMore(object));
     }
-  }
+  };
 
   handleResourceClick = () => {
     const { object } = this.props;
-  }
+  };
 
   render() {
     const { object } = this.props;
 
     if (
-      typeof object === 'object' &&
+      typeof object === "object" &&
       object !== null &&
-      (object.constructor && (
-        object.constructor.name === 'Resource' ||
-        object.constructor.name === 'Virtual' ||
-        object.constructor.name === 'More'
-      ))
+      (object.constructor &&
+        (object.constructor.name === "Resource" ||
+          object.constructor.name === "Virtual" ||
+          object.constructor.name === "More"))
     ) {
-      if (object.constructor.name === 'Resource') {
+      if (object.constructor.name === "Resource") {
         return (
           <span onClick={this.handleResourceClick}>
-            {object.constructor.name}&nbsp;{object.name}
+            {object.constructor.name}
+            &nbsp;
+            {object.name}
           </span>
         );
       }
 
-      if (object.constructor.name === 'Virtual') {
+      if (object.constructor.name === "Virtual") {
         return (
           <span>
-            {'<'}{object.type}{' />'}
+            {"<"}
+            {object.type}
+            {" />"}
           </span>
         );
       }
 
-      if (object.constructor.name === 'More') {
-        return (
-          <span>Loading....</span>
-        );
+      if (object.constructor.name === "More") {
+        return <span>Loading....</span>;
       }
     }
 
     return <OriginalObjectValue {...this.props} />;
-  };
-};
+  }
+}
 
-const ObjectPreview = (props) => {
+const ObjectPreview = props => {
   const { data } = props;
   const object = data;
 
   if (
-    typeof object === 'object' &&
+    typeof object === "object" &&
     object !== null &&
-    (object.constructor && (
-      object.constructor.name === 'Resource' ||
-      object.constructor.name === 'Virtual' ||
-      object.constructor.name === 'More'
-    ))
+    (object.constructor &&
+      (object.constructor.name === "Resource" ||
+        object.constructor.name === "Virtual" ||
+        object.constructor.name === "More"))
   ) {
     return <ObjectValue object={object} />;
   }
@@ -114,7 +115,7 @@ const ObjectLabel = ({ name, data, isNonenumerable }) => {
 };
 
 const ObjectRootLabel = ({ name, data }) => {
-  if (typeof name === 'string') {
+  if (typeof name === "string") {
     return (
       <span>
         <ObjectName name={name} />
@@ -127,25 +128,23 @@ const ObjectRootLabel = ({ name, data }) => {
   }
 };
 
-const nodeRenderer = ({
-  depth,
-  name,
-  data,
-  isNonenumerable,
-  expanded
-}) => {
-  return depth === 0
-    ? !expanded
-      ? <ObjectRootLabel name={name} data={data} />
-      : <ObjectValue object={data} />
-    : <ObjectLabel name={name} data={data} isNonenumerable={isNonenumerable} />;
+const nodeRenderer = ({ depth, name, data, isNonenumerable, expanded }) => {
+  return depth === 0 ? (
+    !expanded ? (
+      <ObjectRootLabel name={name} data={data} />
+    ) : (
+      <ObjectValue object={data} />
+    )
+  ) : (
+    <ObjectLabel name={name} data={data} isNonenumerable={isNonenumerable} />
+  );
 };
 
-const Inspector = (props) => (
+const Inspector = props => (
   <ReactInspector
     theme={{
       ...chromeLight,
-      ...({ BASE_FONT_SIZE: '20px' })
+      ...{ BASE_FONT_SIZE: "20px" }
     }}
     nodeRenderer={nodeRenderer}
     {...props}

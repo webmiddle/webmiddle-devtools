@@ -1,70 +1,77 @@
-import { actionTypes as serverActionTypes } from '../actions/server';
-import { actionTypes as resourcesActionTypes } from '../actions/resources';
-import { parseResource } from '../utils/resources';
-import { transformData } from '../utils/timeline';
+import { actionTypes as serverActionTypes } from "../actions/server";
+import { actionTypes as resourcesActionTypes } from "../actions/resources";
+import { parseResource } from "../utils/resources";
+import { transformData } from "../utils/timeline";
 
 const initialState = {
   nodeList: [
     {
-      type: 'folder',
-      name: 'output',
+      type: "folder",
+      name: "output",
       collapsed: false,
-      children: [{
-        type: 'folder',
-        name: 'some',
-        collapsed: false,
-        children: [
-          {
-            type: 'file',
-            name: 'randomness',
-            contentType: 'text/plain',
-            content: 'aa aaa aaaa',
-          },
-          {
-            type: 'file',
-            name: 'crazyness',
-            contentType: 'text/plain',
-            content: 'bbb bbb bb',
-          }
-        ]
-      }],
+      children: [
+        {
+          type: "folder",
+          name: "some",
+          collapsed: false,
+          children: [
+            {
+              type: "file",
+              name: "randomness",
+              contentType: "text/plain",
+              content: "aa aaa aaaa"
+            },
+            {
+              type: "file",
+              name: "crazyness",
+              contentType: "text/plain",
+              content: "bbb bbb bb"
+            }
+          ]
+        }
+      ]
     }
   ],
 
   openFilePaths: {
     list: [
       {
-        folderPath: 'output.some',
-        index: 1,
+        folderPath: "output.some",
+        index: 1
       }
     ],
-    selectedIndex: 0,
-  },
+    selectedIndex: 0
+  }
 };
 
 // folderPath example: 'output.other'
 // Note: it creates all the non existing folders
 function addFile(state, folderPath, fileName, fileContentType, fileContent) {
-  if (typeof fileContent !== 'string') {
+  if (typeof fileContent !== "string") {
     fileContent = JSON.stringify(fileContent, null, 2);
   }
 
-  const folderPathParts = folderPath.split('.');
+  const folderPathParts = folderPath.split(".");
 
   function process(nodeList, folderPathIndex) {
     const currentPart = folderPathParts[folderPathIndex];
 
-    const folderIndex = nodeList.findIndex(node => node.type === 'folder' && node.name === currentPart);
-    const folder = folderIndex !== -1 ? nodeList[folderIndex] : {
-      // create folder
-      type: 'folder',
-      name: currentPart,
-      collapsed: false,
-      children: [],
-    };
+    const folderIndex = nodeList.findIndex(
+      node => node.type === "folder" && node.name === currentPart
+    );
+    const folder =
+      folderIndex !== -1
+        ? nodeList[folderIndex]
+        : {
+            // create folder
+            type: "folder",
+            name: currentPart,
+            collapsed: false,
+            children: []
+          };
 
     let newFolder;
-    if ((folderPathIndex + 1) < folderPathParts.length) {
+    if (folderPathIndex + 1 < folderPathParts.length) {
       // sub folder: recursion
       newFolder = {
         ...folder,
@@ -77,25 +84,27 @@ function addFile(state, folderPath, fileName, fileContentType, fileContent) {
         children: [
           ...folder.children,
           {
-            type: 'file',
+            type: "file",
             name: fileName,
             contentType: fileContentType,
-            content: fileContent,
+            content: fileContent
           }
         ]
       };
     }
 
-    return folderIndex !== -1 ? [
-      // replace
-      ...nodeList.slice(0, folderIndex),
-      newFolder,
-      ...nodeList.slice(folderIndex + 1)
-    ] : [
-      // append
-      ...nodeList,
-      newFolder,
-    ];
+    return folderIndex !== -1
+      ? [
+          // replace
+          ...nodeList.slice(0, folderIndex),
+          newFolder,
+          ...nodeList.slice(folderIndex + 1)
+        ]
+      : [
+          // append
+          ...nodeList,
+          newFolder
+        ];
   }
 
   return {
@@ -105,23 +114,27 @@ function addFile(state, folderPath, fileName, fileContentType, fileContent) {
 }
 
 function updateFolder(state, folderPath, fn) {
-  const folderPathParts = folderPath.split('.');
+  const folderPathParts = folderPath.split(".");
 
   function process(nodeList, folderPathIndex) {
     const currentPart = folderPathParts[folderPathIndex];
 
-    const folderIndex = nodeList.findIndex(node => node.type === 'folder' && node.name === currentPart);
+    const folderIndex = nodeList.findIndex(
+      node => node.type === "folder" && node.name === currentPart
+    );
     if (folderIndex === -1) {
-      throw new Error(`Folder not found: ${currentPart} (index: ${folderPathIndex}), path ${folderPath}`);
+      throw new Error(
+        `Folder not found: ${currentPart} (index: ${folderPathIndex}), path ${folderPath}`
+      );
     }
     const folder = nodeList[folderIndex];
 
     let newFolder;
-    if ((folderPathIndex + 1) < folderPathParts.length) {
+    if (folderPathIndex + 1 < folderPathParts.length) {
       // recursion
       newFolder = {
         ...folder,
-        children: process(folder.children, folderPathIndex + 1),
+        children: process(folder.children, folderPathIndex + 1)
       };
     } else {
       newFolder = fn(folder);
@@ -141,7 +154,7 @@ function updateFolder(state, folderPath, fn) {
 }
 
 function updateFile(state, folderPath, index, fn) {
-  return updateFolder(state, folderPath, (folder) => ({
+  return updateFolder(state, folderPath, folder => ({
     ...folder,
     children: [
       ...folder.children.slice(0, index),
@@ -152,15 +165,16 @@ function updateFile(state, folderPath, index, fn) {
 }
 
 function toggleCollapse(state, folderPath, value) {
-  return updateFolder(state, folderPath, (folder) => ({
+  return updateFolder(state, folderPath, folder => ({
     ...folder,
-    collapsed: value,
+    collapsed: value
   }));
 }
 
 function openFile(state, folderPath, index) {
-  const openFilePathIndex = state.openFilePaths.list.findIndex(openFilePath =>
-    openFilePath.folderPath === folderPath && openFilePath.index === index
+  const openFilePathIndex = state.openFilePaths.list.findIndex(
+    openFilePath =>
+      openFilePath.folderPath === folderPath && openFilePath.index === index
   );
 
   let newList;
@@ -171,7 +185,7 @@ function openFile(state, folderPath, index) {
       ...state.openFilePaths.list,
       {
         folderPath,
-        index,
+        index
       }
     ];
     newSelectedIndex = newList.length - 1;
@@ -186,30 +200,32 @@ function openFile(state, folderPath, index) {
     openFilePaths: {
       ...state.openFilePaths,
       list: newList,
-      selectedIndex: newSelectedIndex,
+      selectedIndex: newSelectedIndex
     }
   };
 }
 
 function closeFile(state, folderPath, index) {
-  const openFilePathIndex = state.openFilePaths.list.findIndex(openFilePath =>
-    openFilePath.folderPath === folderPath && openFilePath.index === index
+  const openFilePathIndex = state.openFilePaths.list.findIndex(
+    openFilePath =>
+      openFilePath.folderPath === folderPath && openFilePath.index === index
   );
 
   // remove
   const newList = [
     ...state.openFilePaths.list.slice(0, openFilePathIndex),
-    ...state.openFilePaths.list.slice(openFilePathIndex + 1),
+    ...state.openFilePaths.list.slice(openFilePathIndex + 1)
   ];
-  const newSelectedIndex = newList[state.openFilePaths.selectedIndex] ?
-    state.openFilePaths.selectedIndex : newList.length - 1;
+  const newSelectedIndex = newList[state.openFilePaths.selectedIndex]
+    ? state.openFilePaths.selectedIndex
+    : newList.length - 1;
 
   return {
     ...state,
     openFilePaths: {
       ...state.openFilePaths,
       list: newList,
-      selectedIndex: newSelectedIndex,
+      selectedIndex: newSelectedIndex
     }
   };
 }
@@ -219,7 +235,7 @@ function updateSelectedFileIndex(state, openFileIndex) {
     ...state,
     openFilePaths: {
       ...state.openFilePaths,
-      selectedIndex: openFileIndex,
+      selectedIndex: openFileIndex
     }
   };
 }
@@ -235,25 +251,29 @@ function swapOpenFiles(state, firstIndex, secondIndex) {
     openFilePaths: {
       ...state.openFilePaths,
       list: newList,
-      selectedIndex: secondIndex,
+      selectedIndex: secondIndex
     }
   };
 }
 
 function addResource(state, resource) {
-  const parentFolderName = 'resources';
+  const parentFolderName = "resources";
   const fileName = `${resource.name}_${resource.id}`;
 
-  const parentFolder = state.nodeList.find(node => node.type === 'folder' && node.name === parentFolderName);
+  const parentFolder = state.nodeList.find(
+    node => node.type === "folder" && node.name === parentFolderName
+  );
   if (parentFolder) {
-    const fileIndex = parentFolder.children.findIndex(node => node.type === 'file' && node.name === fileName);
+    const fileIndex = parentFolder.children.findIndex(
+      node => node.type === "file" && node.name === fileName
+    );
     if (fileIndex !== -1) {
       // file already exists, update it
       return updateFile(state, parentFolderName, fileIndex, file => ({
         ...file,
         name: fileName,
         contentType: resource.contentType,
-        content: resource.content,
+        content: resource.content
       }));
     }
   }
@@ -263,16 +283,16 @@ function addResource(state, resource) {
     parentFolderName,
     fileName,
     resource.contentType,
-    resource.content,
+    resource.content
   );
 }
 
 function findAndAddResources(state, data) {
-  if (typeof data !== 'object' || data === null) {
+  if (typeof data !== "object" || data === null) {
     return state;
   }
 
-  if (data.constructor && data.constructor.name === 'Resource') {
+  if (data.constructor && data.constructor.name === "Resource") {
     return addResource(state, data);
   }
 
@@ -288,7 +308,13 @@ function findAndAddResources(state, data) {
 export default function resources(state = initialState, action) {
   switch (action.type) {
     case resourcesActionTypes.ADD_FILE:
-      return addFile(state, action.folderPath, action.fileName, action.fileContentType, action.fileContent);
+      return addFile(
+        state,
+        action.folderPath,
+        action.fileName,
+        action.fileContentType,
+        action.fileContent
+      );
     case resourcesActionTypes.FIND_AND_ADD_RESOURCES:
       return findAndAddResources(state, action.data);
     case resourcesActionTypes.TOGGLE_COLLAPSE:

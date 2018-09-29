@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import PropTypes from "prop-types";
-import classNames from 'classnames';
+import classNames from "classnames";
 import AceEditor from "react-ace";
 
 import "brace";
@@ -21,17 +21,17 @@ export default class CodeEditor extends Component {
     id: PropTypes.string.isRequired, // must be an unique
     value: PropTypes.string,
 
-    onChange: PropTypes.func,
+    onChange: PropTypes.func
   };
 
   static defaultProps = {
-    mode: 'text',
-    className: '',
-    value: '',
-    onChange: () => {},
+    mode: "text",
+    className: "",
+    value: "",
+    onChange: () => {}
   };
 
-  onEditorLoad = (editor) => {
+  onEditorLoad = editor => {
     editor.renderer.setOption("scrollPastEnd", true);
   };
 
@@ -39,7 +39,7 @@ export default class CodeEditor extends Component {
     const { className, id, mode, value, onChange, ...rest } = this.props;
     return (
       <AceEditor
-        className={classNames('code-editor', className)}
+        className={classNames("code-editor", className)}
         mode={mode}
         theme="monokai"
         name={id}

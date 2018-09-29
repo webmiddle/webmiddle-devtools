@@ -1,18 +1,14 @@
 import React, { Component } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { List, ListItem } from "material-ui/List";
 import IconActionHome from "material-ui/svg-icons/action/home";
 import IconFileFolder from "material-ui/svg-icons/file/folder";
 import IconActionTimeline from "material-ui/svg-icons/action/timeline";
 import Link from "../Link";
-import styles from './AppSidebar.module.scss';
+import styles from "./AppSidebar.module.scss";
 
 const LinkListItem = ({ to, label, Icon }) => (
-  <Link
-    className={styles.link}
-    to={to}
-    activeOnlyWhenExact={to === '/'}
-  >
+  <Link className={styles.link} to={to} activeOnlyWhenExact={to === "/"}>
     <ListItem
       primaryText={<div className={styles.label}>{label}</div>}
       leftIcon={<Icon />}
@@ -23,7 +19,7 @@ const LinkListItem = ({ to, label, Icon }) => (
 LinkListItem.propTypes = {
   to: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  Icon: PropTypes.func.isRequired,
+  Icon: PropTypes.func.isRequired
 };
 
 export default class AppSidebar extends Component {
@@ -32,8 +28,16 @@ export default class AppSidebar extends Component {
       <div className={styles.container}>
         <List className={styles.list}>
           <LinkListItem to="/" label="Home" Icon={IconActionHome} />
-          <LinkListItem to="/timeline" label="Timeline" Icon={IconActionTimeline} />
-          <LinkListItem to="/resources" label="Resources" Icon={IconFileFolder} />
+          <LinkListItem
+            to="/timeline"
+            label="Timeline"
+            Icon={IconActionTimeline}
+          />
+          <LinkListItem
+            to="/resources"
+            label="Resources"
+            Icon={IconFileFolder}
+          />
         </List>
       </div>
     );

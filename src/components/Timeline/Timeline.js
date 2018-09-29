@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import SplitPane from 'react-split-pane';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import SplitPane from "react-split-pane";
 
-import TimelineTreeView from './TimelineTreeView';
-import TimelineNodeDetails from './TimelineNodeDetails';
+import TimelineTreeView from "./TimelineTreeView";
+import TimelineNodeDetails from "./TimelineNodeDetails";
 
-import styles from './Timeline.module.scss';
+import styles from "./Timeline.module.scss";
 
 export default class Timeline extends Component {
   static propTypes = {
@@ -13,12 +13,12 @@ export default class Timeline extends Component {
     selectedNode: PropTypes.object,
     selectedNodePath: PropTypes.string,
 
-    timelineActions: PropTypes.object.isRequired,
+    timelineActions: PropTypes.object.isRequired
   };
 
   static defaultProps = {
     selectedNode: null,
-    selectedNodePath: null,
+    selectedNodePath: null
   };
 
   render() {
@@ -31,9 +31,7 @@ export default class Timeline extends Component {
             timelineActions={this.props.timelineActions}
             selectedNodePath={this.props.selectedNodePath}
           />
-          <TimelineNodeDetails
-            node={this.props.selectedNode}
-          />
+          <TimelineNodeDetails node={this.props.selectedNode} />
         </SplitPane>
       </div>
     );

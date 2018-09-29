@@ -1,20 +1,20 @@
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import get from 'lodash/get';
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import get from "lodash/get";
 
-import Timeline from '../components/Timeline/Timeline';
-import { actionCreators as timelineActions } from '../actions/timeline';
+import Timeline from "../components/Timeline/Timeline";
+import { actionCreators as timelineActions } from "../actions/timeline";
 
 // "0.0.0" => "0.children.0.children.0"
 function toRealPath(path) {
-  const pathParts = path.split('.');
+  const pathParts = path.split(".");
   if (pathParts.length === 1) return path;
   const initialRealPath = pathParts
     .slice(0, pathParts.length - 1)
     .map(s => `${s}.children`)
-    .join('.');
+    .join(".");
   const finalRealPath = pathParts[pathParts.length - 1];
-  const realPath = [initialRealPath, finalRealPath].join('.');
+  const realPath = [initialRealPath, finalRealPath].join(".");
   return realPath;
 }
 
@@ -31,7 +31,7 @@ function mapStateToProps(state) {
   return {
     callState: state.timeline.callState,
     selectedNode: getSelectedNode(state),
-    selectedNodePath: state.timeline.selectedNodePath,
+    selectedNodePath: state.timeline.selectedNodePath
   };
 }
 
@@ -41,4 +41,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Timeline);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Timeline);

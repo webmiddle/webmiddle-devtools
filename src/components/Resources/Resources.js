@@ -1,11 +1,11 @@
 // @flow
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import SplitPane from 'react-split-pane';
-import ResourcesTreeView from './ResourcesTreeView';
-import ResourcesTabs from './ResourcesTabs';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import SplitPane from "react-split-pane";
+import ResourcesTreeView from "./ResourcesTreeView";
+import ResourcesTabs from "./ResourcesTabs";
 
-import styles from './Resources.module.scss';
+import styles from "./Resources.module.scss";
 
 export default class Resources extends Component {
   static propTypes = {
@@ -15,7 +15,7 @@ export default class Resources extends Component {
     openFilePaths: PropTypes.object.isRequired,
 
     resourcesActions: PropTypes.object.isRequired,
-    serverActions: PropTypes.object.isRequired,
+    serverActions: PropTypes.object.isRequired
   };
 
   render() {
@@ -27,7 +27,9 @@ export default class Resources extends Component {
             <ResourcesTreeView
               nodeList={this.props.nodeList}
               resourcesActions={this.props.resourcesActions}
-              selectedFilePath={this.props.openFilePaths.list[this.props.selectedFileIndex]}
+              selectedFilePath={
+                this.props.openFilePaths.list[this.props.selectedFileIndex]
+              }
             />
           </div>
           <div className={styles.openFiles}>
@@ -40,7 +42,9 @@ export default class Resources extends Component {
             />
           </div>
         </SplitPane>
-        <div className={styles.bottomBar}>{selectedFile && selectedFile.contentType}</div>
+        <div className={styles.bottomBar}>
+          {selectedFile && selectedFile.contentType}
+        </div>
       </div>
     );
   }

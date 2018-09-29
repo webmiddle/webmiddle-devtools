@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Inspector from '../Inspector';
+import React from "react";
+import PropTypes from "prop-types";
+import Inspector from "../Inspector";
 
-import { transformData, transformDataObj } from '../../utils/timeline';
+import { transformData, transformDataObj } from "../../utils/timeline";
 
-import styles from './Timeline.module.scss';
+import styles from "./Timeline.module.scss";
 
 const VirtualDetails = ({ node }) => {
   const virtual = node.value.value; // { type: 'virtual', value: { type: 'virtual', value: VIRTUAL } }
@@ -27,7 +27,7 @@ const VirtualDetails = ({ node }) => {
 };
 
 VirtualDetails.propTypes = {
-  node: PropTypes.object.isRequired,
+  node: PropTypes.object.isRequired
 };
 
 export default VirtualDetails;

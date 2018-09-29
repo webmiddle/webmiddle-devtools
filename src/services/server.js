@@ -79,8 +79,8 @@ export function loadMore(path, transformedPath) {
   const body = {
     props: {
       path,
-      transformedPath,
-    },
+      transformedPath
+    }
   };
   return requestWebsocket(httpPath, body);
 }

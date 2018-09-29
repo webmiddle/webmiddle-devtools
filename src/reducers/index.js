@@ -1,11 +1,11 @@
 // @flow
-import { combineReducers } from 'redux';
-import { routerReducer as router } from 'react-router-redux';
-import { reducer as form } from 'redux-form';
-import server from './server';
-import timeline from './timeline';
-import resources from './resources';
-import logger from './logger';
+import { combineReducers } from "redux";
+import { routerReducer as router } from "react-router-redux";
+import { reducer as form } from "redux-form";
+import server from "./server";
+import timeline from "./timeline";
+import resources from "./resources";
+import logger from "./logger";
 
 const rootReducer = combineReducers({
   router,
@@ -14,7 +14,7 @@ const rootReducer = combineReducers({
   server,
   timeline,
   resources,
-  logger,
+  logger
 });
 
 export default rootReducer;

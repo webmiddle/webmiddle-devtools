@@ -1,16 +1,15 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import TreeView from 'react-treeview';
-import IconFolder from 'material-ui/svg-icons/file/folder';
-import IconInsertDriveFile
-  from 'material-ui/svg-icons/editor/insert-drive-file';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import classNames from "classnames";
+import TreeView from "react-treeview";
+import IconFolder from "material-ui/svg-icons/file/folder";
+import IconInsertDriveFile from "material-ui/svg-icons/editor/insert-drive-file";
 
-import styles from './Resources.module.scss';
+import styles from "./Resources.module.scss";
 
 const iconsByType = {
   folder: <IconFolder />,
-  file: <IconInsertDriveFile />,
+  file: <IconInsertDriveFile />
 };
 
 function makePath(parentPath, node) {
@@ -18,9 +17,11 @@ function makePath(parentPath, node) {
 }
 
 function isFileSelected(selectedFilePath, parentPath, i) {
-  return selectedFilePath &&
+  return (
+    selectedFilePath &&
     selectedFilePath.folderPath === parentPath &&
-    selectedFilePath.index === i;
+    selectedFilePath.index === i
+  );
 }
 
 // A list of folders/files
@@ -30,11 +31,11 @@ export default class ResourcesTreeView extends Component {
     parentPath: PropTypes.string,
     selectedFilePath: PropTypes.object,
 
-    resourcesActions: PropTypes.object.isRequired,
+    resourcesActions: PropTypes.object.isRequired
   };
 
   static defaultProps = {
-    parentPath: '',
+    parentPath: ""
   };
 
   handleArrowClick = i => {
@@ -52,12 +53,17 @@ export default class ResourcesTreeView extends Component {
       <div>
         {this.props.nodeList.map((node, i) => (
           <div key={i}>
-            {node.type === 'folder' ?
+            {node.type === "folder" ? (
               <TreeView
                 nodeLabel={
-                  <div className={styles.folder} onClick={() => this.handleArrowClick(i)}>
+                  <div
+                    className={styles.folder}
+                    onClick={() => this.handleArrowClick(i)}
+                  >
                     <span className={styles.label}>
-                      <span className={styles.icon}>{iconsByType[node.type]}</span>
+                      <span className={styles.icon}>
+                        {iconsByType[node.type]}
+                      </span>
                       <span className={styles.name}>{node.name}</span>
                     </span>
                   </div>
@@ -65,19 +71,23 @@ export default class ResourcesTreeView extends Component {
                 collapsed={node.collapsed}
                 onClick={() => this.handleArrowClick(i)}
               >
-                {node.children &&
+                {node.children && (
                   <ResourcesTreeView
                     nodeList={node.children}
                     parentPath={makePath(this.props.parentPath, node)}
                     selectedFilePath={this.props.selectedFilePath}
                     resourcesActions={this.props.resourcesActions}
                   />
-                }
+                )}
               </TreeView>
-            :
+            ) : (
               <div
                 className={classNames(styles.file, {
-                  [styles.selected]: isFileSelected(this.props.selectedFilePath, this.props.parentPath, i)
+                  [styles.selected]: isFileSelected(
+                    this.props.selectedFilePath,
+                    this.props.parentPath,
+                    i
+                  )
                 })}
                 onClick={() => this.handleFileClick(i)}
               >
@@ -87,7 +97,7 @@ export default class ResourcesTreeView extends Component {
                   <span className={styles.name}>{node.name}</span>
                 </div>
               </div>
-            }
+            )}
           </div>
         ))}
       </div>

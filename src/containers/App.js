@@ -1,7 +1,7 @@
 // @flow
-import React, { Component } from 'react';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import AppSidebar from '../components/AppSidebar/AppSidebar';
+import React, { Component } from "react";
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import AppSidebar from "../components/AppSidebar/AppSidebar";
 
 export default class App extends Component {
   render() {
@@ -9,9 +9,7 @@ export default class App extends Component {
       <MuiThemeProvider>
         <div className="app">
           <AppSidebar />
-          <div className="main">
-            {this.props.children}
-          </div>
+          <div className="main">{this.props.children}</div>
         </div>
       </MuiThemeProvider>
     );

@@ -22,7 +22,11 @@ export default class Home extends Component {
   }
 
   handleEvaluateFormSubmit({ servicePath, bodyProps, bodyOptions }) {
-    this.props.serverActions.evaluateService({ servicePath, bodyProps, bodyOptions });
+    this.props.serverActions.evaluateService({
+      servicePath,
+      bodyProps,
+      bodyOptions
+    });
   }
 
   render() {
@@ -36,7 +40,9 @@ export default class Home extends Component {
         </div>
 
         <div className={styles.logs}>
-          {this.props.logger.map((log, key) => <div key={key}>{log}</div>)}
+          {this.props.logger.map((log, key) => (
+            <div key={key}>{log}</div>
+          ))}
         </div>
 
         <div className={styles.command}>

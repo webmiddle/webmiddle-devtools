@@ -1,5 +1,5 @@
 // @flow
-import { actionTypes } from '../actions/server';
+import { actionTypes } from "../actions/server";
 
 type actionType = {
   type: string
@@ -7,7 +7,7 @@ type actionType = {
 
 const initialState = {
   connecting: false,
-  connected: false,
+  connected: false
 };
 
 export default function server(state = initialState, action: actionType) {
@@ -16,23 +16,23 @@ export default function server(state = initialState, action: actionType) {
       return {
         ...state,
         connecting: true,
-        connected: false,
+        connected: false
       };
     case actionTypes.CONNECT_SUCCESS:
       return {
         ...state,
         connecting: false,
-        connected: true,
+        connected: true
       };
     case actionTypes.CONNECT_FAIL:
       return {
         ...state,
-        connecting: false,
+        connecting: false
       };
     case actionTypes.DISCONNECT_SUCCESS:
       return {
         ...state,
-        connected: false,
+        connected: false
       };
     default:
       return state;

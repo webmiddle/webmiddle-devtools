@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import TreeView from 'react-treeview';
-import classNames from 'classnames';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import TreeView from "react-treeview";
+import classNames from "classnames";
 
-import { makePath } from '../../utils/timeline';
-import TimelineNodeLabel from './TimelineNodeLabel';
+import { makePath } from "../../utils/timeline";
+import TimelineNodeLabel from "./TimelineNodeLabel";
 
-import styles from './Timeline.module.scss';
+import styles from "./Timeline.module.scss";
 
 export default class TimelineTreeView extends Component {
   static propTypes = {
@@ -14,12 +14,12 @@ export default class TimelineTreeView extends Component {
     parentPath: PropTypes.string,
     selectedNodePath: PropTypes.string,
 
-    timelineActions: PropTypes.object.isRequired,
+    timelineActions: PropTypes.object.isRequired
   };
 
   static defaultProps = {
-    parentPath: '',
-    selectedNodePath: null,
+    parentPath: "",
+    selectedNodePath: null
   };
 
   render() {
@@ -39,7 +39,8 @@ export default class TimelineTreeView extends Component {
                 nodeLabel={
                   <div
                     className={classNames(styles.inline, {
-                      [styles.selected]: nodePath === this.props.selectedNodePath
+                      [styles.selected]:
+                        nodePath === this.props.selectedNodePath
                     })}
                   >
                     <div className={styles.background} />
@@ -53,14 +54,14 @@ export default class TimelineTreeView extends Component {
                 }
                 collapsed={node.collapsed}
               >
-                {hasChildren &&
+                {hasChildren && (
                   <TimelineTreeView
                     callState={node.children}
                     parentPath={nodePath}
                     timelineActions={this.props.timelineActions}
                     selectedNodePath={this.props.selectedNodePath}
                   />
-                }
+                )}
               </TreeView>
             </div>
           );

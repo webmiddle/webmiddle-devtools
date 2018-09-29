@@ -1,36 +1,33 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 
-import styles from './Resources.module.scss';
-import CodeEditor from '../CodeEditor';
+import styles from "./Resources.module.scss";
+import CodeEditor from "../CodeEditor";
 
 const modeByContentType = {
-  'text/plain': 'text',
-  'text/html': 'html',
-  'text/xml': 'xml',
-  'application/json': 'json',
-  'x-webmiddle-type': 'json',
-  'x-webmiddle-virtual': 'json',
+  "text/plain": "text",
+  "text/html": "html",
+  "text/xml": "xml",
+  "application/json": "json",
+  "x-webmiddle-type": "json",
+  "x-webmiddle-virtual": "json"
 };
 
 function isMoreObject(value) {
   return (
-    typeof value === 'object' &&
+    typeof value === "object" &&
     value !== null &&
     value.constructor &&
-    value.constructor.name === 'More'
+    value.constructor.name === "More"
   );
 }
 
 class ResourcesTabContent extends Component {
   static propTypes = {
-    key: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number
-    ]).isRequired,
+    key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     file: PropTypes.object.isRequired,
 
-    serverActions: PropTypes.func.isRequired,
+    serverActions: PropTypes.func.isRequired
   };
 
   componentWillMount() {
@@ -53,14 +50,14 @@ class ResourcesTabContent extends Component {
     const { key, file } = this.props;
 
     const fileContent = isMoreObject(file.content)
-      ? '' // wait for load more
+      ? "" // wait for load more
       : file.content;
 
     return (
       <div className={styles.tabContent}>
         <CodeEditor
           id={`resources.tabs.${key}`}
-          mode={modeByContentType[file.contentType] || 'text'}
+          mode={modeByContentType[file.contentType] || "text"}
           value={fileContent}
           height="100%"
           readOnly

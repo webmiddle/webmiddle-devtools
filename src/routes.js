@@ -1,16 +1,16 @@
 /* eslint flowtype-errors/show-errors: 0 */
-import React from 'react';
-import { Switch, Route } from 'react-router';
-import classNames from 'classnames';
-import App from './containers/App';
-import HomePage from './containers/HomePage';
-import TimelinePage from './containers/TimelinePage';
-import ResourcesPage from './containers/ResourcesPage';
+import React from "react";
+import { Switch, Route } from "react-router";
+import classNames from "classnames";
+import App from "./containers/App";
+import HomePage from "./containers/HomePage";
+import TimelinePage from "./containers/TimelinePage";
+import ResourcesPage from "./containers/ResourcesPage";
 
 const routes = [
   { path: "/", component: HomePage },
   { path: "/timeline", component: TimelinePage },
-  { path: "/resources", component: ResourcesPage },
+  { path: "/resources", component: ResourcesPage }
 ];
 
 export default () => (

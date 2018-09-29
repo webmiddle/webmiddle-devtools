@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import styles from './Timeline.module.scss';
+import styles from "./Timeline.module.scss";
 
 const VirtualLabel = ({ virtual }) => {
   const type = virtual.type;
@@ -13,19 +13,19 @@ const VirtualLabel = ({ virtual }) => {
     const attr = attributes[attrName];
 
     let attrValueString;
-    if (attr.type === 'string') {
+    if (attr.type === "string") {
       attrValueString = `"${attr.value}"`;
-    } else if (attr.type === 'boolean' && attr.value === true) {
+    } else if (attr.type === "boolean" && attr.value === true) {
       attrValueString = `${attrName}`;
-    } else if (attr.type === 'resource') {
+    } else if (attr.type === "resource") {
       attrValueString = `{[Resource ${attr.value.name}]}`;
-    } else if (attr.type === 'virtual') {
+    } else if (attr.type === "virtual") {
       attrValueString = `{[Virtual]}`;
-    } else if (attr.type === 'function') {
+    } else if (attr.type === "function") {
       attrValueString = `{[Function ${attr.name}]}`;
-    } else if (attr.type === 'array') {
+    } else if (attr.type === "array") {
       attrValueString = `{[Array(${attr.length})]}`;
-    } else if (attr.type === 'object' && attr.value !== null) {
+    } else if (attr.type === "object" && attr.value !== null) {
       attrValueString = `{[Object]}`;
     } else {
       attrValueString = `{${attr.value}}`;
@@ -42,22 +42,22 @@ const VirtualLabel = ({ virtual }) => {
   // type can be a function or a string
   const typeElement = (
     <span className={styles.virtualType}>
-      {type.type === 'function' ? type.name : type.value}
+      {type.type === "function" ? type.name : type.value}
     </span>
   );
 
   return (
     <span className={styles.virtualLabel}>
-      <span className={styles.lt}>{'<'}</span>
+      <span className={styles.lt}>{"<"}</span>
       {typeElement}
       {attributesList}
-      <span className={styles.gt}>{'>'}</span>
+      <span className={styles.gt}>{">"}</span>
     </span>
   );
 };
 
 VirtualLabel.propTypes = {
-  virtual: PropTypes.object.isRequired,
+  virtual: PropTypes.object.isRequired
 };
 
 export default VirtualLabel;

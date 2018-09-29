@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import classNames from 'classnames';
+import classNames from "classnames";
 import { reduxForm, Field, propTypes as reduxFormPropTypes } from "redux-form";
 import RaisedButton from "material-ui/RaisedButton";
 import { TextField } from "redux-form-material-ui";
@@ -19,7 +19,9 @@ function parseJson(value) {
 
 class EditorField extends Component {
   render() {
-    const { input: { name, value, onChange } } = this.props;
+    const {
+      input: { name, value, onChange }
+    } = this.props;
     return (
       <CodeEditor
         className={styles.editor}
@@ -42,7 +44,7 @@ class EvaluateForm extends Component {
     this.props.onSubmit({
       ...fields,
       bodyProps: parseJson(fields.bodyProps),
-      bodyOptions: parseJson(fields.bodyOptions),
+      bodyOptions: parseJson(fields.bodyOptions)
     });
   };
 
@@ -95,8 +97,12 @@ export default reduxForm({
       null,
       2
     ),
-    bodyOptions: JSON.stringify({
-      networkRetries: 2,
-    }, null, 2),
+    bodyOptions: JSON.stringify(
+      {
+        networkRetries: 2
+      },
+      null,
+      2
+    )
   }
 })(EvaluateForm);
