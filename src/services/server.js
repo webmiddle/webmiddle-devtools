@@ -74,12 +74,12 @@ export function evaluateService(
   return requestWebsocket(httpPath, body, onProgress);
 }
 
-export function loadMore(path, transformedPath) {
+export function loadMore(path, serializedPath) {
   const httpPath = "/more/";
   const body = {
     props: {
       path,
-      transformedPath
+      serializedPath
     }
   };
   return requestWebsocket(httpPath, body);

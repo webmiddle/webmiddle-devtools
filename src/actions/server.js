@@ -10,7 +10,7 @@ import * as server from "../services/server";
 import { actionCreators as resourcesActions } from "./resources";
 import { actionCreators as timelineActions } from "./timeline";
 import { parseResource } from "../utils/resources";
-import { transformData } from "../utils/timeline";
+import { parseData } from "../utils/timeline";
 
 export const actionTypes = createActionTypes(
   "server",
@@ -42,25 +42,25 @@ const handleEvaluateSuccess = result => dispatch => {
 const handleEvaluateProgress = (status, info) => dispatch => {
   if (status === "callStateInfo:add") {
     dispatch(timelineActions.addInfo(info));
-    dispatch(resourcesActions.findAndAddResources(transformData(info.value)));
+    dispatch(resourcesActions.findAndAddResources(parseData(info.value)));
   }
   if (status === "callStateInfo:update") {
     dispatch(timelineActions.updateInfo(info));
-    dispatch(resourcesActions.findAndAddResources(transformData(info.result)));
+    dispatch(resourcesActions.findAndAddResources(parseData(info.result)));
   }
 
   return Promise.resolve();
 };
 
-const handleLoadMoreSuccess = (result, path, transformedPath) => (
+const handleLoadMoreSuccess = (result, path, serializedPath) => (
   dispatch,
   getState
 ) => {
   const { timeline } = getState();
 
   const value = typeof result === "string" ? JSON.parse(result) : result;
-  console.log("LOAD MORE RESPONSE", value, path, transformedPath);
-  const [callRootContextPath, infoPath, ...valuePath] = transformedPath;
+  console.log("LOAD MORE RESPONSE", value, path, serializedPath);
+  const [callRootContextPath, infoPath, ...valuePath] = serializedPath;
   const info = get(timeline.callState, infoPath.split(".").join(".children."));
   const newInfo = cloneDeep(info);
   const valueParent = valuePath
@@ -70,7 +70,7 @@ const handleLoadMoreSuccess = (result, path, transformedPath) => (
   dispatch(timelineActions.updateInfo(newInfo));
 
   dispatch(
-    resourcesActions.findAndAddResources(transformData(newInfo[valuePath[0]]))
+    resourcesActions.findAndAddResources(parseData(newInfo[valuePath[0]]))
   );
 
   return Promise.resolve(result);
@@ -116,17 +116,17 @@ export const actionCreators = {
     bodyOptions
   }),
 
-  loadMore: ({ path, transformedPath }) => ({
+  loadMore: ({ path, serializedPath }) => ({
     types: asyncActionValues(actionTypes, "LOAD_MORE"),
     promise: ({ dispatch }) => {
-      console.log("LOAD MORE REQUEST", path, transformedPath);
+      console.log("LOAD MORE REQUEST", path, serializedPath);
       return server
-        .loadMore(path, transformedPath)
+        .loadMore(path, serializedPath)
         .then(result =>
-          dispatch(handleLoadMoreSuccess(result, path, transformedPath))
+          dispatch(handleLoadMoreSuccess(result, path, serializedPath))
         );
     },
     path,
-    transformedPath
+    serializedPath
   })
 };

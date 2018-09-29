@@ -10,8 +10,8 @@ class Virtual {}
 class More {}
 
 // NOTE: data shouldn't be the whole callStateInfo object
-// since this function isn't able to transform it
-export function transformData(data) {
+// since this function isn't able to parse it
+export function parseData(data) {
   if (!data) return data;
 
   if (data.type === "function") {
@@ -22,26 +22,26 @@ export function transformData(data) {
   }
 
   if (data.type === "object") {
-    return transformDataObj(data.value);
+    return parseDataObj(data.value);
   }
 
   if (data.type === "array") {
-    return transformDataArray(data.value);
+    return parseDataArray(data.value);
   }
 
   if (data.type === "resource") {
     const resource = parseResource(data.value);
     return Object.assign(new Resource(), {
       ...resource,
-      content: transformData(resource.content)
+      content: parseData(resource.content)
     });
   }
 
   if (data.type === "virtual") {
     return Object.assign(new Virtual(), {
-      type: transformData(data.value.type),
-      attributes: transformDataObj(data.value.attributes),
-      children: transformData(data.value.children)
+      type: parseData(data.value.type),
+      attributes: parseDataObj(data.value.attributes),
+      children: parseData(data.value.children)
     });
   }
 
@@ -52,8 +52,8 @@ export function transformData(data) {
       value: data.path,
       enumerable: false
     });
-    Object.defineProperty(more, "transformedPath", {
-      value: data.transformedPath,
+    Object.defineProperty(more, "serializedPath", {
+      value: data.serializedPath,
       enumerable: false
     });
     return more;
@@ -62,16 +62,16 @@ export function transformData(data) {
   return data.value;
 }
 
-export function transformDataObj(dataObj) {
+export function parseDataObj(dataObj) {
   if (!dataObj) return;
   const result = {};
   Object.keys(dataObj).forEach(key => {
-    result[key] = transformData(dataObj[key]);
+    result[key] = parseData(dataObj[key]);
   });
   return result;
 }
 
-function transformDataArray(dataArray) {
+function parseDataArray(dataArray) {
   if (!dataArray) return;
-  return dataArray.map(transformData);
+  return dataArray.map(parseData);
 }

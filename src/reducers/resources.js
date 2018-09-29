@@ -1,7 +1,4 @@
-import { actionTypes as serverActionTypes } from "../actions/server";
 import { actionTypes as resourcesActionTypes } from "../actions/resources";
-import { parseResource } from "../utils/resources";
-import { transformData } from "../utils/timeline";
 
 const initialState = {
   nodeList: [
