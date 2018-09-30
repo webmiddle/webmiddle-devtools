@@ -48,13 +48,11 @@ export function parseData(data) {
   if (data.type === "more") {
     const more = new More();
     // path: non enumerable to hide it in the Inspector
-    Object.defineProperty(more, "path", {
-      value: data.path,
-      enumerable: false
-    });
-    Object.defineProperty(more, "serializedPath", {
-      value: data.serializedPath,
-      enumerable: false
+    ["path", "serializedPath"].forEach(prop => {
+      Object.defineProperty(more, prop, {
+        value: data[prop],
+        enumerable: false
+      });
     });
     return more;
   }

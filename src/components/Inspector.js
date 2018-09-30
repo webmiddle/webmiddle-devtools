@@ -1,18 +1,52 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import ReactInspector, {
   chromeLight,
   ObjectName,
   ObjectValue as OriginalObjectValue
 } from "react-inspector";
 import OriginalObjectPreview from "react-inspector/lib/object-inspector/ObjectPreview";
+import { withRouter } from "react-router-dom";
 
 import { actionCreators as serverActions } from "../actions/server";
+import { actionCreators as resourcesActions } from "../actions/resources";
 import { store } from "../store/store";
 
 // HACK: connect doesn't work, neither we can
 // pass actions down to ObjectValue, thus
 // we just use dispatch directly
 const { dispatch } = store;
+
+class _ResourceObjectValue extends Component {
+  static propTypes = {
+    object: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired
+  };
+
+  handleResourceClick = event => {
+    event.stopPropagation(); // pevent expand
+
+    const { object } = this.props;
+    dispatch(resourcesActions.openResource(object));
+    this.props.history.push("/resources");
+  };
+
+  render() {
+    const { object } = this.props;
+    return (
+      <a
+        href="javascript:void(0);"
+        title="Open in resources tab"
+        onClick={this.handleResourceClick}
+      >
+        {object.constructor.name}
+        &nbsp;
+        {object.name}
+      </a>
+    );
+  }
+}
+const ResourceObjectValue = withRouter(_ResourceObjectValue);
 
 // A short description of the object values.
 // Can be used to render tree node in ObjectInspector
@@ -39,11 +73,6 @@ class ObjectValue extends Component {
     }
   };
 
-  handleResourceClick = () => {
-    const { object } = this.props;
-    // TODO: open in resources tab
-  };
-
   render() {
     const { object } = this.props;
 
@@ -56,13 +85,7 @@ class ObjectValue extends Component {
           object.constructor.name === "More"))
     ) {
       if (object.constructor.name === "Resource") {
-        return (
-          <span onClick={this.handleResourceClick}>
-            {object.constructor.name}
-            &nbsp;
-            {object.name}
-          </span>
-        );
+        return <ResourceObjectValue object={object} />;
       }
 
       if (object.constructor.name === "Virtual") {

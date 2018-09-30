@@ -324,6 +324,25 @@ function findAndAddResources(state, data) {
   return state;
 }
 
+function openResource(state, resource) {
+  const parentFolderName = "resources";
+
+  const parentFolder = state.nodeList.find(
+    node => node.type === "folder" && node.name === parentFolderName
+  );
+  if (parentFolder) {
+    const fileIndex = parentFolder.children.findIndex(
+      node => node.type === "file" && node.id === resource.id
+    );
+    if (fileIndex !== -1) {
+      // file exists
+      return openFile(state, parentFolderName, fileIndex);
+    }
+  }
+
+  return state;
+}
+
 export default function resources(state = initialState, action) {
   switch (action.type) {
     case resourcesActionTypes.ADD_FILE:
@@ -337,6 +356,8 @@ export default function resources(state = initialState, action) {
       );
     case resourcesActionTypes.FIND_AND_ADD_RESOURCES:
       return findAndAddResources(state, action.data);
+    case resourcesActionTypes.OPEN_RESOURCE:
+      return openResource(state, action.resource);
     case resourcesActionTypes.TOGGLE_COLLAPSE:
       return toggleCollapse(state, action.folderPath, action.value);
     case resourcesActionTypes.OPEN_FILE:

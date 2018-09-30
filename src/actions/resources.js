@@ -4,6 +4,7 @@ export const actionTypes = createActionTypes(
   "resources",
   "ADD_FILE",
   "FIND_AND_ADD_RESOURCES",
+  "OPEN_RESOURCE",
 
   "TOGGLE_COLLAPSE",
 
@@ -26,6 +27,11 @@ export const actionCreators = {
   findAndAddResources: data => ({
     type: actionTypes.FIND_AND_ADD_RESOURCES,
     data
+  }),
+
+  openResource: resource => ({
+    type: actionTypes.OPEN_RESOURCE,
+    resource
   }),
 
   toggleCollapse: (folderPath, value) => ({
