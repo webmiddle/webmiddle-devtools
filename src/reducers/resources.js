@@ -1,4 +1,5 @@
 import { actionTypes as resourcesActionTypes } from "../actions/resources";
+import { prettify } from "../utils/resources";
 
 // EXAMPLE
 // const initialState = {
@@ -17,15 +18,25 @@ import { actionTypes as resourcesActionTypes } from "../actions/resources";
 //               type: "file",
 //               id: "randomness_01",
 //               name: "randomness",
-//               contentType: "text/plain",
-//               content: "aa aaa aaaa"
+//               contentType: "application/json",
+//               content: `
+//                 { "foo": { "bar": { "some": "test" } } }
+//               `,
+//               contentPretty: undefined,
+//               pretty: undefined,
 //             },
 //             {
 //               type: "file",
 //               id: "crazyness_01",
 //               name: "crazyness",
-//               contentType: "text/plain",
-//               content: "bbb bbb bb"
+//               contentType: "text/html",
+//               content: `
+//                 <!DOCTYPE html> <html lang="en"> <head>
+//                 <meta charset="UTF-8"> <title>Home</title>
+//                 </head> <body> This is content. </body> </html>
+//               `,
+//               contentPretty: undefined,
+//               pretty: undefined,
 //             }
 //           ]
 //         }
@@ -291,7 +302,9 @@ function addResource(state, resource) {
         id: resource.id,
         name: fileName,
         contentType: resource.contentType,
-        content: resource.content
+        content: resource.content,
+        contentPretty: undefined,
+        pretty: false
       }));
     }
   }
@@ -343,6 +356,24 @@ function openResource(state, resource) {
   return state;
 }
 
+function togglePrettyPrint(state, openFileIndex) {
+  const openFileItem = state.openFilePaths.list[openFileIndex];
+
+  return updateFile(
+    state,
+    openFileItem.folderPath,
+    openFileItem.index,
+    file => ({
+      ...file,
+      contentPretty:
+        typeof file.contentPretty !== "undefined"
+          ? file.contentPretty
+          : prettify(file),
+      pretty: !file.pretty
+    })
+  );
+}
+
 export default function resources(state = initialState, action) {
   switch (action.type) {
     case resourcesActionTypes.ADD_FILE:
@@ -368,6 +399,8 @@ export default function resources(state = initialState, action) {
       return updateSelectedFileIndex(state, action.openFileIndex);
     case resourcesActionTypes.SWAP_OPEN_FILES:
       return swapOpenFiles(state, action.firstIndex, action.secondIndex);
+    case resourcesActionTypes.TOGGLE_PRETTY_PRINT:
+      return togglePrettyPrint(state, action.openFileIndex);
     default:
       return state;
   }

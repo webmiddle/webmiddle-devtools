@@ -33,6 +33,7 @@ export default class CodeEditor extends Component {
 
   onEditorLoad = editor => {
     editor.renderer.setOption("scrollPastEnd", true);
+    editor.renderer.setOption("vScrollBarAlwaysVisible", true);
   };
 
   render() {

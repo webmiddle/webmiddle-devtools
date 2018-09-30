@@ -1,11 +1,13 @@
 // @flow
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import cn from "classnames";
 import SplitPane from "react-split-pane";
-import ResourcesTreeView from "./ResourcesTreeView";
-import ResourcesTabs from "./ResourcesTabs";
+import IconActionCode from "material-ui/svg-icons/action/code";
 
 import styles from "./Resources.module.scss";
+import ResourcesTreeView from "./ResourcesTreeView";
+import ResourcesTabs from "./ResourcesTabs";
 
 export default class Resources extends Component {
   static propTypes = {
@@ -16,6 +18,10 @@ export default class Resources extends Component {
 
     resourcesActions: PropTypes.object.isRequired,
     serverActions: PropTypes.object.isRequired
+  };
+
+  handlePrettyPrintToggle = () => {
+    this.props.resourcesActions.togglePrettyPrint(this.props.selectedFileIndex);
   };
 
   render() {
@@ -40,11 +46,27 @@ export default class Resources extends Component {
               resourcesActions={this.props.resourcesActions}
               serverActions={this.props.serverActions}
             />
+            <div className={styles.bottomBar}>
+              {selectedFile ? (
+                <div>
+                  <a
+                    className={cn(styles.prettyPrint, {
+                      [styles.active]: selectedFile.pretty
+                    })}
+                    href="javascript:void(0);"
+                    title="Pretty print"
+                    onClick={this.handlePrettyPrintToggle}
+                  >
+                    <IconActionCode />
+                  </a>
+                  <span>{selectedFile.contentType}</span>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
           </div>
         </SplitPane>
-        <div className={styles.bottomBar}>
-          {selectedFile && selectedFile.contentType}
-        </div>
       </div>
     );
   }

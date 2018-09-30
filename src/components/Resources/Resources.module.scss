@@ -1,3 +1,4 @@
+@import "../../theme/variables";
 $itemHeight: 25px;
 
 .container {
@@ -11,7 +12,7 @@ $itemHeight: 25px;
   }
 
   :global(.Pane.vertical.Pane2) > div {
-    height: 100%;
+    height: calc(100% - 27px);
   }
   :global(.rdTabWrapper) > div {
     height: calc(100% - 36px);
@@ -95,10 +96,44 @@ $itemHeight: 25px;
 
   .bottomBar {
     text-align: right;
-    padding: 7px;
+    padding: 0 7px;
     padding-right: 10px;
     background: black;
     color: lightgrey;
     font-size: 12px;
+
+    > div {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .prettyPrint {
+      svg {
+        cursor: pointer;
+
+        path {
+          fill: white;
+        }
+
+        &:hover {
+          path {
+            fill: $blue500;
+          }
+        }
+      }
+
+      &.active {
+        svg {
+          path {
+            fill: $blue500;
+          }
+        }
+      }
+    }
+
+    span {
+      margin-left: auto;
+    }
   }
 }

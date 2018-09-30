@@ -3,15 +3,7 @@ import PropTypes from "prop-types";
 
 import styles from "./Resources.module.scss";
 import CodeEditor from "../CodeEditor";
-
-const modeByContentType = {
-  "text/plain": "text",
-  "text/html": "html",
-  "text/xml": "xml",
-  "application/json": "json",
-  "x-webmiddle-type": "json",
-  "x-webmiddle-virtual": "json"
-};
+import { modeByContentType } from "../../utils/resources";
 
 function isMoreObject(value) {
   return (
@@ -50,7 +42,9 @@ class ResourcesTabContent extends Component {
 
     const fileContent = isMoreObject(file.content)
       ? "" // wait for load more
-      : file.content;
+      : file.pretty
+        ? file.contentPretty
+        : file.content;
 
     return (
       <div className={styles.tabContent}>

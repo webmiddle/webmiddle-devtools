@@ -11,7 +11,8 @@ export const actionTypes = createActionTypes(
   "OPEN_FILE",
   "CLOSE_FILE",
   "UPDATE_SELECTED_FILE_INDEX",
-  "SWAP_OPEN_FILES"
+  "SWAP_OPEN_FILES",
+  "TOGGLE_PRETTY_PRINT"
 );
 
 export const actionCreators = {
@@ -61,5 +62,10 @@ export const actionCreators = {
     type: actionTypes.SWAP_OPEN_FILES,
     firstIndex,
     secondIndex
+  }),
+
+  togglePrettyPrint: openFileIndex => ({
+    type: actionTypes.TOGGLE_PRETTY_PRINT,
+    openFileIndex
   })
 };
