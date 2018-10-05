@@ -16,6 +16,7 @@ export const actionTypes = createActionTypes(
   "server",
   asyncActionKeys("CONNECT"),
   asyncActionKeys("DISCONNECT"),
+  asyncActionKeys("FETCH_SERVICE_PATHS"),
 
   asyncActionKeys("EVALUATE"),
   "EVALUATE_PROGRESS",
@@ -92,6 +93,11 @@ export const actionCreators = {
   disconnect: () => ({
     types: asyncActionValues(actionTypes, "DISCONNECT"),
     promise: () => server.disconnect()
+  }),
+
+  fetchServicePaths: () => ({
+    types: asyncActionValues(actionTypes, "FETCH_SERVICE_PATHS"),
+    promise: () => server.fetchServicePaths()
   }),
 
   evaluateService: ({ servicePath, bodyProps, bodyOptions }) => ({

@@ -57,6 +57,10 @@ export function disconnect() {
   });
 }
 
+export function fetchServicePaths() {
+  return requestWebsocket("/services/");
+}
+
 export function evaluateService(
   servicePath,
   bodyProps,

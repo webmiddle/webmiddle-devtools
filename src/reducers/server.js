@@ -1,5 +1,6 @@
 // @flow
 import { actionTypes } from "../actions/server";
+import { parseResource } from "../utils/resources";
 
 type actionType = {
   type: string
@@ -7,7 +8,8 @@ type actionType = {
 
 const initialState = {
   connecting: false,
-  connected: false
+  connected: false,
+  servicePaths: {} // <path, { name, description }>
 };
 
 export default function server(state = initialState, action: actionType) {
@@ -34,6 +36,13 @@ export default function server(state = initialState, action: actionType) {
         ...state,
         connected: false
       };
+    case actionTypes.FETCH_SERVICE_PATHS_SUCCESS: {
+      const resource = parseResource(action.result);
+      return {
+        ...state,
+        servicePaths: JSON.parse(resource.content)
+      };
+    }
     default:
       return state;
   }

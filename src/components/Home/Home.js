@@ -17,7 +17,9 @@ export default class Home extends Component {
 
   handleConnectFormSubmit = ({ hostname, port }) => {
     if (!this.props.server.connected) {
-      this.props.serverActions.connect({ hostname, port });
+      this.props.serverActions
+        .connect({ hostname, port })
+        .then(() => this.props.serverActions.fetchServicePaths());
     } else {
       this.props.serverActions.disconnect();
     }

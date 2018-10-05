@@ -1,11 +1,19 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import classNames from "classnames";
-import { reduxForm, Field, propTypes as reduxFormPropTypes } from "redux-form";
+import cn from "classnames";
+import {
+  reduxForm,
+  Field,
+  propTypes as reduxFormPropTypes,
+  formValueSelector
+} from "redux-form";
+import { connect } from "react-redux";
 import RaisedButton from "material-ui/RaisedButton";
-import { TextField } from "redux-form-material-ui";
+import { AutoComplete, TextField } from "redux-form-material-ui";
 import CodeEditor from "../CodeEditor";
 import styles from "./Home.module.scss";
+
+import values from "lodash/values";
 
 function parseJson(value) {
   let parsedValue;
@@ -15,6 +23,22 @@ function parseJson(value) {
     parsedValue = null;
   }
   return parsedValue;
+}
+
+function escapeRegExp(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
+}
+
+function getStoredData(servicePath) {
+  return JSON.parse(localStorage.getItem(`service:${servicePath}`) || "{}");
+}
+
+function setStoredData(servicePath, fn) {
+  const storedData = getStoredData(servicePath);
+  localStorage.setItem(
+    `service:${servicePath}`,
+    JSON.stringify(fn(storedData))
+  );
 }
 
 class EditorField extends Component {
@@ -37,7 +61,10 @@ class EditorField extends Component {
 class EvaluateForm extends Component {
   static propTypes = {
     ...reduxFormPropTypes,
-    server: PropTypes.object.isRequired
+    server: PropTypes.object.isRequired,
+    servicePath: PropTypes.string.isRequired,
+    bodyProps: PropTypes.string.isRequired,
+    bodyOptions: PropTypes.string.isRequired
   };
 
   onSubmit = fields => {
@@ -46,36 +73,76 @@ class EvaluateForm extends Component {
       bodyProps: parseJson(fields.bodyProps),
       bodyOptions: parseJson(fields.bodyOptions)
     });
+
+    // store in cache
+    setStoredData(fields.servicePath, storedData => ({
+      ...storedData,
+      bodyProps: fields.bodyProps,
+      bodyOptions: fields.bodyOptions
+    }));
   };
 
-  render() {
+  filterAutoComplete = (searchText, path) => {
+    const serviceData = this.props.server.servicePaths[path];
+    const keys = [...values(serviceData), path].filter(k => k);
     return (
-      <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
+      searchText !== "" &&
+      !!keys.find(
+        key => key.match(new RegExp(escapeRegExp(searchText), "i")) !== null
+      )
+    );
+  };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.servicePath !== this.props.servicePath) {
+      // load cached if any
+      const storedData = getStoredData(nextProps.servicePath);
+      if (storedData.bodyProps) {
+        this.props.change("bodyProps", storedData.bodyProps);
+      }
+      if (storedData.bodyOptions) {
+        this.props.change("bodyOptions", storedData.bodyOptions);
+      }
+    }
+  }
+
+  render() {
+    const { server } = this.props;
+    const disabled = !server.connected;
+
+    return (
+      <form
+        className={cn({ [styles.disabled]: disabled })}
+        onSubmit={this.props.handleSubmit(this.onSubmit)}
+      >
         <div className={styles.row}>
-          <label htmlFor="servicePath">Service</label>
           <Field
-            name="servicePath"
-            component={TextField}
-            hintText="FetchPageLinks"
             className={styles.value}
             id="servicePath"
+            name="servicePath"
+            floatingLabelText="Service path"
+            component={AutoComplete}
+            dataSource={Object.keys(server.servicePaths)}
+            filter={this.filterAutoComplete}
+            fullWidth
+            openOnFocus
           />
 
           <RaisedButton
             type="submit"
             label="Evaluate"
             secondary
-            disabled={!this.props.server.connected}
+            disabled={disabled}
           />
         </div>
 
-        <div className={classNames(styles.row, styles.body)}>
-          <div className={classNames(styles.col, styles.props)}>
+        <div className={cn(styles.row, styles.body)}>
+          <div className={cn(styles.col, styles.props)}>
             <span>Props: </span>
             <Field name="bodyProps" component={EditorField} />
           </div>
 
-          <div className={classNames(styles.col, styles.options)}>
+          <div className={cn(styles.col, styles.options)}>
             <span>Options: </span>
             <Field name="bodyOptions" component={EditorField} />
           </div>
@@ -85,14 +152,15 @@ class EvaluateForm extends Component {
   }
 }
 
-export default reduxForm({
-  form: "evaluate",
+const formName = "evaluate";
+const Form = reduxForm({
+  form: formName,
   initialValues: {
-    servicePath: "FetchPageLinks",
+    servicePath: "",
     bodyProps: JSON.stringify(
       {
-        url: "https://news.ycombinator.com/",
-        query: "show hn"
+        // url: "https://news.ycombinator.com/",
+        // query: "show hn"
       },
       null,
       2
@@ -106,3 +174,12 @@ export default reduxForm({
     )
   }
 })(EvaluateForm);
+
+const formSelector = formValueSelector(formName);
+const mapStateToProps = state => ({
+  servicePath: formSelector(state, "servicePath"),
+  bodyProps: formSelector(state, "bodyProps"),
+  bodyOptions: formSelector(state, "bodyOptions")
+});
+
+export default connect(mapStateToProps)(Form);
