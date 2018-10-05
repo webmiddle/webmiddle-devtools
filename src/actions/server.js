@@ -49,6 +49,7 @@ const handleEvaluateProgress = (status, info) => dispatch => {
   if (status === "callStateInfo:update") {
     dispatch(timelineActions.updateInfo(info));
     dispatch(resourcesActions.findAndAddResources(parseData(info.result)));
+    dispatch(resourcesActions.findAndAddResources(parseData(info.error)));
   }
 
   return Promise.resolve();

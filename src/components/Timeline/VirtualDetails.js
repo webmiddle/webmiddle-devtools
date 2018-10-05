@@ -11,6 +11,8 @@ const VirtualDetails = ({ node }) => {
   const name = virtual.type.name || virtual.type.value;
   const attributes = parseDataObj(virtual.attributes);
   const attributeNames = Object.keys(attributes);
+  const hasResult = node.result && node.result.type !== "undefined";
+  const hasError = node.error && node.error.type !== "undefined";
   return (
     <ul className={styles.virtualDetails}>
       <li className={styles.detailsHead}>{`<${name}>`}</li>
@@ -31,10 +33,23 @@ const VirtualDetails = ({ node }) => {
         ""
       )}
 
-      <li>
-        <span className={styles.detailsLabel}>Result: </span>
-        <Inspector data={parseData(node.result)} />
-      </li>
+      {hasResult ? (
+        <li>
+          <span className={styles.detailsLabel}>Result: </span>
+          <Inspector data={parseData(node.result)} />
+        </li>
+      ) : (
+        ""
+      )}
+
+      {hasError ? (
+        <li>
+          <span className={styles.detailsLabel}>Error: </span>
+          <Inspector data={parseData(node.error)} />
+        </li>
+      ) : (
+        ""
+      )}
     </ul>
   );
 };
