@@ -86,7 +86,7 @@ class EvaluateForm extends Component {
     const serviceData = this.props.server.servicePaths[path];
     const keys = [...values(serviceData), path].filter(k => k);
     return (
-      searchText !== "" &&
+      searchText === "" ||
       !!keys.find(
         key => key.match(new RegExp(escapeRegExp(searchText), "i")) !== null
       )
