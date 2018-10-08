@@ -1,11 +1,10 @@
 /* eslint flowtype-errors/show-errors: 0 */
 import React from "react";
-import { Route } from "react-router";
+import { Route } from "react-router-dom";
 import classNames from "classnames";
-import App from "./containers/App";
-import HomePage from "./containers/HomePage";
-import TimelinePage from "./containers/TimelinePage";
-import ResourcesPage from "./containers/ResourcesPage";
+import HomePage from "./HomePage";
+import TimelinePage from "./TimelinePage";
+import ResourcesPage from "./ResourcesPage";
 
 const routes = [
   { path: "/", component: HomePage },
@@ -14,7 +13,7 @@ const routes = [
 ];
 
 export default () => (
-  <App>
+  <div className="main">
     <Route>
       <div>
         {routes.map((route, i) => {
@@ -29,5 +28,5 @@ export default () => (
         })}
       </div>
     </Route>
-  </App>
+  </div>
 );
