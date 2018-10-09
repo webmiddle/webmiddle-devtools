@@ -32,27 +32,25 @@ export const actionCreators = {
       // fetch auth
       const authObj = getStoredData();
       if (!authObj || !authObj.login) return Promise.resolve();
-      const { hostname, port } = authObj;
-      return dispatch(serverActions.connect({ hostname, port })).then(() =>
-        dispatch(serverActions.fetchServicePaths())
-      );
+      const { hostname, port, apiKey } = authObj;
+      return dispatch(serverActions.connect({ hostname, port, apiKey }));
     }
   }),
 
-  login: ({ hostname, port }) => ({
+  login: ({ hostname, port, apiKey }) => ({
     types: asyncActionValues(actionTypes, "LOGIN"),
     promise: ({ dispatch }) => {
       setStoredData(() => ({
         hostname,
         port,
+        apiKey,
         login: true
       }));
-      return dispatch(serverActions.connect({ hostname, port })).then(() =>
-        dispatch(serverActions.fetchServicePaths())
-      );
+      return dispatch(serverActions.connect({ hostname, port, apiKey }));
     },
     hostname,
-    port
+    port,
+    apiKey
   }),
 
   logout: () => ({

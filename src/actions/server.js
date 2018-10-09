@@ -80,13 +80,21 @@ const handleLoadMoreSuccess = (result, path, serializedPath) => (
 };
 
 export const actionCreators = {
-  connect: ({ hostname, port }) => ({
+  connect: ({ hostname, port, apiKey }) => ({
     types: asyncActionValues(actionTypes, "CONNECT"),
-    promise: () =>
-      server.connect(
-        hostname,
-        port
-      ),
+    promise: ({ dispatch }) => {
+      return server
+        .connect(
+          hostname,
+          port,
+          apiKey
+        )
+        .then(() => dispatch(actionCreators.fetchServicePaths()))
+        .catch(err => {
+          server.disconnect();
+          return Promise.reject(err);
+        });
+    },
     hostname,
     port
   }),

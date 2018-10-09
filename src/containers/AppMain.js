@@ -5,6 +5,7 @@ import { Route, Switch } from "react-router-dom";
 import classNames from "classnames";
 
 import ConditionalRoute from "../components/ConditionalRoute";
+import Loading from "../components/Loading/Loading";
 import AuthPage from "./AuthPage";
 import HomePage from "./HomePage";
 import TimelinePage from "./TimelinePage";
@@ -40,11 +41,15 @@ class AuthedArea extends React.Component {
 
 class AppMain extends React.Component {
   static propTypes = {
+    loading: PropTypes.bool.isRequired,
     authed: PropTypes.bool.isRequired
   };
 
   render() {
-    const { authed } = this.props;
+    const { loading, authed } = this.props;
+
+    if (loading) return <Loading />;
+
     return (
       <div className="main">
         <Switch>

@@ -6,4 +6,9 @@
   height: 100%;
   margin-left: 10px;
   margin-right: 10px;
+
+  form {
+    display: flex;
+    flex-direction: column;
+  }
 }

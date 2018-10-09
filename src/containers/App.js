@@ -8,14 +8,12 @@ import { bindActionCreators } from "redux";
 import { actionCreators as authActions } from "../actions/auth";
 import AppSidebar from "../components/AppSidebar/AppSidebar";
 import AppMain from "./AppMain";
-import Loading from "../components/Loading/Loading";
 
 class App extends Component {
   static propTypes = {
     fetched: PropTypes.bool.isRequired,
     fetching: PropTypes.bool.isRequired,
     connected: PropTypes.bool.isRequired,
-    connecting: PropTypes.bool.isRequired,
     timelineDisabled: PropTypes.bool.isRequired,
     resourcesDisabled: PropTypes.bool.isRequired,
 
@@ -31,12 +29,11 @@ class App extends Component {
       timelineDisabled,
       resourcesDisabled,
       connected,
-      connecting,
       fetched,
       fetching
     } = this.props;
 
-    if (!fetched || fetching || connecting) return <Loading />;
+    const loading = !fetched || fetching;
 
     return (
       <Router>
@@ -45,7 +42,7 @@ class App extends Component {
             timelineDisabled={timelineDisabled}
             resourcesDisabled={resourcesDisabled}
           />
-          <AppMain authed={connected} />
+          <AppMain loading={loading} authed={connected} />
         </div>
       </Router>
     );
@@ -57,7 +54,6 @@ function mapStateToProps({ auth, server, timeline, resources }) {
     fetched: auth.fetched,
     fetching: auth.fetching,
     connected: server.connected,
-    connecting: server.connecting,
     timelineDisabled: timeline.callState.length === 0,
     resourcesDisabled: resources.nodeList.length === 0
   };

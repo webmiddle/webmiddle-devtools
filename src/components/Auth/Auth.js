@@ -13,6 +13,7 @@ import { connect } from "react-redux";
 
 import styles from "./Auth.module.scss";
 import { getStoredData } from "../../actions/auth";
+import * as noty from "../../utils/noty";
 
 class Auth extends Component {
   static propTypes = {
@@ -20,6 +21,7 @@ class Auth extends Component {
     server: PropTypes.object.isRequired,
     hostname: PropTypes.string.isRequired,
     port: PropTypes.string.isRequired,
+    apiKey: PropTypes.string.isRequired,
 
     authActions: PropTypes.object.isRequired
   };
@@ -27,11 +29,14 @@ class Auth extends Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    const { hostname, port } = this.props;
-    this.props.authActions.login({ hostname, port });
+    const { hostname, port, apiKey } = this.props;
+    this.props.authActions.login({ hostname, port, apiKey }).catch(err => {
+      noty.showError(err);
+    });
   };
 
   render() {
+    // NOTE: apiKey can be empty
     const { hostname, port, server } = this.props;
     const disabled = !hostname.trim() || !port.trim() || server.connecting;
     return (
@@ -44,7 +49,9 @@ class Auth extends Component {
             className={styles.hostname}
           />
           <Field name="port" component={TextField} hintText="port" />
+          <Field name="apiKey" component={TextField} hintText="apiKey" />
           <RaisedButton
+            className={styles.submit}
             type="submit"
             label="Login"
             primary
@@ -57,19 +64,23 @@ class Auth extends Component {
 }
 
 const formName = "auth";
-const initialStoredData = getStoredData() || {};
 const Form = reduxForm({
-  form: formName,
-  initialValues: {
-    hostname: initialStoredData.hostname || "localhost",
-    port: initialStoredData.port || "3000"
-  }
+  form: formName
 })(Auth);
 
 const formSelector = formValueSelector(formName);
-const mapStateToProps = state => ({
-  hostname: formSelector(state, "hostname") || "",
-  port: formSelector(state, "port") || ""
-});
+const mapStateToProps = state => {
+  const storedData = getStoredData() || {};
+  return {
+    initialValues: {
+      hostname: storedData.hostname || "localhost",
+      port: storedData.port || "3000",
+      apiKey: storedData.apiKey || ""
+    },
+    hostname: formSelector(state, "hostname") || "",
+    port: formSelector(state, "port") || "",
+    apiKey: formSelector(state, "apiKey") || ""
+  };
+};
 
 export default connect(mapStateToProps)(Form);

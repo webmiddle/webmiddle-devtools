@@ -1,6 +1,7 @@
 import uuid from "uuid";
 
 let ws;
+let apiKey;
 
 // Note: assumes connection is already established
 function requestWebsocket(path, body = {}, onProgress) {
@@ -27,7 +28,15 @@ function requestWebsocket(path, body = {}, onProgress) {
         }
       });
 
-      ws.send(JSON.stringify({ type: "request", requestId, path, body }));
+      ws.send(
+        JSON.stringify({
+          type: "request",
+          requestId,
+          authorization: apiKey,
+          path,
+          body
+        })
+      );
     } catch (err) {
       console.error(err instanceof Error ? err.stack : err);
       reject(err instanceof Error ? err.stack : err);
@@ -35,14 +44,19 @@ function requestWebsocket(path, body = {}, onProgress) {
   });
 }
 
-export function connect(hostname, port) {
+export function connect(hostname, port, key) {
   return new Promise((resolve, reject) => {
     try {
+      apiKey = key;
       ws = new WebSocket(`ws://${hostname}:${port}/`);
       ws.addEventListener("open", () => {
         resolve(ws);
       });
-      ws.addEventListener("error", reject);
+      ws.addEventListener("error", event => {
+        // the event object doesn't include any
+        // description on what happened
+        reject(new Error("websocket error"));
+      });
     } catch (err) {
       reject(err);
     }
@@ -51,8 +65,9 @@ export function connect(hostname, port) {
 
 export function disconnect() {
   return new Promise(resolve => {
-    ws.close();
+    if (ws) ws.close();
     ws = undefined;
+    apiKey = undefined;
     resolve();
   });
 }
