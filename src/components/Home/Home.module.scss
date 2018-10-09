@@ -64,22 +64,4 @@
       margin-bottom: 10px;
     }
   }
-
-  form {
-    position: relative;
-
-    &.disabled {
-      &::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background: transparent;
-        z-index: 2;
-        cursor: not-allowed;
-      }
-    }
-  }
 }

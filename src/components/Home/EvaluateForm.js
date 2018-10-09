@@ -107,14 +107,11 @@ class EvaluateForm extends Component {
   }
 
   render() {
-    const { server } = this.props;
-    const disabled = !server.connected;
+    const { server, servicePath } = this.props;
+    const disabled = !servicePath.trim();
 
     return (
-      <form
-        className={cn({ [styles.disabled]: disabled })}
-        onSubmit={this.props.handleSubmit(this.onSubmit)}
-      >
+      <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
         <div className={styles.row}>
           <Field
             className={styles.value}
@@ -177,9 +174,9 @@ const Form = reduxForm({
 
 const formSelector = formValueSelector(formName);
 const mapStateToProps = state => ({
-  servicePath: formSelector(state, "servicePath"),
-  bodyProps: formSelector(state, "bodyProps"),
-  bodyOptions: formSelector(state, "bodyOptions")
+  servicePath: formSelector(state, "servicePath") || "",
+  bodyProps: formSelector(state, "bodyProps") || "",
+  bodyOptions: formSelector(state, "bodyOptions") || ""
 });
 
 export default connect(mapStateToProps)(Form);
