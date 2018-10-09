@@ -6,12 +6,13 @@
   margin-right: 10px;
 }
 
-.connection form {
+.connection {
   display: flex;
   align-items: center;
+  padding: 5px 0;
 
-  .hostname {
-    flex-grow: 1;
+  .logoutButton {
+    margin-left: auto;
   }
 }
 

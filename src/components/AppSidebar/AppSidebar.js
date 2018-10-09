@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import { List, ListItem } from "material-ui/List";
 import IconActionHome from "material-ui/svg-icons/action/home";
 import IconFileFolder from "material-ui/svg-icons/file/folder";
 import IconActionTimeline from "material-ui/svg-icons/action/timeline";
-import { withRouter } from "react-router-dom";
 
-import Link from "../../components/Link";
+import Link from "../Link";
 import styles from "./AppSidebar.module.scss";
 
 const LinkListItem = ({ to, label, Icon, disabled }) => (
@@ -64,24 +62,4 @@ class AppSidebar extends Component {
   }
 }
 
-function mapStateToProps({ timeline, resources }) {
-  return {
-    timelineDisabled: timeline.callState.length === 0,
-    resourcesDisabled: resources.nodeList.length === 0
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {};
-}
-
-// NOTE: keep withRouter as first one,
-// otherwise updates will be blocked
-// see https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/guides/blocked-updates.md
-// TODO: refactor so this doesn't happen
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(AppSidebar)
-);
+export default AppSidebar;

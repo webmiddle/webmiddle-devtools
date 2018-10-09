@@ -1,7 +1,11 @@
 /* eslint flowtype-errors/show-errors: 0 */
 import React from "react";
-import { Route } from "react-router-dom";
+import PropTypes from "prop-types";
+import { Route, Switch } from "react-router-dom";
 import classNames from "classnames";
+
+import ConditionalRoute from "../components/ConditionalRoute";
+import AuthPage from "./AuthPage";
 import HomePage from "./HomePage";
 import TimelinePage from "./TimelinePage";
 import ResourcesPage from "./ResourcesPage";
@@ -12,21 +16,53 @@ const routes = [
   { path: "/resources", component: ResourcesPage }
 ];
 
-export default () => (
-  <div className="main">
-    <Route>
+// render all components at once
+// to keep them mounted in the DOM when switching routes
+// for performance reasons
+class AuthedArea extends React.Component {
+  render() {
+    return (
       <div>
-        {routes.map((route, i) => {
+        {routes.map(route => {
           const currentPath = window.location.hash.slice(1);
           const Component = route.component;
           const active = currentPath === route.path;
           return (
-            <div key={i} className={classNames("route", { active })}>
+            <div key={route.path} className={classNames("route", { active })}>
               <Component />
             </div>
           );
         })}
       </div>
-    </Route>
-  </div>
-);
+    );
+  }
+}
+
+class AppMain extends React.Component {
+  static propTypes = {
+    authed: PropTypes.bool.isRequired
+  };
+
+  render() {
+    const { authed } = this.props;
+    return (
+      <div className="main">
+        <Switch>
+          <ConditionalRoute
+            allowed={!authed}
+            redirect="/"
+            path="/auth"
+            component={AuthPage}
+          />
+          <ConditionalRoute
+            allowed={authed}
+            redirect="/auth"
+            component={AuthedArea}
+          />
+        </Switch>
+      </div>
+    );
+  }
+}
+
+export default AppMain;

@@ -5,6 +5,7 @@ import server from "./server";
 import timeline from "./timeline";
 import resources from "./resources";
 import logger from "./logger";
+import auth from "./auth";
 
 const rootReducer = combineReducers({
   form,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   server,
   timeline,
   resources,
-  logger
+  logger,
+  auth
 });
 
 export default rootReducer;

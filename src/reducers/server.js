@@ -7,6 +7,8 @@ type actionType = {
 };
 
 const initialState = {
+  hostname: "",
+  port: "",
   connecting: false,
   connected: false,
   servicePaths: {} // <path, { name, description }>
@@ -17,6 +19,8 @@ export default function server(state = initialState, action: actionType) {
     case actionTypes.CONNECT:
       return {
         ...state,
+        hostname: action.hostname,
+        port: action.port,
         connecting: true,
         connected: false
       };

@@ -12,9 +12,7 @@ import App from "./containers/App";
 ReactDOM.render(
   <Provider store={store}>
     <MuiThemeProvider>
-      <Router>
-        <App />
-      </Router>
+      <App />
     </MuiThemeProvider>
   </Provider>,
   document.getElementById("root")

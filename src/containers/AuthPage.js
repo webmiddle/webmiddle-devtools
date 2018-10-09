@@ -1,19 +1,16 @@
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import Home from "../components/Home/Home";
-import { actionCreators as serverActions } from "../actions/server";
+import Auth from "../components/Auth/Auth";
 import { actionCreators as authActions } from "../actions/auth";
 
 function mapStateToProps(state) {
   return {
-    server: state.server,
-    logger: state.logger
+    server: state.server
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    serverActions: bindActionCreators(serverActions, dispatch),
     authActions: bindActionCreators(authActions, dispatch)
   };
 }
@@ -21,4 +18,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Home);
+)(Auth);

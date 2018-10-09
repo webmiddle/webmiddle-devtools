@@ -1,8 +1,8 @@
 // @flow
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import RaisedButton from "material-ui/RaisedButton";
 
-import ConnectForm from "./ConnectForm";
 import EvaluateForm from "./EvaluateForm";
 import Logs from "./Logs";
 import styles from "./Home.module.scss";
@@ -12,17 +12,12 @@ export default class Home extends Component {
     server: PropTypes.object.isRequired,
     logger: PropTypes.array.isRequired,
 
-    serverActions: PropTypes.object.isRequired
+    serverActions: PropTypes.object.isRequired,
+    authActions: PropTypes.object.isRequired
   };
 
-  handleConnectFormSubmit = ({ hostname, port }) => {
-    if (!this.props.server.connected) {
-      this.props.serverActions
-        .connect({ hostname, port })
-        .then(() => this.props.serverActions.fetchServicePaths());
-    } else {
-      this.props.serverActions.disconnect();
-    }
+  handleLogoutClick = () => {
+    this.props.authActions.logout();
   };
 
   handleEvaluateFormSubmit = ({ servicePath, bodyProps, bodyOptions }) => {
@@ -37,9 +32,15 @@ export default class Home extends Component {
     return (
       <div className={styles.container} data-tid="container">
         <div className={styles.connection}>
-          <ConnectForm
-            onSubmit={this.handleConnectFormSubmit}
-            server={this.props.server}
+          <span>
+            Connected to {this.props.server.hostname}:{this.props.server.port}
+          </span>
+          <RaisedButton
+            className={styles.logoutButton}
+            type="submit"
+            label="Logout"
+            primary
+            onClick={this.handleLogoutClick}
           />
         </div>
 
