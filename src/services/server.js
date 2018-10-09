@@ -1,7 +1,10 @@
 import uuid from "uuid";
+import EventEmitter from "event-emitter";
 
 let ws;
 let apiKey;
+
+export const emitter = new EventEmitter();
 
 // Note: assumes connection is already established
 function requestWebsocket(path, body = {}, onProgress) {
@@ -56,6 +59,9 @@ export function connect(hostname, port, key) {
         // the event object doesn't include any
         // description on what happened
         reject(new Error("websocket error"));
+      });
+      ws.addEventListener("close", event => {
+        emitter.emit("close");
       });
     } catch (err) {
       reject(err);

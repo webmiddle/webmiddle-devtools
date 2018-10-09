@@ -8,6 +8,7 @@ import { bindActionCreators } from "redux";
 import { actionCreators as authActions } from "../actions/auth";
 import AppSidebar from "../components/AppSidebar/AppSidebar";
 import AppMain from "./AppMain";
+import { emitter as serverEmitter } from "../services/server";
 
 class App extends Component {
   static propTypes = {
@@ -22,6 +23,10 @@ class App extends Component {
 
   componentWillMount() {
     this.props.authActions.fetch();
+
+    serverEmitter.on("close", () => {
+      this.props.authActions.logout();
+    });
   }
 
   render() {
