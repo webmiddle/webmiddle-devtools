@@ -14,6 +14,7 @@ import { connect } from "react-redux";
 import styles from "./Auth.module.scss";
 import { getStoredData } from "../../actions/auth";
 import * as noty from "../../utils/noty";
+import Loading from "../Loading/Loading";
 
 class Auth extends Component {
   static propTypes = {
@@ -41,6 +42,7 @@ class Auth extends Component {
     const disabled = !hostname.trim() || !port.trim() || server.connecting;
     return (
       <div className={styles.container} data-tid="container">
+        {server.connecting && <Loading />}
         <form onSubmit={this.handleSubmit}>
           <Field
             name="hostname"
