@@ -27,7 +27,7 @@ class _ResourceObjectValue extends Component {
     event.stopPropagation(); // pevent expand
 
     const { object } = this.props;
-    dispatch(resourcesActions.openResource(object));
+    dispatch(resourcesActions.openResource(object.id));
     this.props.history.push("/resources");
   };
 

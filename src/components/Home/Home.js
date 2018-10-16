@@ -2,33 +2,49 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import RaisedButton from "material-ui/RaisedButton";
+import orderBy from "lodash/orderBy";
+import values from "lodash/values";
+import { withRouter } from "react-router-dom";
 
-import EvaluateForm from "./EvaluateForm";
-import Logs from "./Logs";
+import { formatTimestamp } from "../../utils";
 import styles from "./Home.module.scss";
 
-export default class Home extends Component {
+import EvaluationCard from "./EvaluationCard";
+
+class Home extends Component {
   static propTypes = {
     server: PropTypes.object.isRequired,
-    logger: PropTypes.array.isRequired,
 
-    serverActions: PropTypes.object.isRequired,
-    authActions: PropTypes.object.isRequired
+    authActions: PropTypes.object.isRequired,
+    serverActions: PropTypes.object.isRequired
   };
 
   handleLogoutClick = () => {
     this.props.authActions.logout();
   };
 
-  handleEvaluateFormSubmit = ({ servicePath, bodyProps, bodyOptions }) => {
-    this.props.serverActions.evaluateService({
-      servicePath,
-      bodyProps,
-      bodyOptions
+  handleEvaluationReattach = evaluation => {
+    this.props.serverActions.evaluationReattach({
+      evaluationId: evaluation.id
     });
+    this.props.history.push("/evaluation");
+  };
+
+  handleEvaluationRemove = evaluation => {
+    const confirmed = window.confirm("Are you sure?");
+    if (confirmed) {
+      this.props.serverActions.evaluationRemove({
+        evaluationId: evaluation.id
+      });
+    }
   };
 
   render() {
+    const sortedEvaluations = orderBy(
+      values(this.props.server.evaluations),
+      "created_timestamp",
+      "desc"
+    );
     return (
       <div className={styles.container} data-tid="container">
         <div className={styles.connection}>
@@ -44,15 +60,20 @@ export default class Home extends Component {
           />
         </div>
 
-        <Logs logger={this.props.logger} />
-
-        <div className={styles.command}>
-          <EvaluateForm
-            onSubmit={this.handleEvaluateFormSubmit}
-            server={this.props.server}
-          />
+        <div className={styles.evaluations}>
+          Evaluations:
+          {sortedEvaluations.map(evaluation => (
+            <EvaluationCard
+              key={evaluation.id}
+              evaluation={evaluation}
+              onReattach={this.handleEvaluationReattach}
+              onRemove={this.handleEvaluationRemove}
+            />
+          ))}
         </div>
       </div>
     );
   }
 }
+
+export default withRouter(Home);

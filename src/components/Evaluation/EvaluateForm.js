@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 import RaisedButton from "material-ui/RaisedButton";
 import { AutoComplete, TextField } from "redux-form-material-ui";
 import CodeEditor from "../CodeEditor";
-import styles from "./Home.module.scss";
+import styles from "./Evaluation.module.scss";
 
 import values from "lodash/values";
 
@@ -102,6 +102,25 @@ class EvaluateForm extends Component {
       }
       if (storedData.bodyOptions) {
         this.props.change("bodyOptions", storedData.bodyOptions);
+      }
+    }
+
+    if (
+      nextProps.server.selectedEvaluationId !==
+      this.props.server.selectedEvaluationId
+    ) {
+      if (nextProps.server.selectedEvaluationId) {
+        const nextSelectedEvaluation =
+          nextProps.server.evaluations[nextProps.server.selectedEvaluationId];
+        this.props.change("servicePath", nextSelectedEvaluation.path);
+        this.props.change(
+          "bodyProps",
+          JSON.stringify(nextSelectedEvaluation.props, null, 2)
+        );
+        this.props.change(
+          "bodyOptions",
+          JSON.stringify(nextSelectedEvaluation.options, null, 2)
+        );
       }
     }
   }

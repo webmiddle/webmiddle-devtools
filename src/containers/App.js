@@ -6,6 +6,7 @@ import { HashRouter as Router } from "react-router-dom";
 import { bindActionCreators } from "redux";
 
 import { actionCreators as authActions } from "../actions/auth";
+import { actionCreators as serverActions } from "../actions/server";
 import AppSidebar from "../components/AppSidebar/AppSidebar";
 import AppMain from "./AppMain";
 import { emitter as serverEmitter } from "../services/server";
@@ -15,10 +16,12 @@ class App extends Component {
     fetched: PropTypes.bool.isRequired,
     fetching: PropTypes.bool.isRequired,
     connected: PropTypes.bool.isRequired,
+    evaluationDisabled: PropTypes.bool.isRequired,
     timelineDisabled: PropTypes.bool.isRequired,
     resourcesDisabled: PropTypes.bool.isRequired,
 
-    authActions: PropTypes.object.isRequired
+    authActions: PropTypes.object.isRequired,
+    serverActions: PropTypes.object.isRequired
   };
 
   componentWillMount() {
@@ -27,10 +30,15 @@ class App extends Component {
     serverEmitter.on("close", () => {
       this.props.authActions.logout();
     });
+
+    serverEmitter.on("notification", message => {
+      this.props.serverActions.notification({ message });
+    });
   }
 
   render() {
     const {
+      evaluationDisabled,
       timelineDisabled,
       resourcesDisabled,
       connected,
@@ -44,6 +52,7 @@ class App extends Component {
       <Router>
         <div className="app">
           <AppSidebar
+            evaluationDisabled={evaluationDisabled}
             timelineDisabled={timelineDisabled}
             resourcesDisabled={resourcesDisabled}
           />
@@ -59,6 +68,7 @@ function mapStateToProps({ auth, server, timeline, resources }) {
     fetched: auth.fetched,
     fetching: auth.fetching,
     connected: server.connected,
+    evaluationDisabled: false, // TODO
     timelineDisabled: timeline.callState.length === 0,
     resourcesDisabled: resources.nodeList.length === 0
   };
@@ -66,7 +76,8 @@ function mapStateToProps({ auth, server, timeline, resources }) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    authActions: bindActionCreators(authActions, dispatch)
+    authActions: bindActionCreators(authActions, dispatch),
+    serverActions: bindActionCreators(serverActions, dispatch)
   };
 }
 

@@ -8,11 +8,13 @@ import ConditionalRoute from "../components/ConditionalRoute";
 import Loading from "../components/Loading/Loading";
 import AuthPage from "./AuthPage";
 import HomePage from "./HomePage";
+import EvaluationPage from "./EvaluationPage";
 import TimelinePage from "./TimelinePage";
 import ResourcesPage from "./ResourcesPage";
 
 const routes = [
   { path: "/", component: HomePage },
+  { path: "/evaluation", component: EvaluationPage },
   { path: "/timeline", component: TimelinePage },
   { path: "/resources", component: ResourcesPage }
 ];

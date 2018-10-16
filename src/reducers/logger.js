@@ -22,11 +22,14 @@ export default function logger(state = initialState, action) {
       return [...state, createLog("Disconnected")];
 
     case serverActionTypes.EVALUATE:
+    case serverActionTypes.EVALUATION_REATTACH:
       return [...state, createLog("Evaluating...")];
-    case serverActionTypes.EVALUATE_SUCCESS: {
+    case serverActionTypes.EVALUATE_SUCCESS:
+    case serverActionTypes.EVALUATION_REATTACH_SUCCESS: {
       return [...state, createLog(`Evaluated!`)];
     }
     case serverActionTypes.EVALUATE_FAIL:
+    case serverActionTypes.EVALUATION_REATTACH_FAIL:
       return [
         ...state,
         createLog(

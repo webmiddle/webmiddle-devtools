@@ -1,35 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-import styles from "./Home.module.scss";
-
-function formatTimestamp(timestamp) {
-  const date = new Date(timestamp);
-
-  let hours = date.getHours();
-  if (hours < 10) {
-    hours = "0" + hours;
-  }
-
-  let minutes = date.getMinutes();
-  if (minutes < 10) {
-    minutes = "0" + minutes;
-  }
-
-  let seconds = date.getSeconds();
-  if (seconds < 10) {
-    seconds = "0" + seconds;
-  }
-
-  let milliseconds = date.getMilliseconds();
-  if (milliseconds < 10) {
-    milliseconds = "00" + milliseconds;
-  } else if (milliseconds < 100) {
-    milliseconds = "0" + milliseconds;
-  }
-
-  return `${hours}:${minutes}:${seconds}.${milliseconds}`;
-}
+import { formatTimestamp } from "../../utils";
+import styles from "./Evaluation.module.scss";
 
 function getMaxScrollTop(el) {
   return el.scrollHeight - el.clientHeight;

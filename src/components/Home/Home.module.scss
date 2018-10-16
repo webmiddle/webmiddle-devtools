@@ -1,3 +1,5 @@
+@import "../../theme/variables";
+
 .container {
   display: flex;
   height: 100%;
@@ -10,58 +12,72 @@
   display: flex;
   align-items: center;
   padding: 5px 0;
+  min-height: 40px; // prevent squeeze when .evalations has lots of elements
 
   .logoutButton {
     margin-left: auto;
   }
 }
 
-.logs {
+.evaluations {
   flex-grow: 1;
-  overflow: auto;
-  background-color: white;
-  padding: 5px;
-  font-size: 14px;
+  overflow-y: auto;
 
-  .logs_time {
-    color: #858585;
-  }
-}
-
-.command {
   .row {
-    display: flex;
-    align-items: center;
+    font-size: 17px;
+    margin: 0;
+    margin-top: 5px;
   }
 
-  .value {
-    flex-grow: 1;
+  .card {
+    margin-top: 30px;
+    margin-left: 30px;
+    margin-right: 30px;
 
-    // floating text
-    label {
-      color: black !important;
+    .name {
+      font-weight: bold;
     }
-  }
 
-  .body {
-    .col {
-      &.props {
-        flex-grow: 2;
-        margin-right: 20px;
+    .objectInspector {
+      margin: 0 20px 15px;
+
+      .name {
+        font-weight: normal;
       }
 
-      &.options {
-        flex-grow: 1;
+      > ul {
+        padding-inline-start: 0;
+        margin: 0;
       }
 
-      span {
+      li[role="treeitem"] {
+        font-size: 17px !important;
+      }
+      li > li[role='treeitem'][aria-expanded="false"] {
         display: inline-block;
-        margin-bottom: 10px;
       }
     }
 
-    .editor {
-      margin-bottom: 10px;
+    &.success {
+      .cardHeader {
+        background-color: $color-success;
+      } 
+    }
+
+    &.error {
+      .cardHeader {
+        background-color: $color-error;
+
+        span {
+          color: white !important;
+        }
+      }
+    }
+
+    &.progress {
+      .cardHeader {
+        background-color: $color-progress;
+      }
     }
   }
 }

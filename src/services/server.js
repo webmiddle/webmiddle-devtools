@@ -9,10 +9,11 @@ export const emitter = new EventEmitter();
 // Note: assumes connection is already established
 function requestWebsocket(path, body = {}, onProgress) {
   return new Promise((resolve, reject) => {
+    let onMessage;
     try {
       const requestId = uuid.v4();
 
-      ws.addEventListener("message", event => {
+      onMessage = event => {
         const rawMessage = event.data;
         //console.log("received from server: %s", rawMessage);
         const message = JSON.parse(rawMessage);
@@ -24,12 +25,15 @@ function requestWebsocket(path, body = {}, onProgress) {
 
         if (message.type === "response") {
           if (message.status === "success") {
+            ws.removeEventListener("message", onMessage);
             resolve(message.body);
           } else if (message.status === "error") {
+            ws.removeEventListener("message", onMessage);
             reject(message.body);
           }
         }
-      });
+      };
+      ws.addEventListener("message", onMessage);
 
       ws.send(
         JSON.stringify({
@@ -42,6 +46,7 @@ function requestWebsocket(path, body = {}, onProgress) {
       );
     } catch (err) {
       console.error(err instanceof Error ? err.stack : err);
+      if (onMessage) ws.removeEventListener("message", onMessage);
       reject(err instanceof Error ? err.stack : err);
     }
   });
@@ -53,6 +58,14 @@ export function connect(hostname, port, key) {
       apiKey = key;
       ws = new WebSocket(`ws://${hostname}:${port}/`);
       ws.addEventListener("open", () => {
+        ws.addEventListener("message", event => {
+          const rawMessage = event.data;
+          const message = JSON.parse(rawMessage);
+          if (message.type === "notification") {
+            emitter.emit("notification", message.body);
+          }
+        });
+
         resolve(ws);
       });
       ws.addEventListener("error", event => {
@@ -82,6 +95,10 @@ export function fetchServicePaths() {
   return requestWebsocket("/services/");
 }
 
+export function fetchEvaluations() {
+  return requestWebsocket("/evaluations/");
+}
+
 export function evaluateService(
   servicePath,
   bodyProps,
@@ -105,6 +122,26 @@ export function loadMore(path, serializedPath) {
     props: {
       path,
       serializedPath
+    }
+  };
+  return requestWebsocket(httpPath, body);
+}
+
+export function evaluationReattach(id, onProgress = () => {}) {
+  const httpPath = `/evaluations/${id}`;
+  const body = {
+    props: {
+      command: "reattach"
+    }
+  };
+  return requestWebsocket(httpPath, body, onProgress);
+}
+
+export function evaluationRemove(id) {
+  const httpPath = `/evaluations/${id}`;
+  const body = {
+    props: {
+      command: "remove"
     }
   };
   return requestWebsocket(httpPath, body);

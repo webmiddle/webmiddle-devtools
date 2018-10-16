@@ -17,11 +17,19 @@ export const actionTypes = createActionTypes(
   asyncActionKeys("CONNECT"),
   asyncActionKeys("DISCONNECT"),
   asyncActionKeys("FETCH_SERVICE_PATHS"),
+  asyncActionKeys("FETCH_EVALUATIONS"),
 
   asyncActionKeys("EVALUATE"),
   "EVALUATE_PROGRESS",
 
-  asyncActionKeys("LOAD_MORE")
+  asyncActionKeys("EVALUATION_REATTACH"),
+  "EVALUATION_REATTACH_PROGRESS",
+
+  asyncActionKeys("LOAD_MORE"),
+
+  asyncActionKeys("EVALUATION_REMOVE"),
+
+  "NOTIFICATION"
 );
 
 const handleEvaluateSuccess = result => dispatch => {
@@ -90,6 +98,7 @@ export const actionCreators = {
           apiKey
         )
         .then(() => dispatch(actionCreators.fetchServicePaths()))
+        .then(() => dispatch(actionCreators.fetchEvaluations()))
         .catch(err => {
           server.disconnect();
           return Promise.reject(err);
@@ -107,6 +116,11 @@ export const actionCreators = {
   fetchServicePaths: () => ({
     types: asyncActionValues(actionTypes, "FETCH_SERVICE_PATHS"),
     promise: () => server.fetchServicePaths()
+  }),
+
+  fetchEvaluations: () => ({
+    types: asyncActionValues(actionTypes, "FETCH_EVALUATIONS"),
+    promise: () => server.fetchEvaluations()
   }),
 
   evaluateService: ({ servicePath, bodyProps, bodyOptions }) => ({
@@ -132,6 +146,27 @@ export const actionCreators = {
     bodyOptions
   }),
 
+  evaluationReattach: ({ evaluationId }) => ({
+    types: asyncActionValues(actionTypes, "EVALUATION_REATTACH"),
+    promise: ({ dispatch }) =>
+      server
+        .evaluationReattach(evaluationId, message => {
+          dispatch(
+            handleEvaluateProgress(
+              message.status,
+              message.body && message.body.info
+            )
+          );
+          dispatch({
+            type: actionTypes.EVALUATION_REATTACH_PROGRESS,
+            status: message.status,
+            info: message.body && message.body.info
+          });
+        })
+        .then(result => dispatch(handleEvaluateSuccess(result))),
+    evaluationId
+  }),
+
   loadMore: ({ path, serializedPath }) => ({
     types: asyncActionValues(actionTypes, "LOAD_MORE"),
     promise: ({ dispatch }) => {
@@ -144,5 +179,16 @@ export const actionCreators = {
     },
     path,
     serializedPath
+  }),
+
+  evaluationRemove: ({ evaluationId }) => ({
+    types: asyncActionValues(actionTypes, "EVALUATION_REMOVE"),
+    promise: () => server.evaluationRemove(evaluationId),
+    evaluationId
+  }),
+
+  notification: ({ message }) => ({
+    type: actionTypes.NOTIFICATION,
+    message
   })
 };

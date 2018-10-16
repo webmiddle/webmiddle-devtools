@@ -4,6 +4,7 @@ import { List, ListItem } from "material-ui/List";
 import IconActionHome from "material-ui/svg-icons/action/home";
 import IconFileFolder from "material-ui/svg-icons/file/folder";
 import IconActionTimeline from "material-ui/svg-icons/action/timeline";
+import IconActionPlayForWork from "material-ui/svg-icons/action/play-for-work";
 
 import Link from "../Link";
 import styles from "./AppSidebar.module.scss";
@@ -34,16 +35,28 @@ LinkListItem.defaultProps = {
 
 class AppSidebar extends Component {
   static propTypes = {
+    evaluationDisabled: PropTypes.bool.isRequired,
     timelineDisabled: PropTypes.bool.isRequired,
     resourcesDisabled: PropTypes.bool.isRequired
   };
 
   render() {
-    const { timelineDisabled, resourcesDisabled } = this.props;
+    const {
+      evaluationDisabled,
+      timelineDisabled,
+      resourcesDisabled
+    } = this.props;
+
     return (
       <div className={styles.container}>
         <List className={styles.list}>
           <LinkListItem to="/" label="Home" Icon={IconActionHome} />
+          <LinkListItem
+            to="/evaluation"
+            label="Evaluation"
+            Icon={IconActionPlayForWork}
+            disabled={evaluationDisabled}
+          />
           <LinkListItem
             to="/timeline"
             label="Timeline"

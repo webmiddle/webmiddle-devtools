@@ -30,9 +30,9 @@ export const actionCreators = {
     data
   }),
 
-  openResource: resource => ({
+  openResource: resourceId => ({
     type: actionTypes.OPEN_RESOURCE,
-    resource
+    resourceId
   }),
 
   toggleCollapse: (folderPath, value) => ({
