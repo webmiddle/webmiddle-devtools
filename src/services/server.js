@@ -108,10 +108,7 @@ export function evaluateService(
   const httpPath = "/services/" + servicePath.replace(/\./g, "/");
   const body = {
     props: bodyProps,
-    options: {
-      ...bodyOptions,
-      debug: true
-    }
+    options: bodyOptions
   };
   return requestWebsocket(httpPath, body, onProgress);
 }

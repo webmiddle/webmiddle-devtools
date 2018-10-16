@@ -183,6 +183,7 @@ const Form = reduxForm({
     ),
     bodyOptions: JSON.stringify(
       {
+        debug: true,
         networkRetries: 2
       },
       null,
