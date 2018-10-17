@@ -21,6 +21,10 @@ export function parseData(data) {
     return fn;
   }
 
+  if (data.type === "error") {
+    return parseDataError(data.value);
+  }
+
   if (data.type === "object") {
     return parseDataObj(data.value);
   }
@@ -58,6 +62,15 @@ export function parseData(data) {
   }
 
   return data.value;
+}
+
+function parseDataError(dataError) {
+  if (!dataError) return dataError;
+  const result = {};
+  Object.keys(dataError).forEach(key => {
+    result[key] = parseData(dataError[key]);
+  });
+  return result;
 }
 
 export function parseDataObj(dataObj) {
