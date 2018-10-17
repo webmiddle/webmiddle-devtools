@@ -7,12 +7,17 @@ import { parseData, parseDataObj } from "../../utils/timeline";
 import styles from "./Timeline.module.scss";
 
 const VirtualDetails = ({ node }) => {
+  const options = parseDataObj(node.options);
+  const optionNames = Object.keys(options);
+
   const virtual = node.value.value; // { type: 'virtual', value: { type: 'virtual', value: VIRTUAL } }
   const name = virtual.type.name || virtual.type.value;
   const attributes = parseDataObj(virtual.attributes);
   const attributeNames = Object.keys(attributes);
+
   const hasResult = node.result && node.result.type !== "undefined";
   const hasError = node.error && node.error.type !== "undefined";
+
   return (
     <ul className={styles.virtualDetails}>
       <li className={styles.detailsHead}>{`<${name}>`}</li>
@@ -25,6 +30,22 @@ const VirtualDetails = ({ node }) => {
               <li key={attrName}>
                 <span>{attrName}: </span>
                 <Inspector data={attributes[attrName]} />
+              </li>
+            ))}
+          </ul>
+        </li>
+      ) : (
+        ""
+      )}
+
+      {optionNames.length > 0 ? (
+        <li>
+          <span className={styles.detailsLabel}>Options: </span>
+          <ul>
+            {optionNames.map(optionName => (
+              <li key={optionName}>
+                <span>{optionName}: </span>
+                <Inspector data={options[optionName]} />
               </li>
             ))}
           </ul>
