@@ -136,7 +136,7 @@ class EvaluateForm extends Component {
             className={styles.value}
             id="servicePath"
             name="servicePath"
-            floatingLabelText="Service path"
+            placeholder="Service path"
             component={AutoComplete}
             dataSource={Object.keys(server.servicePaths)}
             filter={this.filterAutoComplete}

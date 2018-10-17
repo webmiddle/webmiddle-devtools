@@ -40,6 +40,7 @@ class Logs extends Component {
   render() {
     return (
       <div ref="el" className={styles.logs}>
+        <h3>Logs</h3>
         {this.props.logger.map((log, key) => {
           const formattedTimestamp = formatTimestamp(log.timestamp);
           return (

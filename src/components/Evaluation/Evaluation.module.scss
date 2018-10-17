@@ -6,12 +6,72 @@
   margin-right: 10px;
 }
 
+.command {
+  height: 50%;
+
+  form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+  }
+
+  .value {
+    flex-grow: 1;
+
+    // floating text
+    label {
+      color: black !important;
+    }
+  }
+
+  .body {
+    flex-grow: 1;
+    position: relative;
+
+    .col {
+      &.props {
+        margin-right: 20px;
+
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 70%;
+      }
+
+      &.options {
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 70%;
+        width: 30%;
+      }
+
+      span {
+        display: inline-block;
+        margin-bottom: 10px;
+      }
+    }
+
+    .editor {
+      margin-bottom: 10px;
+      height: calc(100% - 30px) !important;
+    }
+  }
+}
+
 .logs {
   flex-grow: 1;
   overflow: auto;
   background-color: white;
   padding: 5px;
   font-size: 14px;
+  margin: 15px 0;
 
   .logs_time {
     color: #858585;
@@ -39,44 +99,6 @@
 
     li[role="treeitem"] {
       font-size: 14px !important;
-    }
-  }
-}
-
-.command {
-  .row {
-    display: flex;
-    align-items: center;
-  }
-
-  .value {
-    flex-grow: 1;
-
-    // floating text
-    label {
-      color: black !important;
-    }
-  }
-
-  .body {
-    .col {
-      &.props {
-        flex-grow: 2;
-        margin-right: 20px;
-      }
-
-      &.options {
-        flex-grow: 1;
-      }
-
-      span {
-        display: inline-block;
-        margin-bottom: 10px;
-      }
-    }
-
-    .editor {
-      margin-bottom: 10px;
     }
   }
 }

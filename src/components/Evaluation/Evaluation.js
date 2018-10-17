@@ -26,14 +26,14 @@ export default class Evaluation extends Component {
   render() {
     return (
       <div className={styles.container} data-tid="container">
-        <Logs logger={this.props.logger} />
-
         <div className={styles.command}>
           <EvaluateForm
             onSubmit={this.handleEvaluateFormSubmit}
             server={this.props.server}
           />
         </div>
+
+        <Logs logger={this.props.logger} />
       </div>
     );
   }
