@@ -22,6 +22,7 @@
 .evaluations {
   flex-grow: 1;
   overflow-y: auto;
+  padding-bottom: 30px;
 
   .row {
     font-size: 17px;
@@ -58,25 +59,85 @@
       }
     }
 
+    .cardHeader {
+      > div {
+        vertical-align: middle !important;
+      }
+
+      .avatar {
+        background-color: transparent !important;
+
+        svg {
+          margin: 0 !important;
+          width: 100% !important;
+          height: 100% !important;
+        }
+      }
+    }
+
+    .cardBody {
+      border-top: 1px solid #E0E0E0;
+    }
+
     &.success {
       .cardHeader {
-        background-color: $color-success;
-      } 
+        span {
+          color: $color-success !important;
+        }
+
+        .avatar {
+          svg path {
+            fill: $color-success;
+          }
+        }
+      }
     }
 
     &.error {
       .cardHeader {
-        background-color: $color-error;
-
         span {
-          color: white !important;
+          color: $color-error !important;
+        }
+
+        .avatar {
+          svg path {
+            fill: $color-error;
+          }
         }
       }
     }
 
     &.progress {
       .cardHeader {
-        background-color: $color-progress;
+        span {
+          color: $color-progress !important;
+        }
+
+        .avatar {
+          div, svg {
+            width: 100% !important;
+            height: 100% !important;
+            margin: 0 !important;
+          }
+
+          svg circle {
+            stroke: $color-progress !important;
+          }
+        }
+      }
+    }
+
+    &.create {
+      cursor: pointer;
+
+      span {
+        color: black !important;
+      }
+
+      .avatar {
+        svg path {
+          fill: black;
+        }
       }
     }
   }

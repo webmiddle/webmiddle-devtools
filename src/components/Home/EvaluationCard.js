@@ -3,6 +3,10 @@ import PropTypes from "prop-types";
 import cn from "classnames";
 import { Card, CardActions, CardHeader, CardText } from "material-ui/Card";
 import FlatButton from "material-ui/FlatButton";
+import AlertErrorIcon from "material-ui/svg-icons/alert/error";
+import ActionDoneIcon from "material-ui/svg-icons/action/done";
+import CircularProgress from "material-ui/CircularProgress";
+import Avatar from "material-ui/Avatar";
 import isEmpty from "lodash/isEmpty";
 
 import styles from "./Home.module.scss";
@@ -32,6 +36,12 @@ class ObjectInspector extends Component {
   }
 }
 
+const statusIcons = {
+  error: <AlertErrorIcon />,
+  success: <ActionDoneIcon />,
+  progress: <CircularProgress />
+};
+
 class EvaluationCard extends Component {
   static propTypes = {
     evaluation: PropTypes.object.isRequired,
@@ -60,9 +70,15 @@ class EvaluationCard extends Component {
           subtitle={formatTimestamp(evaluation.created_timestamp, {
             includeDate: true
           })}
+          avatar={
+            <Avatar
+              className={styles.avatar}
+              icon={statusIcons[evaluation.status]}
+            />
+          }
           actAsExpander
         />
-        <CardText expandable>
+        <CardText className={styles.cardBody} expandable>
           <div className={styles.row}>
             <span className={styles.name}>Status</span>
             {": "}

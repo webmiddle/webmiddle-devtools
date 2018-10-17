@@ -10,6 +10,7 @@ import { formatTimestamp } from "../../utils";
 import styles from "./Home.module.scss";
 
 import EvaluationCard from "./EvaluationCard";
+import CreateEvaluationCard from "./CreateEvaluationCard";
 
 class Home extends Component {
   static propTypes = {
@@ -27,6 +28,10 @@ class Home extends Component {
     this.props.serverActions.evaluationReattach({
       evaluationId: evaluation.id
     });
+    this.props.history.push("/evaluation");
+  };
+
+  handleCreate = () => {
     this.props.history.push("/evaluation");
   };
 
@@ -62,14 +67,18 @@ class Home extends Component {
 
         <div className={styles.evaluations}>
           Evaluations:
-          {sortedEvaluations.map(evaluation => (
-            <EvaluationCard
-              key={evaluation.id}
-              evaluation={evaluation}
-              onReattach={this.handleEvaluationReattach}
-              onRemove={this.handleEvaluationRemove}
-            />
-          ))}
+          {sortedEvaluations.length > 0 ? (
+            sortedEvaluations.map(evaluation => (
+              <EvaluationCard
+                key={evaluation.id}
+                evaluation={evaluation}
+                onReattach={this.handleEvaluationReattach}
+                onRemove={this.handleEvaluationRemove}
+              />
+            ))
+          ) : (
+            <CreateEvaluationCard onClick={this.handleCreate} />
+          )}
         </div>
       </div>
     );
