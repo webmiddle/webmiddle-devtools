@@ -16,6 +16,31 @@
   .logs_time {
     color: #858585;
   }
+
+  .logInspector {
+    border-bottom: 1px solid lightgrey;
+    padding: 5px 0;
+
+    > ul {
+      padding-inline-start: 0;
+      margin: 0;
+    }
+    > ul > li {
+      display: inline-block;
+    }
+    li {
+      vertical-align: top;
+      margin-right: 10px;
+
+      &:first-child {
+        margin-right: 5px;
+      }
+    }
+
+    li[role="treeitem"] {
+      font-size: 14px !important;
+    }
+  }
 }
 
 .command {

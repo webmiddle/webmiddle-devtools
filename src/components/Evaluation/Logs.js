@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-import { formatTimestamp } from "../../utils";
 import styles from "./Evaluation.module.scss";
+import { formatTimestamp } from "../../utils";
+import Inspector from "../Inspector";
 
 function getMaxScrollTop(el) {
   return el.scrollHeight - el.clientHeight;
@@ -42,10 +43,13 @@ class Logs extends Component {
         {this.props.logger.map((log, key) => {
           const formattedTimestamp = formatTimestamp(log.timestamp);
           return (
-            <div key={key}>
-              <span className={styles.logs_time}>[{formattedTimestamp}]</span>
-              &nbsp;
-              <span>{log.message}</span>
+            <div key={key} className={styles.logInspector}>
+              <ul>
+                <li className={styles.logs_time}>[{formattedTimestamp}]</li>
+                {log.messages.map((message, i) => (
+                  <Inspector key={i} data={message} />
+                ))}
+              </ul>
             </div>
           );
         })}
