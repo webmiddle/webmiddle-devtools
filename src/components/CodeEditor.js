@@ -50,6 +50,7 @@ export default class CodeEditor extends Component {
         value={value}
         onLoad={this.onEditorLoad}
         onChange={onChange}
+        showPrintMargin={false}
         {...rest}
       />
     );
