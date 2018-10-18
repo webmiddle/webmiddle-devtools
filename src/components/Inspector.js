@@ -104,7 +104,7 @@ class ObjectValue extends Component {
       }
 
       if (object.constructor.name === "CustomError") {
-        return <span>Error</span>;
+        return <span>{object.name || "Error"}</span>;
       }
     }
 
