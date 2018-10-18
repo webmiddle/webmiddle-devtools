@@ -82,7 +82,8 @@ class ObjectValue extends Component {
       (object.constructor &&
         (object.constructor.name === "Resource" ||
           object.constructor.name === "Virtual" ||
-          object.constructor.name === "More"))
+          object.constructor.name === "More" ||
+          object.constructor.name === "CustomError"))
     ) {
       if (object.constructor.name === "Resource") {
         return <ResourceObjectValue object={object} />;
@@ -101,6 +102,10 @@ class ObjectValue extends Component {
       if (object.constructor.name === "More") {
         return <span>Loading....</span>;
       }
+
+      if (object.constructor.name === "CustomError") {
+        return <span>Error</span>;
+      }
     }
 
     return <OriginalObjectValue {...this.props} />;
@@ -117,7 +122,8 @@ const ObjectPreview = props => {
     (object.constructor &&
       (object.constructor.name === "Resource" ||
         object.constructor.name === "Virtual" ||
-        object.constructor.name === "More"))
+        object.constructor.name === "More" ||
+        object.constructor.name === "CustomError"))
   ) {
     return <ObjectValue object={object} />;
   }

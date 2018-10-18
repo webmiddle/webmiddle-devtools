@@ -8,6 +8,7 @@ export function makePath(parentPath, i) {
 class Resource {}
 class Virtual {}
 class More {}
+class CustomError {} // not using builtin Error because of More object in `message` and `stack` properties
 
 // NOTE: data shouldn't be the whole callStateInfo object
 // since this function isn't able to parse it
@@ -66,7 +67,7 @@ export function parseData(data) {
 
 function parseDataError(dataError) {
   if (!dataError) return dataError;
-  const result = {};
+  const result = new CustomError();
   Object.keys(dataError).forEach(key => {
     result[key] = parseData(dataError[key]);
   });
