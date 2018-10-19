@@ -10,7 +10,7 @@ import styles from "./Timeline.module.scss";
 
 export default class TimelineTreeView extends Component {
   static propTypes = {
-    callState: PropTypes.array.isRequired,
+    nodeList: PropTypes.array.isRequired,
     parentPath: PropTypes.string,
     selectedNodePath: PropTypes.string,
 
@@ -25,7 +25,7 @@ export default class TimelineTreeView extends Component {
   render() {
     return (
       <div className={styles.timelineTreeView}>
-        {this.props.callState.map((node, i) => {
+        {this.props.nodeList.map((node, i) => {
           const nodePath = makePath(this.props.parentPath, i);
           const hasChildren = node.children && node.children.length !== 0;
           return (
@@ -56,7 +56,7 @@ export default class TimelineTreeView extends Component {
               >
                 {hasChildren && (
                   <TimelineTreeView
-                    callState={node.children}
+                    nodeList={node.children}
                     parentPath={nodePath}
                     timelineActions={this.props.timelineActions}
                     selectedNodePath={this.props.selectedNodePath}

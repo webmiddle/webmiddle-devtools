@@ -19,17 +19,17 @@ function toRealPath(path) {
 }
 
 function getSelectedNode(state) {
-  const { selectedNodePath, callState } = state.timeline;
+  const { selectedNodePath, nodeList } = state.timeline;
   if (!selectedNodePath) return null;
 
   const realPath = toRealPath(selectedNodePath);
-  const selectedNode = get(callState, realPath);
+  const selectedNode = get(nodeList, realPath);
   return selectedNode;
 }
 
 function mapStateToProps(state) {
   return {
-    callState: state.timeline.callState,
+    nodeList: state.timeline.nodeList,
     selectedNode: getSelectedNode(state),
     selectedNodePath: state.timeline.selectedNodePath
   };

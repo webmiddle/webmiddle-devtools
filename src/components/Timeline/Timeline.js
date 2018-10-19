@@ -9,7 +9,7 @@ import styles from "./Timeline.module.scss";
 
 export default class Timeline extends Component {
   static propTypes = {
-    callState: PropTypes.array.isRequired,
+    nodeList: PropTypes.array.isRequired,
     selectedNode: PropTypes.object,
     selectedNodePath: PropTypes.string,
 
@@ -26,7 +26,7 @@ export default class Timeline extends Component {
       <div className={styles.container} data-tid="container">
         <SplitPane split="vertical" primary="second" defaultSize={300}>
           <TimelineTreeView
-            callState={this.props.callState}
+            nodeList={this.props.nodeList}
             timelineActions={this.props.timelineActions}
             selectedNodePath={this.props.selectedNodePath}
           />

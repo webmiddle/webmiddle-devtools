@@ -10,7 +10,7 @@ class Virtual {}
 class More {}
 class CustomError {} // not using builtin Error because of More object in `message` and `stack` properties
 
-// NOTE: data shouldn't be the whole callNode object
+// NOTE: data shouldn't be a whole callNode object
 // since this function isn't able to parse it
 export function parseData(data) {
   if (!data) return data;

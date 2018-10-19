@@ -69,7 +69,7 @@ function mapStateToProps({ auth, server, timeline, resources }) {
     fetching: auth.fetching,
     connected: server.connected,
     evaluationDisabled: false, // TODO
-    timelineDisabled: timeline.callState.length === 0,
+    timelineDisabled: timeline.nodeList.length === 0,
     resourcesDisabled: resources.nodeList.length === 0
   };
 }

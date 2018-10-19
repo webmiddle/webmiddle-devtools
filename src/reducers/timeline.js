@@ -5,7 +5,7 @@ import get from "lodash/get";
 import cloneDeep from "lodash/cloneDeep";
 
 const initialState = {
-  callState: [],
+  nodeList: [],
   selectedNodePath: null
 };
 
@@ -14,14 +14,14 @@ function addNode(state, node) {
   const path = node.path;
   const pathParts = path.split(".");
 
-  function process(callState, partIndex) {
+  function process(nodeList, partIndex) {
     const part = pathParts[partIndex];
 
     let newNode;
     if (partIndex + 1 < pathParts.length) {
       newNode = {
-        ...callState[part],
-        children: process(callState[part].children, partIndex + 1)
+        ...nodeList[part],
+        children: process(nodeList[part].children, partIndex + 1)
       };
     } else {
       newNode = {
@@ -30,12 +30,12 @@ function addNode(state, node) {
       };
     }
 
-    return [...callState.slice(0, part), newNode, ...callState.slice(part + 1)];
+    return [...nodeList.slice(0, part), newNode, ...nodeList.slice(part + 1)];
   }
 
   return {
     ...state,
-    callState: process(state.callState, 0)
+    nodeList: process(state.nodeList, 0)
   };
 }
 
@@ -43,29 +43,29 @@ function updateNode(state, node) {
   const path = node.path;
   const pathParts = path.split(".");
 
-  function process(callState, partIndex) {
+  function process(nodeList, partIndex) {
     const part = pathParts[partIndex];
 
     let newNode;
     if (partIndex + 1 < pathParts.length) {
       newNode = {
-        ...callState[part],
-        children: process(callState[part].children, partIndex + 1)
+        ...nodeList[part],
+        children: process(nodeList[part].children, partIndex + 1)
       };
     } else {
       newNode = {
-        ...callState[part],
+        ...nodeList[part],
         ...node,
-        children: callState[part].children
+        children: nodeList[part].children
       };
     }
 
-    return [...callState.slice(0, part), newNode, ...callState.slice(part + 1)];
+    return [...nodeList.slice(0, part), newNode, ...nodeList.slice(part + 1)];
   }
 
   return {
     ...state,
-    callState: process(state.callState, 0)
+    nodeList: process(state.nodeList, 0)
   };
 }
 

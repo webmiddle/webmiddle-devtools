@@ -72,7 +72,7 @@ const handleLoadMoreSuccess = (result, path, serializedPath) => (
   const value = typeof result === "string" ? JSON.parse(result) : result;
   console.log("LOAD MORE RESPONSE", value, path, serializedPath);
   const [callRootContextPath, nodePath, ...valuePath] = serializedPath;
-  const node = get(timeline.callState, nodePath.split(".").join(".children."));
+  const node = get(timeline.nodeList, nodePath.split(".").join(".children."));
   const newNode = cloneDeep(node);
   const valueParent = valuePath
     .slice(0, -1)
