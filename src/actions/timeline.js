@@ -2,21 +2,21 @@ import { createActionTypes } from "../utils/redux";
 
 export const actionTypes = createActionTypes(
   "timeline",
-  "ADD_INFO",
-  "UPDATE_INFO",
+  "ADD_NODE",
+  "UPDATE_NODE",
 
   "SELECT_NODE"
 );
 
 export const actionCreators = {
-  addInfo: info => ({
-    type: actionTypes.ADD_INFO,
-    info
+  addNode: node => ({
+    type: actionTypes.ADD_NODE,
+    node
   }),
 
-  updateInfo: info => ({
-    type: actionTypes.UPDATE_INFO,
-    info
+  updateNode: node => ({
+    type: actionTypes.UPDATE_NODE,
+    node
   }),
 
   selectNode: nodePath => ({

@@ -49,15 +49,15 @@ const handleEvaluateSuccess = result => dispatch => {
   return Promise.resolve(result);
 };
 
-const handleEvaluateProgress = (status, info) => dispatch => {
-  if (status === "callStateInfo:add") {
-    dispatch(timelineActions.addInfo(info));
-    dispatch(resourcesActions.findAndAddResources(parseData(info.value)));
+const handleEvaluateProgress = (status, node) => dispatch => {
+  if (status === "callNode:add") {
+    dispatch(timelineActions.addNode(node));
+    dispatch(resourcesActions.findAndAddResources(parseData(node.value)));
   }
-  if (status === "callStateInfo:update") {
-    dispatch(timelineActions.updateInfo(info));
-    dispatch(resourcesActions.findAndAddResources(parseData(info.result)));
-    dispatch(resourcesActions.findAndAddResources(parseData(info.error)));
+  if (status === "callNode:update") {
+    dispatch(timelineActions.updateNode(node));
+    dispatch(resourcesActions.findAndAddResources(parseData(node.result)));
+    dispatch(resourcesActions.findAndAddResources(parseData(node.error)));
   }
 
   return Promise.resolve();
@@ -71,17 +71,17 @@ const handleLoadMoreSuccess = (result, path, serializedPath) => (
 
   const value = typeof result === "string" ? JSON.parse(result) : result;
   console.log("LOAD MORE RESPONSE", value, path, serializedPath);
-  const [callRootContextPath, infoPath, ...valuePath] = serializedPath;
-  const info = get(timeline.callState, infoPath.split(".").join(".children."));
-  const newInfo = cloneDeep(info);
+  const [callRootContextPath, nodePath, ...valuePath] = serializedPath;
+  const node = get(timeline.callState, nodePath.split(".").join(".children."));
+  const newNode = cloneDeep(node);
   const valueParent = valuePath
     .slice(0, -1)
-    .reduce((obj, part) => obj[part], newInfo);
+    .reduce((obj, part) => obj[part], newNode);
   valueParent[valuePath[valuePath.length - 1]] = value;
-  dispatch(timelineActions.updateInfo(newInfo));
+  dispatch(timelineActions.updateNode(newNode));
 
   dispatch(
-    resourcesActions.findAndAddResources(parseData(newInfo[valuePath[0]]))
+    resourcesActions.findAndAddResources(parseData(newNode[valuePath[0]]))
   );
 
   return Promise.resolve(result);
@@ -131,13 +131,13 @@ export const actionCreators = {
           dispatch(
             handleEvaluateProgress(
               message.status,
-              message.body && message.body.info
+              message.body && message.body.node
             )
           );
           dispatch({
             type: actionTypes.EVALUATE_PROGRESS,
             status: message.status,
-            info: message.body && message.body.info
+            node: message.body && message.body.node
           });
         })
         .then(result => dispatch(handleEvaluateSuccess(result))),
@@ -154,13 +154,13 @@ export const actionCreators = {
           dispatch(
             handleEvaluateProgress(
               message.status,
-              message.body && message.body.info
+              message.body && message.body.node
             )
           );
           dispatch({
             type: actionTypes.EVALUATION_REATTACH_PROGRESS,
             status: message.status,
-            info: message.body && message.body.info
+            node: message.body && message.body.node
           });
         })
         .then(result => dispatch(handleEvaluateSuccess(result))),

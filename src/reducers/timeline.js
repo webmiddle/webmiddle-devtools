@@ -10,27 +10,27 @@ const initialState = {
 };
 
 // path example: '0.1.0.2'
-function addInfo(state, info) {
-  const path = info.path;
+function addNode(state, node) {
+  const path = node.path;
   const pathParts = path.split(".");
 
   function process(callState, partIndex) {
     const part = pathParts[partIndex];
 
-    let newInfo;
+    let newNode;
     if (partIndex + 1 < pathParts.length) {
-      newInfo = {
+      newNode = {
         ...callState[part],
         children: process(callState[part].children, partIndex + 1)
       };
     } else {
-      newInfo = {
-        ...info,
+      newNode = {
+        ...node,
         children: []
       };
     }
 
-    return [...callState.slice(0, part), newInfo, ...callState.slice(part + 1)];
+    return [...callState.slice(0, part), newNode, ...callState.slice(part + 1)];
   }
 
   return {
@@ -39,28 +39,28 @@ function addInfo(state, info) {
   };
 }
 
-function updateInfo(state, info) {
-  const path = info.path;
+function updateNode(state, node) {
+  const path = node.path;
   const pathParts = path.split(".");
 
   function process(callState, partIndex) {
     const part = pathParts[partIndex];
 
-    let newInfo;
+    let newNode;
     if (partIndex + 1 < pathParts.length) {
-      newInfo = {
+      newNode = {
         ...callState[part],
         children: process(callState[part].children, partIndex + 1)
       };
     } else {
-      newInfo = {
+      newNode = {
         ...callState[part],
-        ...info,
+        ...node,
         children: callState[part].children
       };
     }
 
-    return [...callState.slice(0, part), newInfo, ...callState.slice(part + 1)];
+    return [...callState.slice(0, part), newNode, ...callState.slice(part + 1)];
   }
 
   return {
@@ -71,10 +71,10 @@ function updateInfo(state, info) {
 
 export default function server(state = initialState, action) {
   switch (action.type) {
-    case timelineActionTypes.ADD_INFO:
-      return addInfo(state, action.info);
-    case timelineActionTypes.UPDATE_INFO:
-      return updateInfo(state, action.info);
+    case timelineActionTypes.ADD_NODE:
+      return addNode(state, action.node);
+    case timelineActionTypes.UPDATE_NODE:
+      return updateNode(state, action.node);
     case timelineActionTypes.SELECT_NODE:
       return {
         ...state,
