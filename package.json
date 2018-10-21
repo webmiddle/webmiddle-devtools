@@ -5,10 +5,14 @@
   "author": "Manuel Dell'Elce",
   "license": "MIT",
   "flow": "flow",
+  "bin": "./bin/index.js",
+  "files": [
+    "build",
+    "bin"
+  ],
   "engines": {
     "node": ">=8.10.0"
   },
-  "bin": "./bin/index.js",
   "dependencies": {
     "brace": "^0.11.0",
     "classnames": "^2.2.5",
@@ -43,7 +47,8 @@
     "start": "cross-env PORT=3001 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prepublishOnly": "npm run build"
   },
   "devDependencies": {
     "babel-eslint": "9.0.0",
