@@ -5,7 +5,7 @@ export function makePath(parentPath, i) {
 }
 
 // classes only used to customize output of react-inspector
-class Resource {}
+export class Resource {}
 class Virtual {}
 class More {}
 class CustomError {} // not using builtin Error because of More object in `message` and `stack` properties
