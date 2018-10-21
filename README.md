@@ -1,7 +1,5 @@
 # webmiddle-devtools
 
-![image](https://user-images.githubusercontent.com/1434239/38751439-6a054a4c-3f58-11e8-8e68-1d97e55c1329.png)
-
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 ## Commands
@@ -23,3 +21,21 @@ Build
 ```sh
 yarn build
 ```
+
+## Screenshots
+
+#### Home
+
+<img src="/screenshots/home.png?raw=true" alt="Home">
+
+#### Evaluation
+
+<img src="/screenshots/evaluation.png?raw=true" alt="Evaluation">
+
+#### State
+
+<img src="/screenshots/state.png?raw=true" alt="State">
+
+#### Resources
+
+<img src="/screenshots/resources.png?raw=true" alt="Resources">
