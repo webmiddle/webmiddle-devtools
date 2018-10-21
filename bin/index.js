@@ -1,4 +1,4 @@
-// #!/usr/bin/env node
+#!/usr/bin/env node
 
 const handler = require("serve-handler");
 const http = require("http");
