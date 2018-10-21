@@ -8,6 +8,7 @@
   "engines": {
     "node": ">=8.10.0"
   },
+  "bin": "./bin/index.js",
   "dependencies": {
     "brace": "^0.11.0",
     "classnames": "^2.2.5",
@@ -35,6 +36,7 @@
     "redux-form": "^7.3.0",
     "redux-form-material-ui": "^4.3.2",
     "redux-thunk": "^2.2.0",
+    "serve-handler": "^5.0.5",
     "uuid": "^3.0.1"
   },
   "scripts": {
