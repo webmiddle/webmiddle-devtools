@@ -3,6 +3,7 @@
 const handler = require("serve-handler");
 const http = require("http");
 const path = require("path");
+const opn = require("opn");
 
 const PORT = process.env.PORT || 3001;
 
@@ -16,5 +17,7 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`Running at http://localhost:${PORT}`);
+  const url = `http://localhost:${PORT}`;
+  console.log(`Running at ${url}`);
+  opn(url);
 });
