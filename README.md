@@ -17,3 +17,9 @@ Start dev mode
 ```sh
 yarn start
 ```
+
+Build
+
+```sh
+yarn build
+```
