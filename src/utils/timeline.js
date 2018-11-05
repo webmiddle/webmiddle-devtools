@@ -5,10 +5,15 @@ export function makePath(parentPath, i) {
 }
 
 // classes only used to customize output of react-inspector
+// HACK: Object.defineProperty otherwise production minification unsets `object.constructor.name`
 export class Resource {}
+Object.defineProperty(Resource, "name", { value: "Resource" });
 class Virtual {}
+Object.defineProperty(Virtual, "name", { value: "Virtual" });
 class More {}
+Object.defineProperty(More, "name", { value: "More" });
 class CustomError {} // not using builtin Error because of More object in `message` and `stack` properties
+Object.defineProperty(CustomError, "name", { value: "CustomError" });
 
 // NOTE: data shouldn't be a whole callNode object
 // since this function isn't able to parse it
